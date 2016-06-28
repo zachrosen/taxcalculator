@@ -39,6 +39,7 @@ app.use('/client', express.static('client'));
 app.get('/', (req, res, next) => {
   res.sendFile(config.client + '/index.html');
 });
+// app.use('/api/v1/tax', require('./api/tax/routes'));
 
 //app.use('/api/v1/tax', require('./api/tax/routes'));
 
