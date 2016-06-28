@@ -1,168 +1,170 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Tax Results</title>
-    <link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
-  </head>
-  <body>
-      <h1 class="hcenter">Federal Tax Results</h1>
-    <table align="center">
-      <tr>
+<link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
+<br>
+<div class="hcenter">
+    <button class="btn btn-info" onclick="window.print()">Print Page</button>
+</div>
+<br>
+<div class="well container">
+  <div class="floatLeft">
+<h1 class="hcenter">Federal Tax Results</h1>
+<table align="center" class="topTables">
+    <tr>
         <th>Category</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Income</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Adjustments</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Deductions</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Exemptions</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Adjusted Income</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Federal Tax Amount</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Taxable FICA</th>
         <td></td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Social Security</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Medicare</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Additional Medicare</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Taxable FUTA</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Credits</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Additional Federal Amount</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Federal Tax Owed</th>
         <td>Amount</td>
-      </tr>
-    </table>
+    </tr>
+</table>
+</div>
 
-    <h1 class="hcenter">State Tax Results</h1>
-    <table align="center">
-      <tr>
+<div class="floatRight">
+<h1 class="hcenter">State Tax Results</h1>
+<table align="center" class="topTables">
+    <tr>
         <th>Category</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Income</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Deductions</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Adjusted Income</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>State Tax Amount</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Taxable SUI</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Taxable SDI</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Taxable ETT</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Taxable Mental Health</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>FTB Cost Recovery Fee</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Exemption Credit</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Nonrefundable Renter's Credit</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Miscellaneous Credit</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Additional State Amount</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total State Tax Owed</th>
         <td>Amount</td>
-      </tr>
-    </table>
-
-    <h1 class="hcenter">Total</h1>
-    <table align="center">
-      <tr>
+    </tr>
+</table>
+</div>
+</div>
+<div class="well container">
+<h1 class="hcenter ">Total</h1>
+<table align="center" class="bottomTables">
+    <tr>
         <th>Category</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Income</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Federal Taxes</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total State Taxes</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Total Taxes Owed</th>
         <td>Amount</td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <th>Income After Taxes</th>
         <td>Amount</td>
-      </tr>
-    </table>
-    <br>
-    <br>
-
-  </body>
-</html>
+    </tr>
+</table>
+</div>
+<br>
+<br>

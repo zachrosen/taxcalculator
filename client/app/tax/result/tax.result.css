@@ -1,4 +1,9 @@
-table {
+.topTables {
+  border: 1px solid black;
+  text-align: center;
+  width: 95%;
+}
+.bottomTables {
   border: 1px solid black;
   text-align: center;
   width: 50%;
@@ -13,4 +18,13 @@ th {
 }
 tr:nth-child(odd) {
    background-color: #ccc;
+}
+button {
+  text-align: center;
+}
+.floatLeft {
+  float: left;
+}
+.floatRight {
+  float: right;
 }
