@@ -2,6 +2,9 @@
   "name": "mysqlnode",
   "dependencies": {},
   "globalDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160627105203",
+    "angular-resource": "registry:dt/angular-resource#1.5.0+20160613142217",
+    "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160617060422",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
