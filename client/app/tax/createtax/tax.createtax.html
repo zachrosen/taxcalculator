@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>Paycheck Calculator</title>
@@ -12,9 +11,11 @@
       <div id="federalTaxes">
         <h1>Federal Taxes</h1>
         <label>Salary</label>
-        <input type="number" placeholder="Salary" id="salary">
+        <input class="hcenter" type="number" placeholder="Salary" id="salary">
+        <br>
         <br>
         <label>Are you..?</label>
+        <br>
         <span>
           <label>65+</label>
           <input type="checkbox" id="is65">
@@ -24,71 +25,102 @@
           <input type="checkbox" id="isDependent">
         </span>
         <br>
+        <br>
         <label>Filing Type</label>
-        <select>
-          <option id="isSingle">Single</option>
-          <option id="isJoint">Married Filing Jointly</option>
-          <option id="isSeparate">Married Filing Separately</option>
-          <option id="isHead">Head Of Household</option>
-          <option id="isWidow">Qualifying Widow/Widower</option>
+        <select class="hcenter">
+          <option id="isSingle" class="hcenter">Single</option>
+          <option id="isJoint" class="hcenter">Married Filing Jointly</option>
+          <option id="isSeparate" class="hcenter">Married Filing Separately</option>
+          <option id="isHead" class="hcenter">Head Of Household</option>
+          <option id="isWidow" class="hcenter">Qualifying Widow/Widower</option>
         </select>
         <br>
         <h3>Adjustments</h3>
         <label>401K/IRA</label>
-        <input type="number" placeholder="401K/IRA" max="5500" id="401k">
+        <input class="hcenter" type="number" placeholder="401K/IRA" max="5500" id="401k">
         <br>
         <label>Alimony</label>
-        <input type="number" placeholder="Alimony" id="alimony">
+        <input class="hcenter" type="number" placeholder="Alimony" id="alimony">
         <br>
         <label>Student Loan Interest</label>
-        <input type="number" placeholder="Student Loan Interest" id="studentLoanInterest">
+        <input class="hcenter" type="number" placeholder="Student Loan Interest" id="studentLoanInterest">
         <br>
         <label><h3>Federal Deductions</h3></label>
-        <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="fedDeductions">Standard
-        <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="fedDeductions">Itemized
         <br>
-        <div>
-          <div>
-            <h1 ng-show="fedDeductions == 'standardFederal'">This shows for standard deductions</h1>
+        <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="fedDeductions" >Standard
+        <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="fedDeductions" >Itemized
+        <br>
+          <div ng-show="fedDeductions == 'itemizedFederal'">
+            <table align="center">
+              <thead>
+                <td>Add Description</td>
+                <td>Add Amount</td>
+                <td></td>
+              </thead>
+              <tbody>
+                <td><input class="hcenter" type="text" id="federalDeductionDescription"></td>
+                <td><input class="hcenter" type="number" id="federalDeductionAmount"></td>
+                <td><button type="button" name="button">+</button></td>
+              </tbody>
+            </table>
           </div>
-          <div>
-            <h1 ng-show="fedDeductions == 'itemizedFederal'">This shows for itemized deductions</h1>
-          </div>
-        </div>
         <br>
         <h3>Personal Exemptions</h3>
         <label>Number of Exemptions</label>
-        <input type="number" placeholder="Number of exemptions" id="numberOfExemptions">
+        <input class="hcenter" type="number" placeholder="Number of Exemptions" id="numberOfExemptions">
         <br>
         <label><h3>Credits</h3></label>
-        <span>
-          <div>
-          <label>Add Description</label>
-          <input type="text" id="creditDescription">
-        </div>
-        <div>
-          <label>Add Amount</label>
-          <input type="number" id="creditAmount">
-        </div>
-          <button type="button" name="button">+</button>
-        </span>
+
+        <table align="center">
+          <thead>
+            <td>Add Description</td>
+            <td>Add Amount</td>
+            <td></td>
+          </thead>
+          <tbody>
+            <td><input class="hcenter" type="text" id="creditDescription"></td>
+            <td><input class="hcenter" type="number" id="creditAmount"></td>
+            <td><button type="button" name="button">+</button></td>
+          </tbody>
+        </table>
+
         <br>
         <label><h3>Additional Federal Amount</h3></label>
-        <input type="number" placeholder="Additional Federal Amount" id="additionalFederalAmount">
+        <br>
+        <input class="hcenter" type="number" placeholder="Additional Federal Amount" id="additionalFederalAmount">
       </div>
       <div id="stateTaxes">
         <h1>State Taxes</h1>
-        <label><h3>Choose Your State</h3></label>
+        <label>Choose Your State</label>
+        <br>
         <select>
           <option id="california">California</option>
         </select>
         <br>
         <label><h3>State Deductions</h3></label>
-        <input type="radio" id="standardState">Standard
-        <input type="radio"id="itemizedState">Itemized
+        <br>
+        <input type="radio" id="standardState" value="standardState" name="stateDeductions" ng-model="stateDeductions" >Standard
+        <input type="radio" id="itemizedState" value="itemizedState" name="stateDeductions" ng-model="stateDeductions">Itemized
+        <br>
+          <div ng-show="stateDeductions == 'itemizedState'">
+            <table align="center">
+              <thead>
+                <td>Add Description</td>
+                <td>Add Amount</td>
+                <td></td>
+              </thead>
+              <tbody>
+                <td><input class="hcenter" type="text" id="stateDeductionDescription"></td>
+                <td><input class="hcenter" type="number" id="stateDeductionAmount"></td>
+                <td><button type="button" name="button">+</button></td>
+              </tbody>
+            </table>
+          </div>
+        <br>
       </div>
       <br>
       <button type="submit" class="btn btn-success">Submit</button>
+      <br>
     </form>
 
 </body>
