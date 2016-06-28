@@ -7,6 +7,7 @@
     "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160617060422",
+    "jquery": "registry:dt/jquery#1.10.0+20160628074423",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "mysql": "registry:dt/mysql#0.0.0+20160316155526",
     "node": "registry:dt/node#6.0.0+20160621231320",
