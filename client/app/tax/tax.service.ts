@@ -8,17 +8,13 @@ namespace app {
     private TaxResource: ITaxResource;
 
     public createTax(tax:ITax) {
-      return this.TaxResource.save(tax).$promise.then((res) => {
-        this.$state.go('result')
-      }, (err) => {
-        alert(err);
-      })
+      return this.TaxResource.save(tax).$promise;
     }
     constructor(
-      private $resource: ng.resource.IResourceService,
-      private $state: ng.ui.IStateService
+      private $resource: ng.resource.IResourceService
     ) {
-
+    this.TaxResource = <ITaxResource>$resource('/api/v1/tax',
+    null, {'update': {'method': 'PUT'}});
     }
   }
   angular.module('app').service('TaxService', TaxService);
