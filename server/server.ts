@@ -1,9 +1,16 @@
 require('dotenv').config({ silent: true });
 
-var express = require("express");
-var mysql = require("mysql");
-var app = express();
+// Imports
+import * as express from "express";
+import config = require('./config/config');
+import * as mysql from "mysql";
 
+//Global Vars
+const PORT = process.env.PORT || 3000;
+let app = express();
+
+//MySQL Connection
+//require('./api/tax/model');
 var connection = mysql.createConnection({
   //properties
   host: 'localhost',
@@ -18,23 +25,55 @@ connection.connect(function(error) {
   } else {
     console.log("Connected")
   }
-  connection.query('CREATE TABLE people(id int primary key, name varchar(255), age int, address text)', function(err, result) {
-  if (err) throw err
-  connection.query('INSERT INTO people (name, age, address) VALUES (?, ?, ?)', ['Larry', '41', 'California, USA'], function(err, result) {
-    if (err) throw err
-    connection.query('SELECT * FROM people', function(err, results) {
-      if (err) throw err
-      console.log(results[0].id)
-      console.log(results[0].name)
-      console.log(results[0].age)
-      console.log(results[0].address)
-    })
-  })
-})
 
 });
 
+//Routes config
+app.use(require('body-parser')());
+// access bower_components via /scripts/...
+app.use('/bower_components', express.static('bower_components'));
+// access the client->app->home folder via /app/home
+app.use('/client', express.static('client'));
 
+// Routes
+app.get('/', (req, res, next) => {
+  res.sendFile(config.client + '/index.html');
+});
 
+//app.use('/api/v1/tax', require('./api/tax/routes'));
 
-app.listen(3000);
+// if path start with /client, /bower_components, or /api, send a 404
+app.get(/\/(client|bower_components|api).{0,}/, (req, res, next) => {
+  next({ status: 404, message: `${req.path} is not found or does not exist. Please check for typos.` });
+});
+
+// all other get calls, ex: /adopt, send the index.html and let angular take care of the routing
+app.get('/*', (req, res, next) => {
+  res.sendFile(config.client + '/index.html');
+});
+
+app.use((req, res, next) => {
+  return next({ status: 404 , message: `${req.method}: ${req.path} is not found.` });
+});
+
+app.use((err: any, req, res, next) => {
+  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production')
+    console.log(err);
+  if (process.env.NODE_ENV === 'production')
+    err = { status: err.status || 500, message: err.message || '' };
+  res.status(err.status).send(err);
+})
+
+app.use((req, res, next) => {
+  res.sendStatus(404);
+});
+
+app.use((err: any, req, res, next) => {
+  console.error(err);
+  res.status(err.status || 500).send(err);
+})
+
+// Listen
+app.listen(PORT, () => {
+  console.log('Server is listening on localhost:3000');
+});
