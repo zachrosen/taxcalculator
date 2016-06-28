@@ -1,0 +1,23 @@
+{
+  "name": "mysqlnode",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "stevenfogel <stevenfogel@berkeley.edu>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/zachrosen/taxcalculator",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.7",
+    "bootstrap": "^3.3.6",
+    "angular-ui-router": "^0.3.1",
+    "angular-resource": "^1.5.7"
+  }
+}
