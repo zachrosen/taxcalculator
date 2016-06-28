@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>Tax Calculator</title>
+    <base href="/" />
+    <link rel="stylesheet" href="/client/shared/shared.css">
+  </head>
+  <body>
+    <div ui-view="" id="content"></div>
+
+    <!-- angular -->
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+
+    <!-- module -->
+    <script src="/client/shared/module.js"></script>
+    <script src="/client/app/tax/createtax/tax.createtax.js"></script>
+
+    <!-- authInterceptor -->
+
+    <!-- service -->
+    <script src="/client/app/tax/tax.service.js"></script>
+
+    <!-- navbar -->
+
+    <!-- controller -->
+    <script src="/client/app/tax/createtax/tax.createtax.controller.js"></script>
+
+
+  </body>
+</html>
