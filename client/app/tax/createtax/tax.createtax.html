@@ -9,34 +9,78 @@
 
 <body>
     <h1 class="hcenter">Paycheck Calculator</h1>
-    <br>
     <form class="hcenter" method="post">
+      <div id="federalTaxes">
         <h1>Federal Taxes</h1>
-        <br>
         <label>Salary</label>
-        <input type="number" placeholder="salary">
+        <input type="number" placeholder="Salary" id="salary">
         <br>
         <label>Are you..?</label>
         <span>
           <label>65+</label>
-          <input type="checkbox" name="65" value="65">
+          <input type="checkbox" id="is65">
           <label>Blind</label>
-          <input type="checkbox" name="blind" value="blind">
+          <input type="checkbox" id="isBlind">
           <label>Dependent</label>
-          <input type="checkbox" name="dependent" value="dependent">
+          <input type="checkbox" id="isDependent">
         </span>
         <br>
         <label>Filing Type</label>
         <select>
-          <option value="single">Single</option>
-          <option value="joint">Married Filing Jointly</option>
-          <option value="separate">Married Filing Separately</option>
-          <option value="head">Head Of Household</option>
-          <option value="widow">Qualifying Widow/Widower</option>
+          <option id="isSingle">Single</option>
+          <option id="isJoint">Married Filing Jointly</option>
+          <option id="isSeparate">Married Filing Separately</option>
+          <option id="isHead">Head Of Household</option>
+          <option id="isWidow">Qualifying Widow/Widower</option>
         </select>
         <br>
-        
-
+        <h3>Adjustments</h3>
+        <label>401K/IRA</label>
+        <input type="number" placeholder="401K/IRA" max="5500" id="401k">
+        <br>
+        <label>Alimony</label>
+        <input type="number" placeholder="Alimony" id="alimony">
+        <br>
+        <label>Student Loan Interest</label>
+        <input type="number" placeholder="Student Loan Interest" id="studentLoanInterest">
+        <br>
+        <label><h3>Federal Deductions</h3></label>
+        <input type="radio" id="standardFederal">Standard
+        <input type="radio"id="itemizedFederal">Itemized
+        <br>
+        <h3>Personal Exemptions</h3>
+        <label>Number of Exemptions</label>
+        <input type="number" placeholder="Number of exemptions" id="numberOfExemptions">
+        <br>
+        <label><h3>Credits</h3></label>
+        <span>
+          <div>
+          <label>Add Description</label>
+          <input type="text" id="creditDescription">
+        </div>
+        <div>
+          <label>Add Amount</label>
+          <input type="number" id="creditAmount">
+        </div>
+          <button type="button" name="button">+</button>
+        </span>
+        <br>
+        <label><h3>Additional Federal Amount</h3></label>
+        <input type="number" placeholder="Additional Federal Amount" id="additionalFederalAmount">
+      </div>
+      <div id="stateTaxes">
+        <h1>State Taxes</h1>
+        <label><h3>Choose Your State</h3></label>
+        <select>
+          <option id="california">California</option>
+        </select>
+        <br>
+        <label><h3>State Deductions</h3></label>
+        <input type="radio" id="standardState">Standard
+        <input type="radio"id="itemizedState">Itemized
+      </div>
+      <br>
+      <button type="submit" class="btn btn-success">Submit</button>
     </form>
 
 </body>
