@@ -1,3 +1,5 @@
+require('dotenv').config({ silent: true });
+
 var express = require("express");
 var mysql = require("mysql");
 var app = express();
@@ -28,7 +30,7 @@ connection.connect(function(error) {
       console.log(results[0].address)
     })
   })
-}) 
+})
 
 });
 
