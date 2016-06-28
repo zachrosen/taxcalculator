@@ -1,6 +1,6 @@
 namespace app {
   export class TaxCreateTaxController {
-
+    public tax: ITax;
     constructor() {
 
     }
