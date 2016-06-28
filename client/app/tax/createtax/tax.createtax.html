@@ -4,9 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Paycheck Calculator</title>
-    <link rel="stylesheet" href="/client/calculator/calculator.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/client/app/tax/createtax/tax.createtax.css" media="screen" title="no title" charset="utf-8">
 </head>
-
 <body>
     <h1 class="hcenter">Paycheck Calculator</h1>
     <form class="hcenter" method="post">
@@ -45,8 +44,17 @@
         <input type="number" placeholder="Student Loan Interest" id="studentLoanInterest">
         <br>
         <label><h3>Federal Deductions</h3></label>
-        <input type="radio" id="standardFederal">Standard
-        <input type="radio"id="itemizedFederal">Itemized
+        <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="fedDeductions">Standard
+        <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="fedDeductions">Itemized
+        <br>
+        <div>
+          <div>
+            <h1 ng-show="fedDeductions == 'standardFederal'">This shows for standard deductions</h1>
+          </div>
+          <div>
+            <h1 ng-show="fedDeductions == 'itemizedFederal'">This shows for itemized deductions</h1>
+          </div>
+        </div>
         <br>
         <h3>Personal Exemptions</h3>
         <label>Number of Exemptions</label>
