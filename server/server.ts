@@ -16,7 +16,7 @@ var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'TaxCalc'
+  database: 'taxDB'
 });
 
 connection.connect(function(error) {
