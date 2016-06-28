@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Paycheck Calculator</title>
     <link rel="stylesheet" href="/client/calculator/calculator.css" media="screen" title="no title" charset="utf-8">
-  </head>
-  <body>
-    <h1>Paycheck Calculator</h1>
-    <br>
-    <label>Choose your state</label>
-    <select class="hcenter" id="selectState">
-      <option value="California">California</option>
-    </select>
-    <br>
-    <br>
-    <label>Filing Status</label>
-    <select class="hcenter" id="selectBracket">
-      <option value="single">Single</option>
-      <option value="joint">Married filing jointly or widow/widower</option>
-      <option value="single">Married filing separately</option>
-      <option value="headOfHousehold">Head of Household</option>
-    </select>
-    <br>
-    <br>
+</head>
 
-  </body>
+<body>
+    <h1 class="hcenter">Paycheck Calculator</h1>
+    <br>
+    <form class="hcenter" method="post">
+        <h1>Federal Taxes</h1>
+        <br>
+        <label>Salary</label>
+        <input type="number" placeholder="salary">
+        <br>
+        <label>Are you..?</label>
+        <span>
+          <label>65+</label>
+          <input type="checkbox" name="65" value="65">
+          <label>Blind</label>
+          <input type="checkbox" name="blind" value="blind">
+          <label>Dependent</label>
+          <input type="checkbox" name="dependent" value="dependent">
+        </span>
+        <br>
+        <label>Filing Type</label>
+        <select>
+          <option value="single">Single</option>
+          <option value="joint">Married Filing Jointly</option>
+          <option value="separate">Married Filing Separately</option>
+          <option value="head">Head Of Household</option>
+          <option value="widow">Qualifying Widow/Widower</option>
+        </select>
+        <br>
+        
+
+    </form>
+
+</body>
+
 </html>
