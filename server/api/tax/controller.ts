@@ -14,7 +14,11 @@ let filingType = req.body.filingType;
 let salary = req.body.salary;
 
   connection.query('SELECT `'+filingType+'` FROM `federal_tax`', function (error, results, fields) {
-  let details = {salary: req.body.salary}
+
+  console.log(results[0][filingType]);
+
+  let details = {salary: salary}
+
     res.json(details);
   });
 
