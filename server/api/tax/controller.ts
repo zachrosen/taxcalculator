@@ -10,11 +10,18 @@ var connection = mysql.createConnection({
 });
 
 
-export function multiply5 (req: express.Request, res: express.Response, next) {
-  connection.query('SELECT `single_filers` FROM `federal_tax`', function (error, results, fields) {
 
-    let details = {salary: req.body.salary * results[0].single_filers,
-    filingType: req.body.filingType};
+export function multiply5 (req: express.Request, res: express.Response, next) {
+let filingType = req.body.filingType;
+let salary = req.body.salary;
+
+
+  connection.query('SELECT `'+filingType+'` FROM `federal_tax`', function (error, results, fields) {
+
+  console.log(results[0][filingType]);
+
+  let details = {salary: salary}
+
     res.json(details);
 
   });
