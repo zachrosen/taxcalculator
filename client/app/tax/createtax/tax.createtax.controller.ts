@@ -2,8 +2,12 @@ namespace app {
   export class TaxCreateTaxController {
     public tax: ITax;
     public createTax() {
-      this.TaxService.createTax(this.tax).then(() => {
+      this.TaxService.createTax(this.tax).then((res) => {
+      this.TaxService.data = res;
+      console.log(res);
+
       this.$state.go('result');
+
     }, (err) => {
       alert(err);
     })

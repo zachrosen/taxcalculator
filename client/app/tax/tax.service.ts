@@ -7,17 +7,34 @@ namespace app {
   export class TaxService {
     private TaxResource: ITaxResource;
 
-    public get() {
-            return this.TaxResource.query();
-        }
+    public data = {
+
+    salary: {},
+    filingType: {}
+
+    };
 
     public createTax(tax:ITax) {
       return this.TaxResource.save(tax).$promise;
     }
+
+
+
+
+
+
+
+
+
+
+
+
     constructor(
-      private $resource: ng.resource.IResourceService
+      private $resource: ng.resource.IResourceService,
+      private $http: ng.IHttpService,
+    private $q: ng.IQService
     ) {
-    this.TaxResource = <ITaxResource>$resource('/api/v1/tax',
+    this.TaxResource = <ITaxResource>$resource('/api/v1/tax/:id',
     null, {'update': {'method': 'PUT'}});
     }
   }

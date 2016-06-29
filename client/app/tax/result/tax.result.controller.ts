@@ -1,12 +1,18 @@
 namespace app {
   export class TaxResultController {
+    public data;
 
-    public tax: ITax[];
+
+
+
+
 
     constructor(private TaxService: app.TaxService,
     private $state: ng.ui.IStateService) {
-    this.tax = TaxService.get();
+
+  this.data = TaxService.data;
     }
+
   }
   angular.module('app').controller('TaxResultController', TaxResultController);
 }

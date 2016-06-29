@@ -2,12 +2,8 @@
 
 <link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
 
+<h1> {{vm.data.filingType}} </h1>
 
-<h1> Works </h1>
-
-<div ng-repeat="t in vm.tax">
-  <h2>{{t.salary}}</h2>
-</div>
 <br>
 <div class="hcenter">
     <button class="btn btn-info" onclick="window.print()">Print Page</button>
@@ -23,7 +19,7 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>Amount</td>
+        <td>${{vm.data.salary}}</td>
     </tr>
     <tr>
         <th>Total Adjustments</th>
