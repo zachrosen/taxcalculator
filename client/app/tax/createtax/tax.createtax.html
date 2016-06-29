@@ -1,1 +1,116 @@
+<link rel="stylesheet" href="/client/app/tax/createtax/tax.createtax.css" media="screen" title="no title" charset="utf-8">
+    <h1 class="hcenter">Paycheck Calculator</h1>
+    <form class="hcenter" method="post" ng-submit="vm.createTax()">
+      <div id="federalTaxes">
+        <h1>Federal Taxes</h1>
+        <label>Salary</label>
+        <input class="hcenter" type="number" ng-model="vm.tax.salary" placeholder="Salary" id="salary">
+        <br>
+        <br>
+        <label>Are you..?</label>
+        <br>
+        <span>
+          <label>65+</label>
+          <input type="checkbox" id="is65">
+          <label>Blind</label>
+          <input type="checkbox" id="isBlind">
+          <label>Dependent</label>
+          <input type="checkbox" id="isDependent">
+        </span>
+        <br>
+        <br>
+        <label>Filing Type</label>
+        <select class="hcenter" ng-model="vm.tax.salary">
+          <option id="isSingle" class="hcenter">Single</option>
+          <option id="isJoint" class="hcenter">Married Filing Jointly</option>
+          <option id="isSeparate" class="hcenter">Married Filing Separately</option>
+          <option id="isHead" class="hcenter">Head Of Household</option>
+          <option id="isWidow" class="hcenter">Qualifying Widow/Widower</option>
+        </select>
+        <br>
+        <h3>Adjustments</h3>
+        <label>401K/IRA</label>
+        <input class="hcenter" type="number" placeholder="401K/IRA" max="5500" id="401k">
+        <br>
+        <label>Alimony</label>
+        <input class="hcenter" type="number" placeholder="Alimony" id="alimony">
+        <br>
+        <label>Student Loan Interest</label>
+        <input class="hcenter" type="number" placeholder="Student Loan Interest" id="studentLoanInterest">
+        <br>
+        <label><h3>Federal Deductions</h3></label>
+        <br>
+        <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="fedDeductions" >Standard
+        <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="fedDeductions" >Itemized
+        <br>
+          <div ng-show="fedDeductions == 'itemizedFederal'">
+            <table align="center">
+              <thead>
+                <td>Description</td>
+                <td>Amount</td>
+                <td><button type="button" name="button" id="addFederalDeductionButton" ng-click="vm.addFederalDeduction()">+</button></td>
+              </thead>
+              <tbody ng-repeat="d in vm.federalDeductionsTable">
+                <td><input class="hcenter" type="text" id="federalDeductionDescription" ng-model="d.federalDeductionDescription"></td>
+                <td><input class="hcenter" type="number" id="federalDeductionAmount" ng-model="d.federalDeductionAmt"></td>
+                <td></td>
+              </tbody>
+            </table>
+          </div>
+        <br>
+        <h3>Personal Exemptions</h3>
+        <label>Number of Exemptions</label>
+        <input class="hcenter" type="number" placeholder="Number of Exemptions" id="numberOfExemptions">
+        <br>
+        <label><h3>Credits</h3></label>
+        <table align="center">
+          <thead>
+            <td>Description</td>
+            <td>Amount</td>
+            <td><button type="button" name="button" id="addCreditButton" ng-click="vm.addCredit()">+</button></td>
+          </thead>
+          <tbody ng-repeat="c in vm.creditTable">
+            <td><input class="hcenter" type="text" id="creditDescription" ng-model="c.creditDescription"></td>
+            <td><input class="hcenter" type="number" id="creditAmount" ng-model="c.creditAmt"></td>
+            <td></td>
+          </tbody>
+        </table>
 
+        <br>
+        <label><h3>Additional Federal Amount</h3></label>
+        <br>
+        <input class="hcenter" type="number" placeholder="Additional Federal Amount" id="additionalFederalAmount">
+      </div>
+      <div id="stateTaxes">
+        <h1>State Taxes</h1>
+        <label>Choose Your State</label>
+        <br>
+        <select>
+          <option id="california">California</option>
+        </select>
+        <br>
+        <label><h3>State Deductions</h3></label>
+        <br>
+        <input type="radio" id="standardState" value="standardState" name="stateDeductions" ng-model="stateDeductions" >Standard
+        <input type="radio" id="itemizedState" value="itemizedState" name="stateDeductions" ng-model="stateDeductions">Itemized
+        <br>
+          <div ng-show="stateDeductions == 'itemizedState'">
+            <table align="center">
+              <thead>
+                <td>Add Description</td>
+                <td>Add Amount</td>
+                <td><button type="button" name="button" id="addStateDeduction" ng-click="vm.addStateDeduction()">+</button></td>
+              </thead>
+              <tbody ng-repeat="s in vm.stateDeductionsTable">
+                <td><input class="hcenter" type="text" id="stateDeductionDescription" ng-model="s.stateDeductionDescription"></td>
+                <td><input class="hcenter" type="number" id="stateDeductionAmount" ng-model="s.stateDeductionAmt"></td>
+                <td></td>
+              </tbody>
+            </table>
+          </div>
+        <br>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-success">Submit</button>
+      <br>
+    </form>
