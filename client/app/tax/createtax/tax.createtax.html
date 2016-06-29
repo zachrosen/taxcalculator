@@ -48,12 +48,12 @@
               <thead>
                 <td>Description</td>
                 <td>Amount</td>
-                <td><button type="button" name="button" id="addFederalDeductionButton" ng-click="vm.addFederalDeduction()">+</button></td>
+                <td><button class="btn btn-success" type="button" name="button" id="addFederalDeductionButton" ng-click="vm.addFederalDeduction()">+</button></td>
               </thead>
               <tbody ng-repeat="d in vm.federalDeductionsTable">
                 <td><input class="hcenter" type="text" id="federalDeductionDescription" ng-model="d.federalDeductionDescription"></td>
                 <td><input class="hcenter" type="number" id="federalDeductionAmount" ng-model="d.federalDeductionAmt"></td>
-                <td></td>
+                <td><button class="btn btn-danger" ng-click="vm.removeFederalDeduction(d)">-</button></td>
               </tbody>
             </table>
           </div>
@@ -67,12 +67,12 @@
           <thead>
             <td>Description</td>
             <td>Amount</td>
-            <td><button type="button" name="button" id="addCreditButton" ng-click="vm.addCredit()">+</button></td>
+            <td><button type="button" class="btn btn-success" name="button" id="addCreditButton" ng-click="vm.addCredit()">+</button></td>
           </thead>
           <tbody ng-repeat="c in vm.creditTable">
             <td><input class="hcenter" type="text" id="creditDescription" ng-model="c.creditDescription"></td>
             <td><input class="hcenter" type="number" id="creditAmount" ng-model="c.creditAmt"></td>
-            <td></td>
+            <td><button class="btn btn-danger" ng-click="vm.removeCredit(c)">-</button></td>
           </tbody>
         </table>
 
@@ -99,12 +99,12 @@
               <thead>
                 <td>Add Description</td>
                 <td>Add Amount</td>
-                <td><button type="button" name="button" id="addStateDeduction" ng-click="vm.addStateDeduction()">+</button></td>
+                <td><button type="button" class="btn btn-success" name="button" id="addStateDeduction" ng-click="vm.addStateDeduction()">+</button></td>
               </thead>
               <tbody ng-repeat="s in vm.stateDeductionsTable">
                 <td><input class="hcenter" type="text" id="stateDeductionDescription" ng-model="s.stateDeductionDescription"></td>
                 <td><input class="hcenter" type="number" id="stateDeductionAmount" ng-model="s.stateDeductionAmt"></td>
-                <td></td>
+                <td><button class="btn btn-danger" ng-click="vm.removeStateDeduction(s)">-</button></td>
               </tbody>
             </table>
           </div>

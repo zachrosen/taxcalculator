@@ -12,6 +12,10 @@ namespace app {
       });
     }
 
+    public removeFederalDeduction(d) {
+      this.federalDeductionsTable.splice(this.federalDeductionsTable.indexOf(d), 1);
+    }
+
     public addCredit() {
       this.creditTable.push({
         creditDescription: '',
@@ -19,11 +23,19 @@ namespace app {
       });
     }
 
+    public removeCredit(c) {
+      this.creditTable.splice(this.creditTable.indexOf(c), 1);
+    }
+
     public addStateDeduction() {
       this.stateDeductionsTable.push({
         stateDeductionDescription: '',
         stateDeductionAmt: parseInt('')
       })
+    }
+
+    public removeStateDeduction(s) {
+      this.stateDeductionsTable.splice(this.stateDeductionsTable.indexOf(s), 1);
     }
 
     public createTax() {
