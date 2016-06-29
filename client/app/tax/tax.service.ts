@@ -18,17 +18,6 @@ namespace app {
       return this.TaxResource.save(tax).$promise;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     constructor(
       private $resource: ng.resource.IResourceService,
       private $http: ng.IHttpService,
