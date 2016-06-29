@@ -1,7 +1,9 @@
 interface ITax {
 _id: any;
 salary: number;
-standardDeductionCritera: string;
+age65: boolean;
+blind: boolean;
+dependent: boolean;
 filingType: string;
 retirement: number;
 alimony: number;

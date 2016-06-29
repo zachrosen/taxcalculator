@@ -7,6 +7,10 @@ namespace app {
   export class TaxService {
     private TaxResource: ITaxResource;
 
+    public get() {
+            return this.TaxResource.query();
+        }
+
     public createTax(tax:ITax) {
       return this.TaxResource.save(tax).$promise;
     }

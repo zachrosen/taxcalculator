@@ -39,9 +39,8 @@ app.use('/client', express.static('client'));
 app.get('/', (req, res, next) => {
   res.sendFile(config.client + '/index.html');
 });
-// app.use('/api/v1/tax', require('./api/tax/routes'));
+app.use('/api/v1/tax', require('./api/tax/routes'));
 
-//app.use('/api/v1/tax', require('./api/tax/routes'));
 
 // if path start with /client, /bower_components, or /api, send a 404
 app.get(/\/(client|bower_components|api).{0,}/, (req, res, next) => {

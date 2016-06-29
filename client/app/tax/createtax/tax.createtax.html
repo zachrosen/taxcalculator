@@ -1,33 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Paycheck Calculator</title>
-    <link rel="stylesheet" href="/client/app/tax/createtax/tax.createtax.css" media="screen" title="no title" charset="utf-8">
-</head>
-<body>
     <h1 class="hcenter">Paycheck Calculator</h1>
-    <form class="hcenter" method="post" onsubmit="vm.createTax()">
+    <form class="hcenter" ng-submit="vm.createTax()">
       <div id="federalTaxes">
         <h1>Federal Taxes</h1>
         <label>Salary</label>
-        <input class="hcenter" type="number" placeholder="Salary" id="salary">
+        <input class="hcenter" type="number" placeholder="Salary" id="salary" ng-model="vm.tax.salary">
         <br>
         <br>
         <label>Are you..?</label>
         <br>
         <span>
           <label>65+</label>
-          <input type="checkbox" id="is65">
+          <input type="checkbox" id="is65" ng-model="vm.tax.age65">
           <label>Blind</label>
-          <input type="checkbox" id="isBlind">
+          <input type="checkbox" id="isBlind" ng-model="vm.tax.blind">
           <label>Dependent</label>
-          <input type="checkbox" id="isDependent">
+          <input type="checkbox" id="isDependent" ng-model="vm.tax.dependent">
         </span>
         <br>
         <br>
         <label>Filing Type</label>
-        <select class="hcenter">
+        <select class="hcenter" ng-model="vm.tax.filingType">
           <option id="isSingle" class="hcenter">Single</option>
           <option id="isJoint" class="hcenter">Married Filing Jointly</option>
           <option id="isSeparate" class="hcenter">Married Filing Separately</option>
@@ -37,20 +29,20 @@
         <br>
         <h3>Adjustments</h3>
         <label>401K/IRA</label>
-        <input class="hcenter" type="number" placeholder="401K/IRA" max="5500" id="401k">
+        <input class="hcenter" type="number" placeholder="401K/IRA" max="5500" id="401k" ng-model="vm.tax.retirement">
         <br>
         <label>Alimony</label>
-        <input class="hcenter" type="number" placeholder="Alimony" id="alimony">
+        <input class="hcenter" type="number" placeholder="Alimony" id="alimony" ng-model="vm.tax.alimony">
         <br>
         <label>Student Loan Interest</label>
-        <input class="hcenter" type="number" placeholder="Student Loan Interest" id="studentLoanInterest">
+        <input class="hcenter" type="number" placeholder="Student Loan Interest" id="studentLoanInterest" ng-model="vm.tax.studentLoanInterest">
         <br>
         <label><h3>Federal Deductions</h3></label>
         <br>
-        <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="fedDeductions" >Standard
-        <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="fedDeductions" >Itemized
+        <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="vm.tax.federalDeductions" >Standard
+        <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="vm.tax.federalDeductions" >Itemized
         <br>
-          <div ng-show="fedDeductions == 'itemizedFederal'">
+          <div ng-show="vm.tax.federalDeductions == 'itemizedFederal'">
             <table align="center">
               <thead>
                 <td>Add Description</td>
@@ -67,7 +59,7 @@
         <br>
         <h3>Personal Exemptions</h3>
         <label>Number of Exemptions</label>
-        <input class="hcenter" type="number" placeholder="Number of Exemptions" id="numberOfExemptions">
+        <input class="hcenter" type="number" placeholder="Number of Exemptions" id="numberOfExemptions" ng-model="vm.tax.personalExemptions">
         <br>
         <label><h3>Credits</h3></label>
 
@@ -83,17 +75,16 @@
             <td><button type="button" name="button">+</button></td>
           </tbody>
         </table>
-
         <br>
         <label><h3>Additional Federal Amount</h3></label>
         <br>
-        <input class="hcenter" type="number" placeholder="Additional Federal Amount" id="additionalFederalAmount">
+        <input class="hcenter" type="number" placeholder="Additional Federal Amount" id="additionalFederalAmount" ng-model="vm.tax.additionFederalAmount">
       </div>
       <div id="stateTaxes">
         <h1>State Taxes</h1>
         <label>Choose Your State</label>
         <br>
-        <select>
+        <select ng-model="vm.tax.stateDeductions">
           <option id="california">California</option>
         </select>
         <br>
@@ -122,7 +113,3 @@
       <button type="submit" class="btn btn-success">Submit</button>
       <br>
     </form>
-
-</body>
-
-</html>
