@@ -1,0 +1,30 @@
+.topTables {
+  border: 1px solid black;
+  text-align: center;
+  width: 95%;
+}
+.bottomTables {
+  border: 1px solid black;
+  text-align: center;
+  width: 50%;
+}
+td {
+  border: 1px solid black;
+  text-align: center;
+}
+th {
+  border: 1px solid black;
+  text-align: center;
+}
+tr:nth-child(odd) {
+   background-color: #ccc;
+}
+button {
+  text-align: center;
+}
+.floatLeft {
+  float: left;
+}
+.floatRight {
+  float: right;
+}
