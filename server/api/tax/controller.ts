@@ -24,5 +24,5 @@ let salary = req.body.salary;
 
     res.json(details);
 
-  });
+});
 }
