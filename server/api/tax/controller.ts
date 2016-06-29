@@ -18,9 +18,9 @@ let salary = req.body.salary;
 
   connection.query('SELECT `'+filingType+'` FROM `federal_tax`', function (error, results, fields) {
 
+  console.log(results[0][filingType]);
 
-
-  let details = {salary: req.body.salary}
+  let details = {salary: salary}
 
     res.json(details);
 
