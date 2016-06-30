@@ -80,9 +80,9 @@
             <td>Amount</td>
             <td><button type="button" class="btn btn-success" name="button" id="addCreditButton" ng-click="vm.addCredit()">+</button></td>
           </thead>
-          <tbody ng-repeat="c in vm.creditTable">
-            <td><input class="hcenter" type="text" id="creditDescription" ng-model="vm.tax.credits"></td>
-            <td><input class="hcenter" type="number" id="creditAmount" ng-model="vm.tax.credits"></td>
+          <tbody ng-repeat="c in vm.creditTable" ng-model=vm.tax.creditTable>
+            <td><input class="hcenter" type="text" id="creditDescription" ng-model="c.type"></td>
+            <td><input class="hcenter" type="number" id="creditAmount" ng-model="c.amount"></td>
             <td><button class="btn btn-danger" ng-click="vm.removeCredit(c)">-</button></td>
           </tbody>
         </table>

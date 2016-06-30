@@ -10,7 +10,7 @@ alimony: number;
 studentLoanInterest: number;
 federalDeductions: Array<string|number>;
 numberOfExemptions: number;
-credits: Array<string|number>;
+creditTable: Array<string|number>;
 aditionalFederalAmount: number;
 state: string;
 stateDeductions: Array<string|number>;

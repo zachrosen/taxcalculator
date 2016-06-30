@@ -42,5 +42,6 @@ let taxOwed = 0;
 }
 
 export function sendBack (req: express.Request, res: express.Response, next) {
-res.json({salary: req['boobs'],taxOwed: req['taxOwed'] })
+console.log(req.body.creditTable)
+res.json({salary: req['boobs'],taxOwed: req['taxOwed'], credit: req.body.creditTable })
 }
