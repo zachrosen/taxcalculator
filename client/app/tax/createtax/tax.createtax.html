@@ -11,32 +11,32 @@
         <br>
         <span>
           <label>65+</label>
-          <input type="checkbox" ng-model="is65">
+          <input type="checkbox" ng-model="vm.tax.is65">
           <label>Blind</label>
-          <input type="checkbox" ng-model="isBlind">
+          <input type="checkbox" ng-model="vm.tax.isBlind">
           <label>Dependent</label>
-          <input type="checkbox" ng-model="isDependent">
+          <input type="checkbox" ng-model="vm.tax.isDependent">
         </span>
         <br>
         <br>
         <label>Filing Type</label>
         <select class="hcenter" ng-model="vm.tax.filingType">
-          <option ng-model="isSingle" class="hcenter">Single</option>
-          <option ng-model="isJoint" class="hcenter">Married Filing Jointly</option>
-          <option ng-model="isSeparate" class="hcenter">Married Filing Separately</option>
-          <option ng-model="isHead" class="hcenter">Head Of Household</option>
-          <option ng-model="isWidow" class="hcenter">Qualifying Widow/Widower</option>
+          <option class="hcenter">Single</option>
+          <option class="hcenter">Married Filing Jointly</option>
+          <option class="hcenter">Married Filing Separately</option>
+          <option class="hcenter">Head Of Household</option>
+          <option class="hcenter">Qualifying Widow/Widower</option>
         </select>
         <br>
         <h3>Adjustments</h3>
         <label>401K/IRA</label>
-        <input class="hcenter" type="number" placeholder="401K/IRA" min="0" max="5500" ng-model="401k">
+        <input class="hcenter" type="number" placeholder="401K/IRA" min="0" max="5500" ng-model="vm.tax.retirement">
         <br>
         <label>Alimony</label>
-        <input class="hcenter" type="number" placeholder="Alimony" min="0" ng-model="alimony">
+        <input class="hcenter" type="number" placeholder="Alimony" min="0" ng-model="vm.tax.alimony">
         <br>
         <label>Student Loan Interest</label>
-        <input class="hcenter" type="number" placeholder="Student Loan Interest" min="0" ng-model="studentLoanInterest">
+        <input class="hcenter" type="number" placeholder="Student Loan Interest" min="0" ng-model="vm.tax.studentLoanInterest">
         <br>
         <label><h3>Federal Deductions</h3></label>
         <br>
@@ -51,8 +51,8 @@
                 <td><button class="btn btn-success" type="button" name="button" id="addFederalDeductionButton" ng-click="vm.addFederalDeduction()">+</button></td>
               </thead>
               <tbody ng-repeat="d in vm.federalDeductionsTable">
-                <td><input class="hcenter" type="text" id="federalDeductionDescription" ng-model="d.federalDeductionDescription"></td>
-                <td><input class="hcenter" type="number" id="federalDeductionAmount" ng-model="d.federalDeductionAmt"></td>
+                <td><input class="hcenter" type="text" id="federalDeductionDescription" ng-model="vm.tax.federalDeductions"></td>
+                <td><input class="hcenter" type="number" id="federalDeductionAmount" ng-model="vm.tax.federalDeductions"></td>
                 <td><button class="btn btn-danger" ng-click="vm.removeFederalDeduction(d)">-</button></td>
               </tbody>
             </table>
@@ -60,7 +60,7 @@
         <br>
         <h3>Personal Exemptions</h3>
         <label>Number of Exemptions</label>
-        <input class="hcenter" type="number" placeholder="Number of Exemptions" min="0" ng-model="numberOfExemptions">
+        <input class="hcenter" type="number" placeholder="Number of Exemptions" min="0" ng-model="vm.tax.numberOfExemptions">
         <br>
         <label><h3>Credits</h3></label>
         <table align="center">
@@ -70,8 +70,8 @@
             <td><button type="button" class="btn btn-success" name="button" id="addCreditButton" ng-click="vm.addCredit()">+</button></td>
           </thead>
           <tbody ng-repeat="c in vm.creditTable">
-            <td><input class="hcenter" type="text" id="creditDescription" ng-model="c.creditDescription"></td>
-            <td><input class="hcenter" type="number" id="creditAmount" ng-model="c.creditAmt"></td>
+            <td><input class="hcenter" type="text" id="creditDescription" ng-model="vm.tax.credits"></td>
+            <td><input class="hcenter" type="number" id="creditAmount" ng-model="vm.tax.credits"></td>
             <td><button class="btn btn-danger" ng-click="vm.removeCredit(c)">-</button></td>
           </tbody>
         </table>
@@ -79,14 +79,14 @@
         <br>
         <label><h3>Additional Federal Amount</h3></label>
         <br>
-        <input class="hcenter" type="number" placeholder="Additional Federal Amount" min="0" ng-model="additionalFederalAmount">
+        <input class="hcenter" type="number" placeholder="Additional Federal Amount" min="0" ng-model="vm.tax.additionalFederalAmount">
       </div>
       <div id="stateTaxes">
         <h1>State Taxes</h1>
         <label>Choose Your State</label>
         <br>
-        <select>
-          <option ng-model="california">California</option>
+        <select ng-model="vm.tax.state">
+          <option>California</option>
         </select>
         <br>
         <label><h3>State Deductions</h3></label>
@@ -102,8 +102,8 @@
                 <td><button type="button" class="btn btn-success" name="button" id="addStateDeduction" ng-click="vm.addStateDeduction()">+</button></td>
               </thead>
               <tbody ng-repeat="s in vm.stateDeductionsTable">
-                <td><input class="hcenter" type="text" id="stateDeductionDescription" ng-model="s.stateDeductionDescription"></td>
-                <td><input class="hcenter" type="number" id="stateDeductionAmount" ng-model="s.stateDeductionAmt"></td>
+                <td><input class="hcenter" type="text" id="stateDeductionDescription" ng-model="vm.tax.stateDeductions"></td>
+                <td><input class="hcenter" type="number" id="stateDeductionAmount" ng-model="vm.tax.stateDeductions"></td>
                 <td><button class="btn btn-danger" ng-click="vm.removeStateDeduction(s)">-</button></td>
               </tbody>
             </table>
