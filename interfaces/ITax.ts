@@ -4,15 +4,16 @@ salary: number;
 age: number;
 isBlind: boolean;
 isDependent: boolean;
+isRenter: boolean;
 filingType: string;
 retirement: number;
 alimony: number;
 studentLoanInterest: number;
-federalDeductions: Array<string|number>;
+federalDeductionsTable: Array<{}>;
 numberOfExemptions: number;
-creditTable: Array<string|number>;
+creditTable: Array<{}>;
 aditionalFederalAmount: number;
 state: string;
-stateDeductions: Array<string|number>;
+stateDeductionsTable: Array<{}>;
 
 }

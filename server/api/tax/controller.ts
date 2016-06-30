@@ -27,7 +27,7 @@ let taxOwed = 0;
     if (salary > results[0][filingType]) {
       let taxOwedNumber = 0;
       taxOwedNumber += results[0][filingType] * results[0].tax_rate;
-        for (let i = 1; i < 7; i++) {
+        for (let i = 1; i < 5; i++) {
           if (salary > results[i][filingType]) {
                 taxOwedNumber += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
           } else {
@@ -37,12 +37,18 @@ let taxOwed = 0;
             break;
           }
         }
+        taxOwedNumber += (salary - results[5][filingType])*results[5].tax_rate;
+        req['taxOwed'] = taxOwedNumber;
+        next();
+
     }
   });
 }
 
+
+
 export function sendBack (req: express.Request, res: express.Response, next) {
 
-res.json({salary: req['salary'],taxOwed: req['taxOwed'] })
+res.json({salary: req['salary'], taxOwed: req['taxOwed']})
 
 }

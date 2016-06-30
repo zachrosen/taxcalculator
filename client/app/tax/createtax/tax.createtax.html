@@ -27,6 +27,8 @@
           <input type="checkbox" ng-model="vm.tax.isBlind">
           <label>Dependent</label>
           <input type="checkbox" ng-model="vm.tax.isDependent">
+          <label>Qualified Renter</label>
+          <input type="checkbox" ng-model="vm.tax.isRenter">
         </span>
         <br>
         <br>
@@ -51,7 +53,7 @@
         <br>
         <label><h3>Federal Deductions</h3></label>
         <br>
-          <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="fedDeductions" >Standard
+          <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions"  >Standard
         <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="fedDeductions" >Itemized
         <br>
           <div ng-show="fedDeductions == 'itemizedFederal'">
@@ -61,9 +63,9 @@
                 <td>Amount</td>
                 <td><button class="btn btn-success" type="button" name="button" id="addFederalDeductionButton" ng-click="vm.addFederalDeduction()">+</button></td>
               </thead>
-              <tbody ng-repeat="d in vm.federalDeductionsTable">
-                <td><input class="hcenter" type="text" id="federalDeductionDescription" ng-model="vm.tax.federalDeductions"></td>
-                <td><input class="hcenter" type="number" id="federalDeductionAmount" ng-model="vm.tax.federalDeductions"></td>
+              <tbody ng-repeat="d in vm.tax.federalDeductionsTable">
+                <td><input class="hcenter" type="text" id="federalDeductionDescription" ng-model="d.type"></td>
+                <td><input class="hcenter" type="number" id="federalDeductionAmount" ng-model="d.amount"></td>
                 <td><button class="btn btn-danger" ng-click="vm.removeFederalDeduction(d)">-</button></td>
               </tbody>
             </table>
@@ -80,7 +82,7 @@
             <td>Amount</td>
             <td><button type="button" class="btn btn-success" name="button" id="addCreditButton" ng-click="vm.addCredit()">+</button></td>
           </thead>
-          <tbody ng-repeat="c in vm.creditTable" ng-model=vm.tax.creditTable>
+          <tbody ng-repeat="c in vm.tax.creditTable">
             <td><input class="hcenter" type="text" id="creditDescription" ng-model="c.type"></td>
             <td><input class="hcenter" type="number" id="creditAmount" ng-model="c.amount"></td>
             <td><button class="btn btn-danger" ng-click="vm.removeCredit(c)">-</button></td>
@@ -102,8 +104,8 @@
         <br>
         <label><h3>State Deductions</h3></label>
         <br>
-        <input type="radio" id="standardState" value="standardState" name="stateDeductions" ng-model="stateDeductions" >Standard
-        <input type="radio" id="itemizedState" value="itemizedState" name="stateDeductions" ng-model="stateDeductions">Itemized
+        <input type="radio" id="standardState" value="standardState" name="stateDeductions" >Standard
+        <input type="radio" id="itemizedState" value="itemizedState" name="stateDeductions" ng-model="stateDeductions" >Itemized
         <br>
           <div ng-show="stateDeductions == 'itemizedState'">
             <table align="center">
@@ -112,9 +114,9 @@
                 <td>Add Amount</td>
                 <td><button type="button" class="btn btn-success" name="button" id="addStateDeduction" ng-click="vm.addStateDeduction()">+</button></td>
               </thead>
-              <tbody ng-repeat="s in vm.stateDeductionsTable">
-                <td><input class="hcenter" type="text" id="stateDeductionDescription" ng-model="vm.tax.stateDeductions"></td>
-                <td><input class="hcenter" type="number" id="stateDeductionAmount" ng-model="vm.tax.stateDeductions"></td>
+              <tbody ng-repeat="s in vm.tax.stateDeductionsTable">
+                <td><input class="hcenter" type="text" id="stateDeductionDescription" ng-model="s.type"></td>
+                <td><input class="hcenter" type="number" id="stateDeductionAmount" ng-model="s.amount"></td>
                 <td><button class="btn btn-danger" ng-click="vm.removeStateDeduction(s)">-</button></td>
               </tbody>
             </table>

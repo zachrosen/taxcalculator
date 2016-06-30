@@ -1,14 +1,29 @@
 namespace app {
   export class TaxCreateTaxController {
-    public tax: ITax;
+    public tax:ITax = {_id: null,
+    salary: null,
+    age: null,
+    isBlind: null,
+    isDependent: null,
+    isRenter: null,
+    filingType: null,
+    retirement: null,
+    alimony: null,
+    studentLoanInterest: null,
+    federalDeductionsTable: [],
+    numberOfExemptions: null,
+    creditTable: [],
+    aditionalFederalAmount: null,
+    state: null,
+    stateDeductionsTable: []}
     public federalDeductionsTable= [];
     public creditTable= [];
     public stateDeductionsTable= [];
 
     public addFederalDeduction() {
-      this.federalDeductionsTable.push({
-        federalDeductionDescription: '',
-        federalDeductionAmt: parseInt('')
+      this.tax.federalDeductionsTable.push({
+        type: '',
+        amount: parseInt('')
       });
     }
 
@@ -17,9 +32,9 @@ namespace app {
     }
 
     public addCredit() {
-      this.creditTable.push({
-        creditDescription: '',
-        creditAmt: parseInt('')
+      this.tax.creditTable.push({
+        type: '',
+        amount: parseInt('')
       });
     }
 
@@ -28,9 +43,9 @@ namespace app {
     }
 
     public addStateDeduction() {
-      this.stateDeductionsTable.push({
-        stateDeductionDescription: '',
-        stateDeductionAmt: parseInt('')
+      this.tax.stateDeductionsTable.push({
+        type: '',
+        amount: parseInt('')
       })
     }
 
@@ -54,7 +69,9 @@ namespace app {
       private TaxService: app.TaxService,
       private $state: ng.ui.IStateService
     ) {
-
+  this.tax.creditTable = [];
+  this.tax.federalDeductionsTable = [];
+  this.tax.stateDeductionsTable = [];
     }
   }
   angular.module('app').controller('TaxCreateTaxController', TaxCreateTaxController);
