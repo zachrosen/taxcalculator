@@ -16,13 +16,42 @@ let filingType = req.body.filingType;
 let salary = req.body.salary;
 
 
+
+
   connection.query('SELECT `'+filingType+'` FROM `federal_tax`', function (error, results, fields) {
 
-  console.log(results[0][filingType]);
+    if (salary > 0 && salary < results[0][filingType] ) {
+      connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, resultsRate, fields) {
+          let details = {taxOwed: salary * resultsRate[0].tax_rate};
+          res.json(details);
 
-  let details = {salary: salary}
+        })
+    }
 
-    res.json(details);
 
-});
+/*
+
+    for (let i = 1; i < 7; i++) {
+      if (salary > results[i][filingType]) {
+        connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, results, fields) {
+            taxOwed = results[i][filingType] * results[i].tax_rate
+
+          })
+      }
+      connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, results, fields) {
+          taxOwed =  (salary - results[i][filingType]) * results[i].tax_rate
+
+        })
+    }
+
+
+*/
+
+
+
+
+
+
+  });
+
 }
