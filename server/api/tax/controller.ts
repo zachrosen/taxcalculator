@@ -58,7 +58,9 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
     if (salary > results[0][filingType]) {
       let stateTaxOwedNumber = 0;
       stateTaxOwedNumber += results[0][filingType] * results[0].tax_rate;
+
         for (let i = 1; i < 6; i++) {
+
           if (salary > results[i][filingType]) {
                 stateTaxOwedNumber += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
           } else {
@@ -68,13 +70,14 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
             break;
           }
         }
+
         stateTaxOwedNumber += (salary - results[6][filingType]) * results[7].tax_rate
         req['stateTaxOwed'] = stateTaxOwedNumber;
         next();
+
       }
   });
 }
-
 
 
 export function sendBack (req: express.Request, res: express.Response, next) {

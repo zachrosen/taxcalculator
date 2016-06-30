@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <th>Federal Tax Amount</th>
-        <td>${{vm.data.taxOwed}}</td>
+        <td>${{(vm.data.federalTaxOwed).toFixed(2)}}</td>
       </tr>
     <tr>
         <th>Taxable FICA</th>
@@ -82,7 +82,7 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>{{vm.data.salary}}</td>
+        <td>${{vm.data.salary}}</td>
     </tr>
     <tr>
         <th>Total Deductions</th>
@@ -94,7 +94,7 @@
     </tr>
     <tr>
         <th>State Tax Amount</th>
-        <td>Amount</td>
+        <td>{{(vm.data.stateTaxOwed).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Taxable SUI</th>
