@@ -28,3 +28,24 @@ button {
 .floatRight {
   float: right;
 }
+
+#responsive-form{
+	max-width:100%; /*-- change this to get your desired form width --*/;
+	margin:0
+	auto;
+  width:100%;
+}
+
+.column-half, .column-full{
+	float: left;
+	position: relative;
+	padding: 0.65rem;
+	width:100%;
+	-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box
+}
+
+.fed-min {
+  white-space: nowrap;
+}
