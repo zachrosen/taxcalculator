@@ -23,8 +23,8 @@ let taxOwed = 0;
 
     if (salary > 0 && salary < results[0][filingType]) {
       connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, resultsRate, fields) {
-          let details = {taxOwed: salary * resultsRate[0].tax_rate};
-          //res.json(details);
+          req['taxOwed'] = salary * resultsRate[0].tax_rate
+          next();
         })
     }
     if (salary > results[0][filingType]) {
