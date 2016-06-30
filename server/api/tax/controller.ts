@@ -27,25 +27,27 @@ let taxOwed = 0;
     if (salary > results[0][filingType]) {
       connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, resultsRate, fields) {
         let taxOwedNumber = 0;
-        taxOwedNumber += salary * resultsRate[0].tax_rate;
+        taxOwedNumber += results[0][filingType] * resultsRate[0].tax_rate;
           //let details = {taxOwed: taxOwedNumber};
           //res.json(details);
 
           for (let i = 1; i < 7; i++) {
             if (salary > results[i][filingType]) {
               connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, resultsRate, fields) {
-                  taxOwedNumber += results[i][filingType] * resultsRate[i].tax_rate
+                  taxOwedNumber += (results[i][filingType] - results[i-1][filingType]) * resultsRate[i].tax_rate
 
                 })
-            }
+            } else {
             connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, resultsRate, fields) {
-                taxOwedNumber += (salary - results[i-1][filingType]) * resultsRate[i].tax_rate
-
+                taxOwedNumber += (salary - results[i-1][filingType]) * resultsRate[i].tax_rate;
+                let details = {taxOwed: taxOwedNumber};
+                res.send(details);
               })
+              break;
+            }
           }
-          console.log(taxOwedNumber)
-          let details = {taxOwed: taxOwedNumber};
-          res.json(details);
+          //console.log(taxOwedNumber)
+
         })
     }
 
