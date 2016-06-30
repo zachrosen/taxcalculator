@@ -14,20 +14,49 @@ let filingType = req.body.filingType;
 let salary = req.body.salary;
 let taxOwed = 0;
 
+
+
   connection.query('SELECT `'+filingType+'` FROM `federal_tax`', function (error, results, fields) {
 
-if(salary < results[0][filingType]) {
-  connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, results, fields) {
-    let details = {salary: salary * results[0].tax_rate}
-      res.json(details);
-  })
-} else if (results[0][filingType] < salary && salary < results[1][filingType]) {
-  let newSalary = salary - 9275
-  let details = {salary: 927.5 + (newSalary * 0.15)}
-    res.json(details);
-}
+
+    if (salary > 0 && salary < results[0][filingType] ) {
+      connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, resultsRate, fields) {
+          let details = {taxOwed: salary * resultsRate[0].tax_rate};
+          res.json(details);
+
+        })
+    }
+
+
+/*
+
+    for (let i = 1; i < 7; i++) {
+      if (salary > results[i][filingType]) {
+        connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, results, fields) {
+            taxOwed = results[i][filingType] * results[i].tax_rate
+
+          })
+      }
+      connection.query('SELECT `tax_rate` FROM `federal_tax`', function (error, results, fields) {
+          taxOwed =  (salary - results[i][filingType]) * results[i].tax_rate
+
+        })
+    }
+
+
+*/
+
+
+
+
+
+
+
+
+
 
 
   });
+
 
 }
