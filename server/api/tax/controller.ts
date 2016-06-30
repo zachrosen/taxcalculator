@@ -71,4 +71,5 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
 
 export function sendBack (req: express.Request, res: express.Response, next) {
 res.json({salary: req['salary'],federalTaxOwed: req['federalTaxOwed'], stateTaxOwed: req['stateTaxOwed'] })
+
 }
