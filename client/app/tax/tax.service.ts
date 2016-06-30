@@ -9,9 +9,6 @@ namespace app {
 
     public data = {
 
-    salary: {},
-    filingType: {}
-
     };
 
     public createTax(tax:ITax) {
