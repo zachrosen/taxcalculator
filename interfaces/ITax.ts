@@ -1,7 +1,7 @@
 interface ITax {
 _id: any;
 salary: number;
-is65: boolean;
+age: number;
 isBlind: boolean;
 isDependent: boolean;
 filingType: string;

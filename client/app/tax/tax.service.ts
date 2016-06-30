@@ -9,6 +9,7 @@ namespace app {
 
     public data = {
 
+
     };
 
     public createTax(tax:ITax) {
