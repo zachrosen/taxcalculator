@@ -4,7 +4,8 @@ import * as controller from "./controller";
 
 const router = express.Router();
 
-router.post("/", controller.multiply5);
+router.post("/", controller.preTaxIncome, controller.federalTaxAmount, controller.sendBack);
+
 
 
 export = router;
