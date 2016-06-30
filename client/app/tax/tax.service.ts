@@ -9,7 +9,6 @@ namespace app {
 
     public data = {
 
-  
 
     };
 
