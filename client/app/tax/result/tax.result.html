@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
 
-<h1> {{vm.data.filingType}} </h1>
+<h1>{{vm.data.filingType}}</h1>
 
 <br>
 <div class="hcenter">
@@ -40,10 +40,10 @@
     <tr>
         <th>Federal Tax Amount</th>
         <td>${{vm.data.taxOwed}}</td>
-    </tr>
+      </tr>
     <tr>
         <th>Taxable FICA</th>
-        <td>Amount</td>
+        <td></td>
     </tr>
     <tr>
         <th>Social Security</th>
@@ -85,7 +85,7 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>${{vm.data.salary}}</td>
+        <td>{{vm.data.salary}}</td>
     </tr>
     <tr>
         <th>Total Deductions</th>
