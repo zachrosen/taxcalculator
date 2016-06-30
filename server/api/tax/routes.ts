@@ -4,7 +4,7 @@ import * as controller from "./controller";
 
 const router = express.Router();
 
-router.post("/", controller.preTaxIncome, controller.federalTaxAmount, controller.sendBack);
+router.post("/", controller.preTaxIncome, controller.federalTaxAmount, controller.stateTaxAmount, controller.sendBack);
 
 
 

@@ -13,7 +13,7 @@ namespace app {
     if (width >= 100) {
       clearInterval(id);
     } else {
-      width = width + 10;
+      width = width++;
       elem.style.width = width + '%';
       document.getElementById("demo").innerHTML = width * 1  + '%';
     }
