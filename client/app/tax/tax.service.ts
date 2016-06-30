@@ -9,8 +9,7 @@ namespace app {
 
     public data = {
 
-    salary: {},
-    filingType: {}
+  
 
     };
 
