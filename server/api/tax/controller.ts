@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
 
 
 export function preTaxIncome (req: express.Request, res: express.Response, next) {
-  req['boobs'] = req.body.salary
+  req['salary'] = req.body.salary
   next();
 }
 
@@ -42,5 +42,5 @@ let taxOwed = 0;
 }
 
 export function sendBack (req: express.Request, res: express.Response, next) {
-res.json({salary: req['boobs'],taxOwed: req['taxOwed'] })
+res.json({salary: req['salary'],taxOwed: req['taxOwed'] })
 }
