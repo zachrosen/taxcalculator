@@ -55,6 +55,21 @@ let federalTaxOwed = 0;
   });
 }
 
+export function federalCredits (req: express.Request, res: express.Response, next) {
+let credits = req.body.creditTable;
+let totalCredits = 0;
+ for (let i = 0; i < credits.length; i++) {
+   totalCredits += credits[i]['amount'];
+ }
+ req['totalFederalCredits'] = totalCredits;
+ next();
+}
+
+export function additonalFederalAmount (req: express.Request, res: express.Response, next) {
+req['additionalFederalAmount'] = req.body.additionalFederalAmount;
+next();
+}
+
 export function stateTaxAmount (req: express.Request, res: express.Response, next) {
   let filingType = req.body.filingType;
   let state = req.body.state.toLowerCase();
@@ -136,6 +151,5 @@ export function californiaSDI (req: express.Request, res: express.Response, next
 
 export function sendBack (req: express.Request, res: express.Response, next) {
 
-res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], federalTaxOwed: req['federalTaxOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI']})
-
+res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], federalTaxOwed: req['federalTaxOwed'], totalFederalCredits: req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI']})
 }
