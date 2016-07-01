@@ -20,11 +20,11 @@
     </tr>
     <tr>
         <th>Total Adjustments</th>
-        <td>Amount</td>
+        <td>${{vm.data.totalFederalAdjustments}}</td>
     </tr>
     <tr>
         <th>Total Deductions</th>
-        <td>Amount</td>
+        <td>${{vm.data.totalFederalDeductions}}</td>
     </tr>
     <tr>
         <th>Total Exemptions</th>
@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <th>Adjusted Income</th>
-        <td>Amount</td>
+        <td></td>
     </tr>
     <tr>
         <th>Federal Tax Amount</th>
@@ -86,15 +86,15 @@
     </tr>
     <tr>
         <th>Total Deductions</th>
-        <td>Amount</td>
+        <td>${{vm.data.totalStateDeductions}}</td>
     </tr>
     <tr>
         <th>Adjusted Income</th>
-        <td>Amount</td>
+        <td>${{vm.data.stateAdjustedIncome}}</td>
     </tr>
     <tr>
         <th>State Tax Amount</th>
-        <td>{{(vm.data.stateTaxOwed).toFixed(2)}}</td>
+        <td>${{(vm.data.stateTaxOwed).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Taxable SUI</th>
@@ -102,7 +102,7 @@
     </tr>
     <tr>
         <th>Taxable SDI</th>
-        <td>Amount</td>
+        <td>${{vm.data.totalCaliforniaSDI}}</td>
     </tr>
     <tr>
         <th>Taxable ETT</th>

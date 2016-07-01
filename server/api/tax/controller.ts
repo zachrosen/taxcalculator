@@ -14,6 +14,16 @@ export function preTaxIncome (req: express.Request, res: express.Response, next)
   next();
 }
 
+export function federalAdjustments (req: express.Request, res: express.Response, next) {
+  let retirement = req.body.retirement;
+  let alimony = req.body.alimony;
+  let studentLoanInterest = req.body.studentLoanInterest;
+  let totalFederalAdjustments = 0;
+    totalFederalAdjustments += retirement + alimony + studentLoanInterest;
+    req['totalFederalAdjustments'] = totalFederalAdjustments;
+    next();
+}
+
 export function federalTaxAmount (req: express.Request, res: express.Response, next) {
 let filingType = req.body.filingType;
 let salary = req.body.salary;
@@ -33,15 +43,31 @@ let federalTaxOwed = 0;
               federalTaxOwed += (salary - results[i-1][filingType]) * results[i].tax_rate;
               req['federalTaxOwed'] = federalTaxOwed;
               next();
-            break;
+              break;
           }
         }
+        if (salary > results[5][filingType]) {
         federalTaxOwed += (salary - results[5][filingType])*results[6].tax_rate;
         req['federalTaxOwed'] = federalTaxOwed;
         next();
-
+}
     }
   });
+}
+
+export function federalCredits (req: express.Request, res: express.Response, next) {
+let credits = req.body.creditTable;
+let totalCredits = 0;
+ for (let i = 0; i < credits.length; i++) {
+   totalCredits += credits[i]['amount'];
+ }
+ req['totalFederalCredits'] = totalCredits;
+ next();
+}
+
+export function additonalFederalAmount (req: express.Request, res: express.Response, next) {
+req['additionalFederalAmount'] = req.body.additionalFederalAmount;
+next();
 }
 
 export function stateTaxAmount (req: express.Request, res: express.Response, next) {
@@ -56,29 +82,71 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
       next();
     }
     if (salary > results[0][filingType]) {
-      let stateTaxOwedNumber = 0;
-      stateTaxOwedNumber += results[0][filingType] * results[0].tax_rate;
+      stateTaxOwed += results[0][filingType] * results[0].tax_rate;
 
-        for (let i = 1; i < 6; i++) {
+        for (let i = 1; i < 7; i++) {
 
           if (salary > results[i][filingType]) {
-                stateTaxOwedNumber += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
+                stateTaxOwed += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
           } else {
-              stateTaxOwedNumber += (salary - results[i-1][filingType]) * results[i].tax_rate;
-              req['stateTaxOwed'] = stateTaxOwedNumber;
+              stateTaxOwed += (salary - results[i-1][filingType]) * results[i].tax_rate;
+              req['stateTaxOwed'] = stateTaxOwed;
               next();
             break;
           }
         }
-
-        stateTaxOwedNumber += (salary - results[6][filingType]) * results[7].tax_rate
-        req['stateTaxOwed'] = stateTaxOwedNumber;
+        if (salary > results[7][filingType]) {
+        stateTaxOwed += (salary - results[7][filingType]) * results[8].tax_rate
+        req['stateTaxOwed'] = stateTaxOwed;
         next();
 
       }
+    }
   });
 }
 
+export function FederalDeductions (req: express.Request, res: express.Response, next) {
+let federalDeductions = req.body.federalDeductionsTable;
+let totalFederalDeductions = 0;
+ for (let i = 0; i < federalDeductions.length; i++) {
+   totalFederalDeductions += federalDeductions[i]['amount'];
+ }
+ req['totalFederalDeductions'] = totalFederalDeductions;
+ next();
+}
+
+export function stateDeductions (req: express.Request, res: express.Response, next) {
+let stateDeductions = req.body.stateDeductionsTable;
+let totalStateDeductions = 0;
+ for (let i = 0; i < stateDeductions.length; i++) {
+   totalStateDeductions += stateDeductions[i]['amount'];
+ }
+ req['totalStateDeductions'] = totalStateDeductions;
+ next();
+}
+
+export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
+let stateAdjustedIncome = 0;
+stateAdjustedIncome = req.body.salary - req['totalStateDeductions'];
+req['stateAdjustedIncome'] = stateAdjustedIncome;
+next();
+}
+
+export function californiaSDI (req: express.Request, res: express.Response, next) {
+  let salary = req.body.salary;
+  let totalCaliforniaSDI = 0;
+  connection.query('SELECT `tax_rate`, `max_wage_that_can_be_taxed` FROM `california_taxable_sdi_ett_sui`', function (error, results, fields) {
+    if(salary > results[1].max_wage_that_can_be_taxed) {
+      totalCaliforniaSDI += results[1].tax_rate * results[1].max_wage_that_can_be_taxed;
+      req['totalCaliforniaSDI'] = totalCaliforniaSDI;
+      next();
+    } else {
+      totalCaliforniaSDI += salary * results[1].tax_rate;
+      req['totalCaliforniaSDI'] = totalCaliforniaSDI;
+      next();
+    }
+  });
+}
 export function totalExemptions(req: express.Request, res: express.Response, next){
   let filingType = req.body.filingType;
   let exemptionsNum = req.body.numberOfExemptions;
@@ -101,7 +169,6 @@ export function totalExemptions(req: express.Request, res: express.Response, nex
       }
       exemptionsChangedValue *= exemptionsNum;
       exemptionsVal = exemptionsChangedValue.toFixed(2);
-      console.log(exemptionsVal);
     }
     req['exemptionsVal'] = exemptionsVal;
     next();
@@ -121,17 +188,20 @@ connection.query('SELECT sum(`fee`) AS `fee` FROM `'+state+'_ftb_cost_recovery_f
 })
 }
 
-export function nonrefundableRentersCredit(req: express.Request, res: express.Response, next) {
-  let filingType = req.body.filingType;
-  let state = req.body.state.toLowerCase();
+// export function nonrefundableRentersCredit(req: express.Request, res: express.Response, next) {
+//   let filingType = req.body.filingType;
+//   let state = req.body.state.toLowerCase();
+//
+// connection.query('SELECT `filing_status/qualification`, `exemption_amount` FROM `'+state+'_exemption_credits`', function (error, results, fields) {
+//   //console.log(results[0]);
+// })
+// }
 
-connection.query('SELECT `filing_status/qualification`, `exemption_amount` FROM `'+state+'_exemption_credits`', function (error, results, fields) {
-  //console.log(results[0]);
-})
-}
+
+
 
 export function sendBack (req: express.Request, res: express.Response, next) {
 
-res.json({salary: req['salary'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], stateTaxOwed: req['stateTaxOwed'], totalExemptions: req['totalExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed']})
+res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI']})
 
 }

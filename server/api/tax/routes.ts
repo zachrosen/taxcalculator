@@ -4,7 +4,7 @@ import * as controller from "./controller";
 
 const router = express.Router();
 
-router.post("/", controller.preTaxIncome, controller.federalTaxAmount, controller.stateTaxAmount, controller.totalExemptions, controller.ftbCostRecoveryFees, controller.nonrefundableRentersCredit, controller.sendBack);
+router.post("/", controller.preTaxIncome, controller.federalAdjustments, controller.federalTaxAmount, controller.federalCredits, controller.additonalFederalAmount, controller.stateTaxAmount, controller.FederalDeductions, controller.stateDeductions, controller.adjustedIncomeState, controller.californiaSDI, controller.totalExemptions, controller.ftbCostRecoveryFees, controller.sendBack);
 
 
 
