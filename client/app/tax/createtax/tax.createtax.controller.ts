@@ -16,8 +16,8 @@ namespace app {
     aditionalFederalAmount: null,
     state: null,
     stateDeductionsTable: [],
-    aditionalStateAmount: null}
-    
+    additionalStateAmount: null}
+
     public federalDeductionsTable= [];
     public creditTable= [];
     public stateDeductionsTable= [];
