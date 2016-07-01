@@ -14,6 +14,16 @@ export function preTaxIncome (req: express.Request, res: express.Response, next)
   next();
 }
 
+export function federalAdjustments (req: express.Request, res: express.Response, next) {
+  let retirement = req.body.retirement;
+  let alimony = req.body.alimony;
+  let studentLoanInterest = req.body.studentLoanInterest;
+  let totalFederalAdjustments = 0;
+    totalFederalAdjustments += retirement + alimony + studentLoanInterest;
+    req['totalFederalAdjustments'] = totalFederalAdjustments;
+    next();
+}
+
 export function federalTaxAmount (req: express.Request, res: express.Response, next) {
 let filingType = req.body.filingType;
 let salary = req.body.salary;
@@ -100,16 +110,32 @@ let totalStateDeductions = 0;
  next();
 }
 
-export function AdjustedIncomeState(req: express.Request, res: express.Response, next) {
+export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
 let stateAdjustedIncome = 0;
 stateAdjustedIncome = req.body.salary - req['totalStateDeductions'];
 req['stateAdjustedIncome'] = stateAdjustedIncome;
 next();
 }
 
+export function californiaSDI (req: express.Request, res: express.Response, next) {
+  let salary = req.body.salary;
+  let totalCaliforniaSDI = 0;
+  connection.query('SELECT `tax_rate`, `max_wage_that_can_be_taxed` FROM `california_taxable_sdi_ett_sui`', function (error, results, fields) {
+    if(salary > results[1].max_wage_that_can_be_taxed) {
+      totalCaliforniaSDI += results[1].tax_rate * results[1].max_wage_that_can_be_taxed;
+      req['totalCaliforniaSDI'] = totalCaliforniaSDI;
+      next();
+    } else {
+      totalCaliforniaSDI += salary * results[1].tax_rate;
+      req['totalCaliforniaSDI'] = totalCaliforniaSDI;
+      next();
+    }
+  });
+}
+
 
 export function sendBack (req: express.Request, res: express.Response, next) {
 
-res.json({salary: req['salary'], federalTaxOwed: req['federalTaxOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome']})
+res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], federalTaxOwed: req['federalTaxOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI']})
 
 }
