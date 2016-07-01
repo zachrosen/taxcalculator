@@ -15,6 +15,6 @@ creditTable: Array<{}>;
 aditionalFederalAmount: number;
 state: string;
 stateDeductionsTable: Array<{}>;
-aditionalStateAmount: number;
+additionalStateAmount: number;
 
 }
