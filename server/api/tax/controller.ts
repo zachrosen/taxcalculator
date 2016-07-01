@@ -33,13 +33,14 @@ let federalTaxOwed = 0;
               federalTaxOwed += (salary - results[i-1][filingType]) * results[i].tax_rate;
               req['federalTaxOwed'] = federalTaxOwed;
               next();
-            break;
+              break;
           }
         }
+        if (salary > results[5][filingType]) {
         federalTaxOwed += (salary - results[5][filingType])*results[6].tax_rate;
         req['federalTaxOwed'] = federalTaxOwed;
         next();
-
+}
     }
   });
 }
@@ -70,7 +71,7 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
             break;
           }
         }
-
+        if (salary > results[6][filingType])
         stateTaxOwedNumber += (salary - results[6][filingType]) * results[7].tax_rate
         req['stateTaxOwed'] = stateTaxOwedNumber;
         next();
@@ -79,9 +80,13 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
   });
 }
 
+export function FederalDeductions (req: express.Request, res: express.Response, next) {
+
+}
+
 
 export function sendBack (req: express.Request, res: express.Response, next) {
 
-res.json({salary: req['salary'], federalTaxOwed: req['federalTaxOwed'], stateTaxOwed: req['stateTaxOwed']})
+res.json({salary: req['salary'], federalTaxOwed: req['federalTaxOwed'], stateTaxOwed: req['stateTaxOwed'], deductions: req.body.deductions})
 
 }
