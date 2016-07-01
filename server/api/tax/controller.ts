@@ -73,30 +73,29 @@ next();
 export function stateTaxAmount (req: express.Request, res: express.Response, next) {
   let filingType = req.body.filingType;
   let state = req.body.state.toLowerCase();
-  let salary = req.body.salary;
   let stateTaxOwed = 0;
 
   connection.query('SELECT `'+filingType+'`, `tax_rate` FROM `'+state+'_tax`', function (error, results, fields) {
-    if (salary > 0 && salary < results[0][filingType]){
-      req['stateTaxOwed'] = salary * results[0].tax_rate;
+    if (req['stateAdjustedIncome'] > 0 && req['stateAdjustedIncome'] < results[0][filingType]){
+      req['stateTaxOwed'] = req['stateAdjustedIncome'] * results[0].tax_rate;
       next();
     }
-    if (salary > results[0][filingType]) {
+    if (req['stateAdjustedIncome'] > results[0][filingType]) {
       stateTaxOwed += results[0][filingType] * results[0].tax_rate;
 
         for (let i = 1; i < 7; i++) {
 
-          if (salary > results[i][filingType]) {
+          if (req['stateAdjustedIncome'] > results[i][filingType]) {
                 stateTaxOwed += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
           } else {
-              stateTaxOwed += (salary - results[i-1][filingType]) * results[i].tax_rate;
+              stateTaxOwed += (req['stateAdjustedIncome'] - results[i-1][filingType]) * results[i].tax_rate;
               req['stateTaxOwed'] = stateTaxOwed;
               next();
             break;
           }
         }
-        if (salary > results[7][filingType]) {
-        stateTaxOwed += (salary - results[7][filingType]) * results[8].tax_rate
+        if (req['stateAdjustedIncome'] > results[7][filingType]) {
+        stateTaxOwed += (req['stateAdjustedIncome'] - results[7][filingType]) * results[8].tax_rate
         req['stateTaxOwed'] = stateTaxOwed;
         next();
 
@@ -133,15 +132,14 @@ next();
 }
 
 export function californiaSDI (req: express.Request, res: express.Response, next) {
-  let salary = req.body.salary;
   let totalCaliforniaSDI = 0;
   connection.query('SELECT `tax_rate`, `max_wage_that_can_be_taxed` FROM `california_taxable_sdi_ett_sui`', function (error, results, fields) {
-    if(salary > results[1].max_wage_that_can_be_taxed) {
+    if(req['stateAdjustedIncome'] > results[1].max_wage_that_can_be_taxed) {
       totalCaliforniaSDI += results[1].tax_rate * results[1].max_wage_that_can_be_taxed;
       req['totalCaliforniaSDI'] = totalCaliforniaSDI;
       next();
     } else {
-      totalCaliforniaSDI += salary * results[1].tax_rate;
+      totalCaliforniaSDI += (req['stateAdjustedIncome'] * 10) * (results[1].tax_rate * 10) / (10 * 10);
       req['totalCaliforniaSDI'] = totalCaliforniaSDI;
       next();
     }
