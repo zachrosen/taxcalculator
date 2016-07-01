@@ -70,6 +70,23 @@ req['additionalFederalAmount'] = req.body.additionalFederalAmount;
 next();
 }
 
+export function stateDeductions (req: express.Request, res: express.Response, next) {
+let stateDeductions = req.body.stateDeductionsTable;
+let totalStateDeductions = 0;
+ for (let i = 0; i < stateDeductions.length; i++) {
+   totalStateDeductions += stateDeductions[i]['amount'];
+ }
+ req['totalStateDeductions'] = totalStateDeductions;
+ next();
+}
+
+export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
+let stateAdjustedIncome = 0;
+stateAdjustedIncome = req.body.salary - req['totalStateDeductions'];
+req['stateAdjustedIncome'] = stateAdjustedIncome;
+next();
+}
+
 export function stateTaxAmount (req: express.Request, res: express.Response, next) {
   let filingType = req.body.filingType;
   let state = req.body.state.toLowerCase();
@@ -114,22 +131,6 @@ let totalFederalDeductions = 0;
  next();
 }
 
-export function stateDeductions (req: express.Request, res: express.Response, next) {
-let stateDeductions = req.body.stateDeductionsTable;
-let totalStateDeductions = 0;
- for (let i = 0; i < stateDeductions.length; i++) {
-   totalStateDeductions += stateDeductions[i]['amount'];
- }
- req['totalStateDeductions'] = totalStateDeductions;
- next();
-}
-
-export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
-let stateAdjustedIncome = 0;
-stateAdjustedIncome = req.body.salary - req['totalStateDeductions'];
-req['stateAdjustedIncome'] = stateAdjustedIncome;
-next();
-}
 
 export function californiaSDI (req: express.Request, res: express.Response, next) {
   let totalCaliforniaSDI = 0;
@@ -145,9 +146,65 @@ export function californiaSDI (req: express.Request, res: express.Response, next
     }
   });
 }
+export function totalExemptions(req: express.Request, res: express.Response, next){
+  let filingType = req.body.filingType;
+  let exemptionsNum = req.body.numberOfExemptions;
+  let AGI = req.body.salary;
+  let exemptionsVal = 0;
 
+  connection.query('SELECT `'+filingType+'` FROM `federal_exemptions`', function (error, results, fields) {
+    if(AGI <= results[0][filingType]) {
+      exemptionsVal = exemptionsNum * results[2][filingType];
+    } else {
+      let exemptionsInitValue = results[2][filingType];
+      let exemptionsChangedValue = exemptionsInitValue;
+
+      for(let i = results[0][filingType]; i < AGI; i += results[1][filingType]) {
+        exemptionsChangedValue *= 0.98;
+        if(exemptionsChangedValue < 0.1) {
+          exemptionsChangedValue = 0;
+          break;
+        }
+      }
+      exemptionsChangedValue *= exemptionsNum;
+      exemptionsVal = exemptionsChangedValue.toFixed(2);
+    }
+    req['exemptionsVal'] = exemptionsVal;
+    next();
+  })
+  }
+
+
+
+
+export function ftbCostRecoveryFees(req: express.Request, res: express.Response, next) {
+  let state = req.body.state.toLowerCase();
+  let ftbCostRecoveryFeesOwed = 0;
+
+connection.query('SELECT sum(`fee`) AS `fee` FROM `'+state+'_ftb_cost_recovery_fees`', function(error, results, fields) {
+  req['ftbCostRecoveryFeesOwed'] = results[0].fee;
+  next();
+})
+}
+
+// export function nonrefundableRentersCredit(req: express.Request, res: express.Response, next) {
+//   let filingType = req.body.filingType;
+//   let state = req.body.state.toLowerCase();
+//
+// connection.query('SELECT `filing_status/qualification`, `exemption_amount` FROM `'+state+'_exemption_credits`', function (error, results, fields) {
+//   //console.log(results[0]);
+// })
+// }
+
+
+export function additonalStateAmount (req: express.Request, res: express.Response, next) {
+req['additionalStateAmount'] = req.body.additionalStateAmount;
+next();
+}
 
 export function sendBack (req: express.Request, res: express.Response, next) {
 
-res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], federalTaxOwed: req['federalTaxOwed'], totalFederalCredits: req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI']})
+
+res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'], additionalStateAmount: req['additionalStateAmount'] })
+
 }
