@@ -70,6 +70,23 @@ req['additionalFederalAmount'] = req.body.additionalFederalAmount;
 next();
 }
 
+export function stateDeductions (req: express.Request, res: express.Response, next) {
+let stateDeductions = req.body.stateDeductionsTable;
+let totalStateDeductions = 0;
+ for (let i = 0; i < stateDeductions.length; i++) {
+   totalStateDeductions += stateDeductions[i]['amount'];
+ }
+ req['totalStateDeductions'] = totalStateDeductions;
+ next();
+}
+
+export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
+let stateAdjustedIncome = 0;
+stateAdjustedIncome = req.body.salary - req['totalStateDeductions'];
+req['stateAdjustedIncome'] = stateAdjustedIncome;
+next();
+}
+
 export function stateTaxAmount (req: express.Request, res: express.Response, next) {
   let filingType = req.body.filingType;
   let state = req.body.state.toLowerCase();
@@ -115,22 +132,6 @@ let totalFederalDeductions = 0;
  next();
 }
 
-export function stateDeductions (req: express.Request, res: express.Response, next) {
-let stateDeductions = req.body.stateDeductionsTable;
-let totalStateDeductions = 0;
- for (let i = 0; i < stateDeductions.length; i++) {
-   totalStateDeductions += stateDeductions[i]['amount'];
- }
- req['totalStateDeductions'] = totalStateDeductions;
- next();
-}
-
-export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
-let stateAdjustedIncome = 0;
-stateAdjustedIncome = req.body.salary - req['totalStateDeductions'];
-req['stateAdjustedIncome'] = stateAdjustedIncome;
-next();
-}
 
 export function californiaSDI (req: express.Request, res: express.Response, next) {
   let salary = req.body.salary;
