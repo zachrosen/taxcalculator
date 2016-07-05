@@ -26,28 +26,28 @@ export function federalAdjustments (req: express.Request, res: express.Response,
 
 export function federalTaxAmount (req: express.Request, res: express.Response, next) {
 let filingType = req.body.filingType;
-let salary = req.body.salary;
+let AGI = req['AGIAfterExemptions'];
 let federalTaxOwed = 0;
 
   connection.query('SELECT `'+filingType+'`, `tax_rate` FROM `federal_tax`', function (error, results, fields) {
-    if (salary > 0 && salary < results[0][filingType]) {
-          req['federalTaxOwed'] = salary * results[0].tax_rate;
+    if (AGI > 0 && AGI < results[0][filingType]) {
+          req['federalTaxOwed'] = AGI * results[0].tax_rate;
           next();
     }
-    if (salary > results[0][filingType]) {
+    if (AGI > results[0][filingType]) {
       federalTaxOwed += results[0][filingType] * results[0].tax_rate;
         for (let i = 1; i < 6; i++) {
-          if (salary > results[i][filingType]) {
+          if (AGI > results[i][filingType]) {
                 federalTaxOwed += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
           } else {
-              federalTaxOwed += (salary - results[i-1][filingType]) * results[i].tax_rate;
+              federalTaxOwed += (AGI - results[i-1][filingType]) * results[i].tax_rate;
               req['federalTaxOwed'] = federalTaxOwed;
               next();
               break;
           }
         }
-        if (salary > results[5][filingType]) {
-        federalTaxOwed += (salary - results[5][filingType])*results[6].tax_rate;
+        if (AGI > results[5][filingType]) {
+        federalTaxOwed += (AGI - results[5][filingType])*results[6].tax_rate;
         req['federalTaxOwed'] = federalTaxOwed;
         next();
 }
@@ -289,6 +289,7 @@ export function AGIAfter (req: express.Request, res: express.Response, next) {
   }
 
   export function sendBack (req: express.Request, res: express.Response, next) {
-  res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'], additionalStateAmount: req['additionalStateAmount'],
+  res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'],
+  additionalStateAmount: req['additionalStateAmount'],
   totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'] })
   }
