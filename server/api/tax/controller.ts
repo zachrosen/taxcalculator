@@ -132,25 +132,39 @@ let totalFederalDeductions = 0;
 }
 
  export function taxableFICA (req: express.Request, res: express.Response, next) {
-let salary = req.body.salary;
+let AGI = req['AGIAfterExemptions'];
 let totalSocialSecurity = 0;
 let totalMedicare = 0;
 let totalAdditionalMedicare = 0;
 let totalTaxableFICA = 0;
 connection.query('SELECT `tax_type`, `max_earnings`, `fica_tax_rate` FROM `federal_fica_tax`', function (error, results, fields) {
 // for loop
-  /* if (salary <= results[0].max_earnings) {
-    totalSocialSecurity += salary * results[0].fica_tax_rate;
+  if (AGI <= results[0].max_earnings) {
+    totalSocialSecurity += AGI * results[0].fica_tax_rate;
     req['totalSocialSecurity'] = totalSocialSecurity;
   }
-  if (salary > results[0].max_earnings) {
+  if (AGI > results[0].max_earnings) {
     totalSocialSecurity += results[0].max_earnings * results[0].fica_tax_rate;
     req['totalSocialSecurity'] = totalSocialSecurity;
   }
-  if (salary <= results[1].max_earnings) {
-    totalMedicare += salary * results[1]
-  } */
-
+  if (AGI <= results[1].max_earnings) {
+    totalMedicare += AGI * results[1].fica_tax_rate;
+    req['totalMedicare'] = totalMedicare;
+  }
+  if (AGI > results[1].max_earnings) {
+    totalMedicare += results[1].max_earnings * results[1].fica_tax_rate;
+    req['totalMedicare'] = totalMedicare;
+  }
+  if (AGI <= results[2].max_earnings) {
+    req['totalAdditionalMedicare'] = 0;
+  }
+  if (AGI > results[2].max_earnings) {
+    totalAdditionalMedicare += (AGI - results[2].max_earnings) * results[2].fica_tax_rate;
+    req['totalAdditionalMedicare'] = totalAdditionalMedicare;
+  }
+  totalTaxableFICA += req['totalSocialSecurity'] + req['totalMedicare'] + req['totalAdditionalMedicare'];
+  req['totalTaxableFICA'] = totalTaxableFICA;
+  next();
 });
 }
 
@@ -291,5 +305,5 @@ export function AGIAfter (req: express.Request, res: express.Response, next) {
   export function sendBack (req: express.Request, res: express.Response, next) {
   res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'],
   additionalStateAmount: req['additionalStateAmount'],
-  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'] })
+  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'] })
   }

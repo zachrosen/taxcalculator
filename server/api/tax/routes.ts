@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-router.post("/", controller.preTaxIncome, controller.federalAdjustments, controller.FederalDeductions, controller.AGIBefore, controller.totalExemptions, controller.AGIAfter, controller.federalTaxAmount, controller.federalCredits, controller.additonalFederalAmount, controller.stateDeductions, controller.adjustedIncomeState, controller.stateTaxAmount, controller.californiaSDI, controller.additonalStateAmount, controller.californiaTaxableMentalHealth, controller.stateExemptionCredits, controller.sendBack);
+router.post("/", controller.preTaxIncome, controller.federalAdjustments, controller.FederalDeductions, controller.AGIBefore, controller.totalExemptions, controller.AGIAfter, controller.federalTaxAmount, controller.federalCredits, controller.additonalFederalAmount, controller.taxableFICA, controller.stateDeductions, controller.adjustedIncomeState, controller.stateTaxAmount, controller.californiaSDI, controller.additonalStateAmount, controller.californiaTaxableMentalHealth, controller.stateExemptionCredits, controller.sendBack);
 
 
 
