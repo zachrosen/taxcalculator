@@ -16,23 +16,23 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>${{vm.data.salary}}</td>
+        <td>${{(vm.data.salary).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Adjustments</th>
-        <td>${{vm.data.totalFederalAdjustments}}</td>
+        <td>${{(vm.data.totalFederalAdjustments).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Deductions</th>
-        <td>${{vm.data.totalFederalDeductions}}</td>
+        <td>${{(vm.data.totalFederalDeductions).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Exemptions</th>
-        <td>${{vm.data.exemptionsVal}}</td>
+        <td>${{(vm.data.exemptionsVal).toFixed(2)}}</td>
     </tr>
     <tr>
-        <th>Adjusted Income</th>
-        <td></td>
+        <th>Adjusted Gross Income</th>
+        <td>${{(vm.data.AGI).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Federal Tax Amount</th>
@@ -40,19 +40,19 @@
       </tr>
     <tr>
         <th>Taxable FICA</th>
-        <td></td>
+        <td>${{(vm.data.totalTaxableFICA).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Social Security</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalSocialSecurity).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Medicare</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalMedicare).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Additional Medicare</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalAdditionalMedicare).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Taxable FUTA</th>
@@ -60,11 +60,11 @@
     </tr>
     <tr>
         <th>Total Credits</th>
-        <td>${{vm.data.totalFederalCredits}}</td>
+        <td>${{(vm.data.totalFederalCredits).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Additional Federal Amount</th>
-        <td>${{vm.data.additionalFederalAmount}}</td>
+        <td>${{(vm.data.additionalFederalAmount).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Federal Tax Owed</th>
@@ -82,15 +82,15 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>${{vm.data.salary}}</td>
+        <td>${{(vm.data.salary).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Deductions</th>
-        <td>${{vm.data.totalStateDeductions}}</td>
+        <td>${{(vm.data.totalStateDeductions).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Adjusted Income</th>
-        <td>${{vm.data.stateAdjustedIncome}}</td>
+        <td>${{(vm.data.stateAdjustedIncome).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>State Tax Amount</th>
@@ -102,7 +102,7 @@
     </tr>
     <tr>
         <th>Taxable SDI</th>
-        <td>${{vm.data.totalCaliforniaSDI}}</td>
+        <td>${{(vm.data.totalCaliforniaSDI).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Taxable ETT</th>
@@ -110,7 +110,7 @@
     </tr>
     <tr>
         <th>Taxable Mental Health</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalCaliforniaTaxableMentalHealth).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>FTB Cost Recovery Fee</th>
@@ -118,7 +118,7 @@
     </tr>
     <tr>
         <th>Exemption Credit</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalStateExemptionCredits).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Nonrefundable Renter's Credit</th>
@@ -130,7 +130,7 @@
     </tr>
     <tr>
         <th>Additional State Amount</th>
-        <td>${{vm.data.additionalStateAmount}}</td>
+        <td>${{(vm.data.additionalStateAmount).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total State Tax Owed</th>
