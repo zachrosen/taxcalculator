@@ -37,7 +37,9 @@ let federalTaxOwed = 0;
     if (AGI > results[0][filingType]) {
       federalTaxOwed += results[0][filingType] * results[0].tax_rate;
         for (let i = 1; i < 6; i++) {
+
           if (AGI > results[i][filingType]) {
+
                 federalTaxOwed += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
           } else {
               federalTaxOwed += (AGI - results[i-1][filingType]) * results[i].tax_rate;
@@ -73,12 +75,52 @@ next();
 export function stateDeductions (req: express.Request, res: express.Response, next) {
 let stateDeductions = req.body.stateDeductionsTable;
 let totalStateDeductions = 0;
+let filingType = req.body.filingType
+if (stateDeductions.length == 0) {connection.query('SELECT `deduction_amount` FROM `california_standard_deductions`', function (error, results, fields) {
+if (filingType == "Single" || filingType == "Married Filing Seperately") {
+req['totalStateDeductions'] = results[0].deduction_amount;
+next();
+}
+else if (filingType == "Married Filing Jointly" || filingType == "Head Of HouseHold" || filingType == "Qualifying Widow/Widower") {
+req['totalStateDeductions'] = results[1].deduction_amount;
+next();
+}
+else if (req.body.isDependent == true) {
+req['totalStateDeductions'] = results[2].deduction_amount;
+next();
+}
+})
+}
+if(stateDeductions.length > 0) {
  for (let i = 0; i < stateDeductions.length; i++) {
    totalStateDeductions += stateDeductions[i]['amount'];
  }
- req['totalStateDeductions'] = totalStateDeductions;
- next();
+ connection.query('SELECT `agi_threshold` FROM `california_reduction_in_itemized_deductions`', function (error, results, fields) {
+ if((filingType == "Single" || "Married Filing Seperately") && req.body.salary > results[0].agi_threshold) {
+   req['extraAmount'] = req.body.salary - results[0].agi_threshold;
+ }
+ else if((filingType == "Head Of Household") && req.body.salary > results[1].agi_threshold) {
+   req['extraAmount'] =req.body.salary - results[1].agi_threshold;
+ }
+ else if((filingType == "Married Filing Jointly" || "Qualified Widow/Widower") && req.body.salary > results[2].agi_threshold) {
+   req['extraAmount'] = req.body.salary - results[2].agi_threshold;
+ }
+
+else {req['extraAmount'] = 0;}
+
+if (totalStateDeductions*0.8 < req['extraAmount']*0.06 || req['extraAmount'] === 0) {
+   req['totalStateDeductions'] = totalStateDeductions - totalStateDeductions*0.8;
+   next();
+ }
+else {
+  req['totalStateDeductions'] = totalStateDeductions - req['extraAmount']*0.06
+  next();
+ }
+ }
+ )
 }
+}
+
 
 export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
 let stateAdjustedIncome = 0;
@@ -115,7 +157,6 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
         stateTaxOwed += (req['stateAdjustedIncome'] - results[7][filingType]) * results[8].tax_rate
         req['stateTaxOwed'] = stateTaxOwed;
         next();
-
       }
     }
   });
@@ -232,6 +273,34 @@ connection.query('SELECT sum(`fee`) AS `fee` FROM `'+state+'_ftb_cost_recovery_f
 // })
 // }
 
+export function stateMiscCredits (req: express.Request, res: express.Response, next) {
+  connection.query('SELECT `ca_misc_credits`, `misc_tax_rate`, `max_credit`, `max_ca_agi` FROM `california_misc_credits`', function (error, results, fields) {
+if(req.body.age >= 65 && req.body.filingType == "Head Of Household" && req["salary"] < results[0].max_ca_agi )
+    {
+    req["miscHouseholdCredit1"] = results[0].misc_tax_rate * req["salary"];
+    console.log(req["miscHouseholdCredit1"]);
+}
+if (req.body.age >= 65 && req.body.filingType == "Head Of Household" && req["salary"] > results[0].max_ca_agi) {
+  req["miscHouseholdCredit1"] = results[0].misc_tax_rate * results[0].max_ca_agi;
+}
+else {
+  req["miscHouseholdCredit1"] = 0;
+}
+if(req.body.filingType == "Head Of Household" || req.body.isDependent == true) {
+
+  req["miscHouseholdCredit2"] = results[1].max_credit;
+  console.log(req["miscHouseholdCredit2"]);
+}
+else {
+  req["miscHouseholdCredit2"] = 0;
+}
+req["miscStateCredit"] = req["miscHouseholdCredit1"] + req["miscHouseholdCredit2"];
+next();
+})
+}
+
+
+
 
 export function additonalStateAmount (req: express.Request, res: express.Response, next) {
 req['additionalStateAmount'] = req.body.additionalStateAmount;
@@ -288,7 +357,8 @@ export function stateExemptionCredits (req: express.Request, res: express.Respon
       next();
     });
 
-  });
+
+})
 }
 
 export function AGIBefore (req: express.Request, res: express.Response, next) {
@@ -304,5 +374,5 @@ export function AGIAfter (req: express.Request, res: express.Response, next) {
   export function sendBack (req: express.Request, res: express.Response, next) {
   res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'],
   additionalStateAmount: req['additionalStateAmount'],
-  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'] })
+  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"] })
   }
