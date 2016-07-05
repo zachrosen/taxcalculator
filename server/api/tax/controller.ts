@@ -36,7 +36,7 @@ let federalTaxOwed = 0;
     }
     if (salary > results[0][filingType]) {
       federalTaxOwed += results[0][filingType] * results[0].tax_rate;
-        for (let i = 1; i < 5; i++) {
+        for (let i = 1; i < 6; i++) {
           if (salary > results[i][filingType]) {
                 federalTaxOwed += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
           } else {
@@ -100,7 +100,7 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
     if (req['stateAdjustedIncome'] > results[0][filingType]) {
       stateTaxOwed += results[0][filingType] * results[0].tax_rate;
 
-        for (let i = 1; i < 7; i++) {
+        for (let i = 1; i < 8; i++) {
 
           if (req['stateAdjustedIncome'] > results[i][filingType]) {
                 stateTaxOwed += (results[i][filingType] - results[i-1][filingType]) * results[i].tax_rate
@@ -130,6 +130,29 @@ let totalFederalDeductions = 0;
  req['totalFederalDeductions'] = totalFederalDeductions;
  next();
 }
+
+/* export function taxableFICA (req: express.Request, res: express.Response, next) {
+let salary = req.body.salary;
+let totalSocialSecurity = 0;
+let totalMedicare = 0;
+let totalAdditionalMedicare = 0;
+let totalTaxableFICA = 0;
+connection.query('SELECT `tax_type`, `max_earnings`, `fica_tax_rate` FROM `federal_fica_tax`', function (error, results, fields) {
+// for loop
+  /* if (salary <= results[0].max_earnings) {
+    totalSocialSecurity += salary * results[0].fica_tax_rate;
+    req['totalSocialSecurity'] = totalSocialSecurity;
+  }
+  if (salary > results[0].max_earnings) {
+    totalSocialSecurity += results[0].max_earnings * results[0].fica_tax_rate;
+    req['totalSocialSecurity'] = totalSocialSecurity;
+  }
+  if (salary <= results[1].max_earnings) {
+    totalMedicare += salary * results[1]
+  }
+
+});
+}*/
 
 
 export function californiaSDI (req: express.Request, res: express.Response, next) {
@@ -202,9 +225,62 @@ req['additionalStateAmount'] = req.body.additionalStateAmount;
 next();
 }
 
+export function californiaTaxableMentalHealth (req: express.Request, res: express.Response, next) {
+  let totalCaliforniaTaxableMentalHealth = 0;
+  connection.query('SELECT `california_mental_health_services_tax_rate`, `taxable_income_in_access_of` FROM `california_mental_health_services_tax`', function (error, results, fields) {
+    if(req['stateAdjustedIncome'] > results[0].taxable_income_in_access_of) {
+      totalCaliforniaTaxableMentalHealth += (req['stateAdjustedIncome'] - results[0].taxable_income_in_access_of) * results[0].california_mental_health_services_tax_rate;
+      req['totalCaliforniaTaxableMentalHealth'] = totalCaliforniaTaxableMentalHealth;
+      next();
+    } else {
+      req['totalCaliforniaTaxableMentalHealth'] = totalCaliforniaTaxableMentalHealth;
+      next();
+    }
+  });
+}
+
+export function stateExemptionCredits (req: express.Request, res: express.Response, next) {
+  let age = req.body.age;
+  let dependent = req.body.isDependent;
+  let blind = req.body.isBlind;
+  let filingType = req.body.filingType;
+  let totalStateExemptionCredits = 0;
+  let salary = req.body.salary;
+  connection.query('SELECT `filing_status_qualification`, `exemption_amount` FROM `california_exemption_credits`', function (error, results, fields) {
+    if (dependent == true) {
+      totalStateExemptionCredits += results[5].exemption_amount;
+    }
+    if (blind == true) {
+      totalStateExemptionCredits += results[6].exemption_amount;
+    }
+    if (age >= results[7].filing_status_qualification) {
+      totalStateExemptionCredits += results[7].exemption_amount;
+    }
+    for (let i = 0; i < 5; i++) {
+      if(results[i].filing_status_qualification == filingType) {
+        totalStateExemptionCredits += results[i].exemption_amount;
+        break;
+      }
+    }
+    connection.query('SELECT `filing_status`, `reduce_each_credit_by`, `for_each`, `federal_agi_exceeds` FROM `california_phaseout_of_exemption_credits`', function (error, results, fields) {
+      for (let i = 0; i < 5; i++) {
+        if(results[i].filing_status == filingType) {
+          totalStateExemptionCredits -= Math.floor((salary - results[i].federal_agi_exceeds) / results[i].for_each) * results[i].reduce_each_credit_by;
+          break;
+        }
+      }
+      if (totalStateExemptionCredits <= 0) {
+        totalStateExemptionCredits = 0;
+      }
+      req['totalStateExemptionCredits'] = totalStateExemptionCredits;
+    });
+    next();
+  });
+}
+
 export function sendBack (req: express.Request, res: express.Response, next) {
 
-
-res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'], additionalStateAmount: req['additionalStateAmount'] })
+res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'], additionalStateAmount: req['additionalStateAmount'],
+totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'] })
 
 }
