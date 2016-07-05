@@ -131,43 +131,42 @@ let totalFederalDeductions = 0;
  next();
 }
 
- export function taxableFICA (req: express.Request, res: express.Response, next) {
-let AGI = req['AGIAfterExemptions'];
-let totalSocialSecurity = 0;
-let totalMedicare = 0;
-let totalAdditionalMedicare = 0;
-let totalTaxableFICA = 0;
-connection.query('SELECT `tax_type`, `max_earnings`, `fica_tax_rate` FROM `federal_fica_tax`', function (error, results, fields) {
-// for loop
-  if (AGI <= results[0].max_earnings) {
-    totalSocialSecurity += AGI * results[0].fica_tax_rate;
-    req['totalSocialSecurity'] = totalSocialSecurity;
-  }
-  if (AGI > results[0].max_earnings) {
-    totalSocialSecurity += results[0].max_earnings * results[0].fica_tax_rate;
-    req['totalSocialSecurity'] = totalSocialSecurity;
-  }
-  if (AGI <= results[1].max_earnings) {
-    totalMedicare += AGI * results[1].fica_tax_rate;
-    req['totalMedicare'] = totalMedicare;
-  }
-  if (AGI > results[1].max_earnings) {
-    totalMedicare += results[1].max_earnings * results[1].fica_tax_rate;
-    req['totalMedicare'] = totalMedicare;
-  }
-  if (AGI <= results[2].max_earnings) {
-    req['totalAdditionalMedicare'] = 0;
-  }
-  if (AGI > results[2].max_earnings) {
-    totalAdditionalMedicare += (AGI - results[2].max_earnings) * results[2].fica_tax_rate;
-    req['totalAdditionalMedicare'] = totalAdditionalMedicare;
-  }
-  totalTaxableFICA += req['totalSocialSecurity'] + req['totalMedicare'] + req['totalAdditionalMedicare'];
-  req['totalTaxableFICA'] = totalTaxableFICA;
-  next();
-});
+export function taxableFICA (req: express.Request, res: express.Response, next) {
+  let AGI = req['AGIAfterExemptions'];
+  let totalSocialSecurity = 0;
+  let totalMedicare = 0;
+  let totalAdditionalMedicare = 0;
+  let totalTaxableFICA = 0;
+  connection.query('SELECT `tax_type`, `max_earnings`, `fica_tax_rate` FROM `federal_fica_tax`', function (error, results, fields) {
+  // for loop
+    if (AGI <= results[0].max_earnings) {
+      totalSocialSecurity += AGI * results[0].fica_tax_rate;
+      req['totalSocialSecurity'] = totalSocialSecurity;
+    }
+    if (AGI > results[0].max_earnings) {
+      totalSocialSecurity += results[0].max_earnings * results[0].fica_tax_rate;
+      req['totalSocialSecurity'] = totalSocialSecurity;
+    }
+    if (AGI <= results[1].max_earnings) {
+      totalMedicare += AGI * results[1].fica_tax_rate;
+      req['totalMedicare'] = totalMedicare;
+    }
+    if (AGI > results[1].max_earnings) {
+      totalMedicare += results[1].max_earnings * results[1].fica_tax_rate;
+      req['totalMedicare'] = totalMedicare;
+    }
+    if (AGI <= results[2].max_earnings) {
+      req['totalAdditionalMedicare'] = 0;
+    }
+    if (AGI > results[2].max_earnings) {
+      totalAdditionalMedicare += (AGI - results[2].max_earnings) * results[2].fica_tax_rate;
+      req['totalAdditionalMedicare'] = totalAdditionalMedicare;
+    }
+    totalTaxableFICA += req['totalSocialSecurity'] + req['totalMedicare'] + req['totalAdditionalMedicare'];
+    req['totalTaxableFICA'] = totalTaxableFICA;
+    next();
+  });
 }
-
 
 export function californiaSDI (req: express.Request, res: express.Response, next) {
   let totalCaliforniaSDI = 0;
