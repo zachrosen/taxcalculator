@@ -121,7 +121,6 @@ export function nonrefundableRentersCredit(req: express.Request, res: express.Re
 
       connection.query('SELECT `state_agi`, `' + filingType + '` FROM `' + state + '_nonrefundable_renters_credit`', function(error, results, fields) {
           if (isRenter === true) {
-            console.log(results);
               if (results[1][filingType] == 0) {
                   if (req['stateAdjustedIncome'] >= results[0].state_agi) {
                       req['nonrefundableRentersCredit'] = 0;
@@ -139,7 +138,6 @@ export function nonrefundableRentersCredit(req: express.Request, res: express.Re
           } else {
               req['nonrefundableRentersCredit'] = 0;
           }
-          console.log(req['nonrefundableRentersCredit']);
           next();
       })
   }
