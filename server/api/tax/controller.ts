@@ -198,11 +198,20 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
 export function FederalDeductions (req: express.Request, res: express.Response, next) {
 let federalDeductions = req.body.federalDeductionsTable;
 let totalFederalDeductions = 0;
+if(federalDeductions.length = 0) {
+
+connection.query('SELECT `tax_rate` FROM `tax`', function (error, results, fields) {
+
+})
+
+}
+if(federalDeductions.length > 0) {
  for (let i = 0; i < federalDeductions.length; i++) {
    totalFederalDeductions += federalDeductions[i]['amount'];
  }
  req['totalFederalDeductions'] = totalFederalDeductions;
  next();
+ }
 }
 
 export function taxableFICA (req: express.Request, res: express.Response, next) {

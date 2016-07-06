@@ -28,6 +28,9 @@
         <label>Age</label>
         <input type="number" class="hcenter" ng-model="vm.tax.age" placeholder="Age" min="0" id="age">
         <br>
+        <label>Spouse Age (If Applicable)</label>
+        <input type="number" class="hcenter" ng-model="vm.tax.spouseAge" placeholder="Age" min="0" id="age">
+        <br>
         <label>Are you..?</label>
         <br>
         <span>
@@ -38,6 +41,13 @@
           <label>Qualified Renter</label>
           <input type="checkbox" ng-model="vm.tax.isRenter">
         </span>
+        <br>
+        <br>
+        <label>Is Your Spouse..?</label>
+        <span>
+        <label>Blind</label>
+        <input type="checkbox" ng-model="vm.tax.spouseBlind">
+      </span>
         <br>
         <br>
         <label>Filing Type</label>
