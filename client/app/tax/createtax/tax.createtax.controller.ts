@@ -1,24 +1,24 @@
 namespace app {
   export class TaxCreateTaxController {
     public tax:ITax = {_id: null,
-    salary: null,
-    age: null,
-    spouseAge: null,
+    salary: 0,
+    age: 0,
+    spouseAge: 0,
     isBlind: null,
     isDependent: null,
     isRenter: null,
     spouseBlind: null,
     filingType: null,
-    retirement: null,
-    alimony: null,
-    studentLoanInterest: null,
+    retirement: 0,
+    alimony: 0,
+    studentLoanInterest: 0,
     federalDeductionsTable: [],
-    numberOfExemptions: null,
+    numberOfExemptions: 0,
     creditTable: [],
-    aditionalFederalAmount: null,
+    aditionalFederalAmount: 0,
     state: null,
     stateDeductionsTable: [],
-    additionalStateAmount: null}
+    additionalStateAmount: 0}
 
     public federalDeductionsTable= [];
     public creditTable= [];

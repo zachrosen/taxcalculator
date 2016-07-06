@@ -68,10 +68,6 @@ let totalCredits = 0;
 }
 
 export function additonalFederalAmount (req: express.Request, res: express.Response, next) {
-  if(req.body.additionalFederalAmount == null) {
-    req['additionalFederalAmount'] = 0;
-    next();
-  }
 req['additionalFederalAmount'] = req.body.additionalFederalAmount;
 next();
 }
@@ -198,7 +194,7 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
 export function FederalDeductions (req: express.Request, res: express.Response, next) {
 let federalDeductions = req.body.federalDeductionsTable;
 let totalFederalDeductions = 0;
-if(federalDeductions.length = 0) {
+if(federalDeductions.length === 0) {
 
 connection.query('SELECT `tax_rate` FROM `tax`', function (error, results, fields) {
 
@@ -324,10 +320,6 @@ next();
 
 
 export function additonalStateAmount (req: express.Request, res: express.Response, next) {
-  if(req.body.additionalStateAmount == null) {
-    req['additionalStateAmount'] = 0;
-    next();
-  }
 req['additionalStateAmount'] = req.body.additionalStateAmount;
 next();
 }
