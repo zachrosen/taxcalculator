@@ -131,32 +131,32 @@ next();
 }
 
 export function nonrefundableRentersCredit(req: express.Request, res: express.Response, next) {
-      let filingType = req.body.filingType;
-      let state = req.body.state.toLowerCase();
-      let isRenter = req.body.isRenter;
+    let filingType = req.body.filingType;
+    let state = req.body.state.toLowerCase();
+    let isRenter = req.body.isRenter;
 
-      connection.query('SELECT `state_agi`, `' + filingType + '` FROM `' + state + '_nonrefundable_renters_credit`', function(error, results, fields) {
-          if (isRenter === true) {
-              if (results[1][filingType] == 0) {
-                  if (req['stateAdjustedIncome'] >= results[0].state_agi) {
-                      req['nonrefundableRentersCredit'] = 0;
-                  } else {
-                      req['nonrefundableRentersCredit'] = results[0][filingType];
-                  }
+    connection.query('SELECT `state_agi`, `' + filingType + '` FROM `' + state + '_nonrefundable_renters_credit`', function(error, results, fields) {
+        if (isRenter === true) {
+            if (results[1][filingType] == 0) {
+                if (req['stateAdjustedIncome'] >= results[0].state_agi) {
+                    req['nonrefundableRentersCredit'] = 0;
+                } else {
+                    req['nonrefundableRentersCredit'] = results[0][filingType];
+                }
 
-              } else {
-                  if (req['stateAdjustedIncome'] >= results[1].state_agi) {
-                      req['nonrefundableRentersCredit'] = 0;
-                  } else {
-                      req['nonrefundableRentersCredit'] = results[1][filingType];
-                  }
-              }
-          } else {
-              req['nonrefundableRentersCredit'] = 0;
-          }
-          next();
-      })
-  }
+            } else {
+                if (req['stateAdjustedIncome'] >= results[1].state_agi) {
+                    req['nonrefundableRentersCredit'] = 0;
+                } else {
+                    req['nonrefundableRentersCredit'] = results[1][filingType];
+                }
+            }
+        } else {
+            req['nonrefundableRentersCredit'] = 0;
+        }
+        next();
+    })
+}
 
 export function stateTaxAmount (req: express.Request, res: express.Response, next) {
   let filingType = req.body.filingType;
@@ -283,16 +283,6 @@ export function totalExemptions(req: express.Request, res: express.Response, nex
 
 
 
-export function ftbCostRecoveryFees(req: express.Request, res: express.Response, next) {
-  let state = req.body.state.toLowerCase();
-  let ftbCostRecoveryFeesOwed = 0;
-
-connection.query('SELECT sum(`fee`) AS `fee` FROM `'+state+'_ftb_cost_recovery_fees`', function(error, results, fields) {
-  req['ftbCostRecoveryFeesOwed'] = results[0].fee;
-  next();
-})
-}
-
 export function stateMiscCredits (req: express.Request, res: express.Response, next) {
   connection.query('SELECT `ca_misc_credits`, `misc_tax_rate`, `max_credit`, `max_ca_agi` FROM `california_misc_credits`', function (error, results, fields) {
 if(req.body.age >= 65 && req.body.filingType == "Head Of Household" && req['stateAdjustedIncome'] < results[0].max_ca_agi )
@@ -391,6 +381,6 @@ export function AGIAfter (req: express.Request, res: express.Response, next) {
 
   export function sendBack (req: express.Request, res: express.Response, next) {
   res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'],
-  additionalStateAmount: req['additionalStateAmount'],
+  nonrefundableRentersCredit: req['nonrefundableRentersCredit'], additionalStateAmount: req['additionalStateAmount'],
   totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"] })
   }
