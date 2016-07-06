@@ -293,15 +293,6 @@ connection.query('SELECT sum(`fee`) AS `fee` FROM `'+state+'_ftb_cost_recovery_f
 })
 }
 
-// export function nonrefundableRentersCredit(req: express.Request, res: express.Response, next) {
-//   let filingType = req.body.filingType;
-//   let state = req.body.state.toLowerCase();
-//
-// connection.query('SELECT `filing_status/qualification`, `exemption_amount` FROM `'+state+'_exemption_credits`', function (error, results, fields) {
-//   //console.log(results[0]);
-// })
-// }
-
 export function stateMiscCredits (req: express.Request, res: express.Response, next) {
   connection.query('SELECT `ca_misc_credits`, `misc_tax_rate`, `max_credit`, `max_ca_agi` FROM `california_misc_credits`', function (error, results, fields) {
 if(req.body.age >= 65 && req.body.filingType == "Head Of Household" && req['stateAdjustedIncome'] < results[0].max_ca_agi )
