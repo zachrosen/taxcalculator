@@ -75,7 +75,8 @@ next();
 export function stateDeductions (req: express.Request, res: express.Response, next) {
 let stateDeductions = req.body.stateDeductionsTable;
 let totalStateDeductions = 0;
-let filingType = req.body.filingType
+let filingType = req.body.filingType;
+let AGI = req['AGIAfterExemptions'];
 if (stateDeductions.length == 0) {connection.query('SELECT `deduction_amount` FROM `california_standard_deductions`', function (error, results, fields) {
 if (filingType == "Single" || filingType == "Married Filing Seperately") {
 req['totalStateDeductions'] = results[0].deduction_amount;
@@ -97,13 +98,13 @@ if(stateDeductions.length > 0) {
  }
  connection.query('SELECT `agi_threshold` FROM `california_reduction_in_itemized_deductions`', function (error, results, fields) {
  if((filingType == "Single" || "Married Filing Seperately") && req.body.salary > results[0].agi_threshold) {
-   req['extraAmount'] = req.body.salary - results[0].agi_threshold;
+   req['extraAmount'] = AGI - results[0].agi_threshold;
  }
  else if((filingType == "Head Of Household") && req.body.salary > results[1].agi_threshold) {
-   req['extraAmount'] =req.body.salary - results[1].agi_threshold;
+   req['extraAmount'] =AGI - results[1].agi_threshold;
  }
  else if((filingType == "Married Filing Jointly" || "Qualified Widow/Widower") && req.body.salary > results[2].agi_threshold) {
-   req['extraAmount'] = req.body.salary - results[2].agi_threshold;
+   req['extraAmount'] = AGI - results[2].agi_threshold;
  }
 
 else {req['extraAmount'] = 0;}
@@ -275,12 +276,11 @@ connection.query('SELECT sum(`fee`) AS `fee` FROM `'+state+'_ftb_cost_recovery_f
 
 export function stateMiscCredits (req: express.Request, res: express.Response, next) {
   connection.query('SELECT `ca_misc_credits`, `misc_tax_rate`, `max_credit`, `max_ca_agi` FROM `california_misc_credits`', function (error, results, fields) {
-if(req.body.age >= 65 && req.body.filingType == "Head Of Household" && req["salary"] < results[0].max_ca_agi )
+if(req.body.age >= 65 && req.body.filingType == "Head Of Household" && req['stateAdjustedIncome'] < results[0].max_ca_agi )
     {
-    req["miscHouseholdCredit1"] = results[0].misc_tax_rate * req["salary"];
-    console.log(req["miscHouseholdCredit1"]);
+    req["miscHouseholdCredit1"] = results[0].misc_tax_rate * req['stateAdjustedIncome'];
 }
-if (req.body.age >= 65 && req.body.filingType == "Head Of Household" && req["salary"] > results[0].max_ca_agi) {
+if (req.body.age >= 65 && req.body.filingType == "Head Of Household" && req['stateAdjustedIncome'] > results[0].max_ca_agi) {
   req["miscHouseholdCredit1"] = results[0].misc_tax_rate * results[0].max_ca_agi;
 }
 else {
@@ -289,7 +289,6 @@ else {
 if(req.body.filingType == "Head Of Household" || req.body.isDependent == true) {
 
   req["miscHouseholdCredit2"] = results[1].max_credit;
-  console.log(req["miscHouseholdCredit2"]);
 }
 else {
   req["miscHouseholdCredit2"] = 0;
