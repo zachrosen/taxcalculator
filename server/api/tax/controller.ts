@@ -68,6 +68,10 @@ let totalCredits = 0;
 }
 
 export function additonalFederalAmount (req: express.Request, res: express.Response, next) {
+  if(req.body.additionalFederalAmount == null) {
+    req['additionalFederalAmount'] = 0;
+    next();
+  }
 req['additionalFederalAmount'] = req.body.additionalFederalAmount;
 next();
 }
@@ -311,6 +315,10 @@ next();
 
 
 export function additonalStateAmount (req: express.Request, res: express.Response, next) {
+  if(req.body.additionalStateAmount == null) {
+    req['additionalStateAmount'] = 0;
+    next();
+  }
 req['additionalStateAmount'] = req.body.additionalStateAmount;
 next();
 }
@@ -379,8 +387,43 @@ export function AGIAfter (req: express.Request, res: express.Response, next) {
     next();
   }
 
+export function totalFederal (req: express.Request, res: express.Response, next) {
+  let totalFederal = 0;
+  totalFederal += req['federalTaxOwed'] + req['totalTaxableFICA'] - req['totalFederalCredits'] + req['additionalFederalAmount'];
+  if(totalFederal <= 0) {
+    totalFederal = 0;
+  }
+  req['totalFederal'] = totalFederal;
+  next();
+}
+
+export function totalState (req: express.Request, res: express.Response, next) {
+  let totalState = 0;
+  totalState += req['stateTaxOwed'] + req['totalCaliforniaSDI'] + req['totalCaliforniaTaxableMentalHealth'] - req['totalStateExemptionCredits'] - req['nonrefundableRentersCredit'] - req["miscStateCredit"] + req['additionalStateAmount'];
+  if(totalState <= 0) {
+    totalState = 0;
+  }
+  req['totalState'] = totalState;
+  next();
+}
+
+export function totalTaxes (req: express.Request, res: express.Response, next) {
+  let totalTaxes = 0;
+  totalTaxes += req['totalFederal'] + req['totalState'];
+  req['totalTaxes'] = totalTaxes;
+  next();
+}
+
+export function incomeAfterTaxes (req: express.Request, res: express.Response, next) {
+  let incomeAfterTaxes = 0;
+  incomeAfterTaxes += req['salary'] - req['totalTaxes'];
+  req['incomeAfterTaxes'] = incomeAfterTaxes;
+  next();
+}
+
   export function sendBack (req: express.Request, res: express.Response, next) {
-  res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'],
+  res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalFederalCredits:  req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'],totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'],
+  totalCaliforniaSDI: req['totalCaliforniaSDI'],
   nonrefundableRentersCredit: req['nonrefundableRentersCredit'], additionalStateAmount: req['additionalStateAmount'],
-  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"] })
+  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes'] })
   }

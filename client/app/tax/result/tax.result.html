@@ -68,7 +68,7 @@
     </tr>
     <tr>
         <th>Total Federal Tax Owed</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalFederal).toFixed(2)}}</td>
     </tr>
 </table>
 </div>
@@ -122,7 +122,7 @@
     </tr>
     <tr>
         <th>Nonrefundable Renter's Credit</th>
-        <td>${{vm.data.nonrefundableRentersCredit}}</td>
+        <td>${{(vm.data.nonrefundableRentersCredit).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Miscellaneous Credit</th>
@@ -134,7 +134,7 @@
     </tr>
     <tr>
         <th>Total State Tax Owed</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalState).toFixed(2)}}</td>
     </tr>
 </table>
 </div>
@@ -148,23 +148,23 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>Amount</td>
+        <td>${{(vm.data.salary).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Federal Taxes</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalFederal).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total State Taxes</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalState).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Taxes Owed</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalTaxes).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Income After Taxes</th>
-        <td>Amount</td>
+        <td>${{(vm.data.incomeAfterTaxes).toFixed(2)}}</td>
     </tr>
 </table>
 </div>
