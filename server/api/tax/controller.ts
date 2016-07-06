@@ -130,6 +130,34 @@ req['stateAdjustedIncome'] = stateAdjustedIncome;
 next();
 }
 
+export function nonrefundableRentersCredit(req: express.Request, res: express.Response, next) {
+      let filingType = req.body.filingType;
+      let state = req.body.state.toLowerCase();
+      let isRenter = req.body.isRenter;
+
+      connection.query('SELECT `state_agi`, `' + filingType + '` FROM `' + state + '_nonrefundable_renters_credit`', function(error, results, fields) {
+          if (isRenter === true) {
+              if (results[1][filingType] == 0) {
+                  if (req['stateAdjustedIncome'] >= results[0].state_agi) {
+                      req['nonrefundableRentersCredit'] = 0;
+                  } else {
+                      req['nonrefundableRentersCredit'] = results[0][filingType];
+                  }
+
+              } else {
+                  if (req['stateAdjustedIncome'] >= results[1].state_agi) {
+                      req['nonrefundableRentersCredit'] = 0;
+                  } else {
+                      req['nonrefundableRentersCredit'] = results[1][filingType];
+                  }
+              }
+          } else {
+              req['nonrefundableRentersCredit'] = 0;
+          }
+          next();
+      })
+  }
+
 export function stateTaxAmount (req: express.Request, res: express.Response, next) {
   let filingType = req.body.filingType;
   let state = req.body.state.toLowerCase();
