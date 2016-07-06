@@ -194,10 +194,12 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
 export function FederalDeductions (req: express.Request, res: express.Response, next) {
 let federalDeductions = req.body.federalDeductionsTable;
 let totalFederalDeductions = 0;
-if(federalDeductions.length = 0) {
+if(federalDeductions.length === 0) {
 
-connection.query('SELECT `tax_rate` FROM `tax`', function (error, results, fields) {
-
+connection.query('SELECT * FROM `federal_standard_deductions`, `federal_standard_deductions_65_blind`, `federal_standard_deduction_for_dependants`', function (error, results, fields) {
+console.log(results[0].standard_deduction_amount);
+console.log(results[0].standard_deduction);
+console.log(results[2].value_of_use);
 })
 
 }
