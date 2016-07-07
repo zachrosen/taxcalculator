@@ -8,22 +8,36 @@ namespace app {
     isDependent: null,
     isRenter: null,
     spouseBlind: null,
-    filingType: "Single",
+    filingType: null,
     retirement: null,
     alimony: null,
     studentLoanInterest: null,
-    federalDeductionsTable: [{}],
+    federalDeductionsTable: [],
     numberOfExemptions: null,
     creditTable: [],
     additionalFederalAmount: null,
-    state: "California",
-    stateDeductionsTable: [{}],
+    state: null,
+    stateDeductionsTable: [],
     additionalStateAmount: null}
 
     public federalDeductionsTable= [];
     public creditTable= [];
     public stateDeductionsTable= [];
 
+    public move() {
+  var elem = document.getElementById("myBar");
+  var width = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+    } else {
+      width = width++;
+      elem.style.width = width + '%';
+      document.getElementById("demo").innerHTML = width * 1  + '%';
+    }
+  }
+}
 
     public addFederalDeduction() {
       this.tax.federalDeductionsTable.push({
@@ -74,7 +88,9 @@ namespace app {
       private TaxService: app.TaxService,
       private $state: ng.ui.IStateService
     ) {
-
+  this.tax.creditTable = [];
+  this.tax.federalDeductionsTable = [];
+  this.tax.stateDeductionsTable = [];
     }
   }
   angular.module('app').controller('TaxCreateTaxController', TaxCreateTaxController);
