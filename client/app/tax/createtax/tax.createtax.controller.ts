@@ -15,7 +15,7 @@ namespace app {
     federalDeductionsTable: [{}],
     numberOfExemptions: null,
     creditTable: [],
-    aditionalFederalAmount: null,
+    additionalFederalAmount: null,
     state: "California",
     stateDeductionsTable: [{}],
     additionalStateAmount: null}
