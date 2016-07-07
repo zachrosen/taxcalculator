@@ -8,7 +8,7 @@ namespace app {
     isDependent: null,
     isRenter: null,
     spouseBlind: null,
-    filingType: null,
+    filingType: "Single",
     retirement: null,
     alimony: null,
     studentLoanInterest: null,
@@ -16,7 +16,7 @@ namespace app {
     numberOfExemptions: null,
     creditTable: [],
     aditionalFederalAmount: null,
-    state: null,
+    state: "California",
     stateDeductionsTable: [{}],
     additionalStateAmount: null}
 
