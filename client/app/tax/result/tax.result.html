@@ -1,4 +1,7 @@
 <link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://bootswatch.com/paper/bootstrap.min.css">
+
 
 <br>
 <div class="hcenter">
@@ -8,7 +11,7 @@
 <br>
 <div class="hcenter well container" id="responsive-form">
   <div class="floatLeft column-half">
-<h1 class="hcenter fed-min">Federal Tax Results</h1>
+<h1>Federal Tax Results</h1>
 <table align="center" class="topTables">
     <tr>
         <th>Category</th>
@@ -68,7 +71,7 @@
     </tr>
     <tr>
         <th>Total Federal Tax Owed</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalFederal).toFixed(2)}}</td>
     </tr>
 </table>
 </div>
@@ -134,7 +137,7 @@
     </tr>
     <tr>
         <th>Total State Tax Owed</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalState).toFixed(2)}}</td>
     </tr>
 </table>
 </div>
@@ -148,23 +151,23 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>Amount</td>
+        <td>${{(vm.data.salary).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Federal Taxes</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalFederal).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total State Taxes</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalState).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Total Taxes Owed</th>
-        <td>Amount</td>
+        <td>${{(vm.data.totalTaxes).toFixed(2)}}</td>
     </tr>
     <tr>
         <th>Income After Taxes</th>
-        <td>Amount</td>
+        <td>${{(vm.data.incomeAfterTaxes).toFixed(2)}}</td>
     </tr>
 </table>
 </div>
