@@ -78,7 +78,7 @@ let totalStateDeductions = 0;
 let filingType = req.body.filingType;
 let AGI = req['AGIAfterExemptions'];
 if (stateDeductions.length == 0) {connection.query('SELECT `deduction_amount` FROM `california_standard_deductions`', function (error, results, fields) {
-if (filingType == "Single" || filingType == "Married Filing Seperately") {
+if (filingType == "Single" || filingType == "Married Filing Separately") {
 req['totalStateDeductions'] = results[0].deduction_amount;
 next();
 }
@@ -97,7 +97,7 @@ if(stateDeductions.length > 0) {
    totalStateDeductions += stateDeductions[i]['amount'];
  }
  connection.query('SELECT `agi_threshold` FROM `california_reduction_in_itemized_deductions`', function (error, results, fields) {
- if((filingType == "Single" || "Married Filing Seperately") && req.body.salary > results[0].agi_threshold) {
+ if((filingType == "Single" || "Married Filing Separately") && req.body.salary > results[0].agi_threshold) {
    req['extraAmount'] = AGI - results[0].agi_threshold;
  }
  else if((filingType == "Head Of Household") && req.body.salary > results[1].agi_threshold) {
@@ -192,14 +192,190 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
 }
 
 export function FederalDeductions (req: express.Request, res: express.Response, next) {
+let blind = req.body.isBlind;
+let dependent = req.body.isDependent;
+let age = req.body.age;
+let filingType = req.body.filingType;
+let spouseAge = req.body.spouseAge;
+let spouseBlind = req.body.spouseBlind;
 let federalDeductions = req.body.federalDeductionsTable;
+let boxNumber = 0;
+let salary = req.body.salary;
 let totalFederalDeductions = 0;
 if(federalDeductions.length === 0) {
-
 connection.query('SELECT * FROM `federal_standard_deductions`, `federal_standard_deductions_65_blind`, `federal_standard_deduction_for_dependants`', function (error, results, fields) {
-console.log(results[0].standard_deduction_amount);
-console.log(results[0].standard_deduction);
-console.log(results[2].value_of_use);
+if (blind == null && dependent == null && age < 65) {
+  for (let i = 0; i < 321; i++) {
+    if (results[i].filing_status == filingType) {
+      totalFederalDeductions += results[i].standard_deduction_amount;
+      req['totalFederalDeductions'] = totalFederalDeductions;
+      break;
+    }
+  }
+  next();
+}
+if ((blind == true && dependent == null) || (age >= 65 && dependent == null)) {
+  if (blind == true) {
+    boxNumber += 1;
+  }
+  if (age >= 65) {
+    boxNumber += 1;
+  }
+  if (spouseBlind == true) {
+    boxNumber += 1;
+  }
+  if (spouseAge >= 65) {
+    boxNumber += 1;
+  }
+  console.log(results.length);
+   for (let i = 0; i < 321; i++) {
+     console.log(boxNumber);
+     console.log('this one is before if statement^');
+     if (results[i].filing_type == filingType && results[i].number_of_checked_boxes == boxNumber) {
+       console.log(boxNumber);
+       totalFederalDeductions += results[i].standard_deduction;
+       console.log(totalFederalDeductions);
+       req['totalFederalDeductions'] = totalFederalDeductions;
+       console.log(req['totalFederalDeductions']);
+       break;
+     }
+  }
+  next();
+}
+if (dependent == true) {
+  totalFederalDeductions += salary + results[0].value_of_use;
+  // if sal + 350 > 1050
+  if (totalFederalDeductions > results[1].value_of_use && age < 65 && blind == null) {
+    for (let i = 0; i < 5; i++) {
+      // if right filing type and (sal + 350 > your filings type's amount)
+      if (results[i].filing_status == filingType && totalFederalDeductions > results[i].standard_deduction_amount) {
+        // total fed deduct is just your filings type's amount
+        totalFederalDeductions *= 0;
+        totalFederalDeductions += results[i].standard_deduction_amount;
+        req['totalFederalDeductions'] = totalFederalDeductions;
+        break;
+      }
+      // if right filing type and (sal + 350 < your filings type's amount)
+      if (results[i].filing_status == filingType && totalFederalDeductions < results[i].standard_deduction_amount) {
+        // total fed deduct is just your (sal + 350)
+        req['totalFederalDeductions'] = totalFederalDeductions;
+        break;
+      }
+    }
+    next();
+  }
+  // if (sal + 350) < 1050
+  if (totalFederalDeductions < results[1].value_of_use && age < 65 && blind == null) {
+    for (let i = 0; i < 5; i++) {
+      // if right filing type and (1050 < your filings type's amount)
+      if (results[i].filing_status == filingType && results[1].value_of_use < results[i].standard_deduction_amount) {
+        // total fed deduct is 1050
+        totalFederalDeductions *= 0;
+        totalFederalDeductions += results[1].value_of_use;
+        req['totalFederalDeductions'] = totalFederalDeductions;
+        break;
+      }
+    }
+    next();
+  }
+  // if sal + 350 > 1050
+  if (totalFederalDeductions > results[1].value_of_use && (age >= 65 || blind == true)) {
+    for (let i = 0; i < 5; i++) {
+      // if right filing type and (sal + 350 > your filings type's amount)
+      if (results[i].filing_status == filingType && totalFederalDeductions > results[i].standard_deduction_amount) {
+        // total fed deduct is just your filings type's amount
+        totalFederalDeductions *= 0;
+        totalFederalDeductions += results[i].standard_deduction_amount;
+        let boxNumber = 0;
+        if (blind == true) {
+          boxNumber += 1;
+        }
+        if (age >= 65) {
+          boxNumber += 1;
+        }
+        if (spouseBlind == true) {
+          boxNumber += 1;
+        }
+        if (spouseAge >= 65) {
+          boxNumber += 1;
+        }
+        if (filingType !== 'Married Filing Jointly' || filingType !== 'Married Filing Separately') {
+          // * by 1,550 by the number in the box above
+          totalFederalDeductions += results[2].value_of_use * boxNumber;
+        }
+        if (filingType == 'Married Filing Jointly' || filingType == 'Married Filing Separately') {
+          // * by ($1,250 if married) by the number in the box above and ADD to
+          totalFederalDeductions += results[3].value_of_use * boxNumber;
+        }
+        req['totalFederalDeductions'] = totalFederalDeductions;
+        break;
+      }
+      // if right filing type and (sal + 350 < your filings type's amount)
+      if (results[i].filing_status == filingType && totalFederalDeductions < results[i].standard_deduction_amount) {
+        // total fed deduct is just your (sal + 350)
+        let boxNumber = 0;
+        if (blind == true) {
+          boxNumber += 1;
+        }
+        if (age >= 65) {
+          boxNumber += 1;
+        }
+        if (spouseBlind == true) {
+          boxNumber += 1;
+        }
+        if (spouseAge >= 65) {
+          boxNumber += 1;
+        }
+        if (filingType !== 'Married Filing Jointly' || filingType !== 'Married Filing Separately') {
+          // * by 1,550 by the number in the box above
+          totalFederalDeductions += results[2].value_of_use * boxNumber;
+        }
+        if (filingType == 'Married Filing Jointly' || filingType == 'Married Filing Separately') {
+          // * by ($1,250 if married) by the number in the box above and ADD to
+          totalFederalDeductions += results[3].value_of_use * boxNumber;
+        }
+        req['totalFederalDeductions'] = totalFederalDeductions;
+        break;
+      }
+    }
+    next();
+  }
+  // if (sal + 350) < 1050
+  if (totalFederalDeductions < results[1].value_of_use && (age >= 65 || blind == true)) {
+    for (let i = 0; i < 5; i++) {
+      // if right filing type and (1050 < your filings type's amount)
+      if (results[i].filing_status == filingType && results[1].value_of_use < results[i].standard_deduction_amount) {
+        // total fed deduct is 1050
+        totalFederalDeductions *= 0;
+        totalFederalDeductions += results[1].value_of_use;
+        let boxNumber = 0;
+        if (blind == true) {
+          boxNumber += 1;
+        }
+        if (age >= 65) {
+          boxNumber += 1;
+        }
+        if (spouseBlind == true) {
+          boxNumber += 1;
+        }
+        if (spouseAge >= 65) {
+          boxNumber += 1;
+        }
+        if (filingType !== 'Married Filing Jointly' || filingType !== 'Married Filing Separately') {
+          // * by 1,550 by the number in the box above
+          totalFederalDeductions += results[2].value_of_use * boxNumber;
+        }
+        if (filingType == 'Married Filing Jointly' || filingType == 'Married Filing Separately') {
+          // * by ($1,250 if married) by the number in the box above and ADD to
+          totalFederalDeductions += results[3].value_of_use * boxNumber;
+        }
+        req['totalFederalDeductions'] = totalFederalDeductions;
+        break;
+      }
+    }
+    next();
+  }
+}
 })
 
 }
@@ -390,8 +566,43 @@ export function AGIAfter (req: express.Request, res: express.Response, next) {
     next();
   }
 
+export function totalFederal (req: express.Request, res: express.Response, next) {
+  let totalFederal = 0;
+  totalFederal += req['federalTaxOwed'] + req['totalTaxableFICA'] - req['totalFederalCredits'] + req['additionalFederalAmount'];
+  if(totalFederal <= 0) {
+    totalFederal = 0;
+  }
+  req['totalFederal'] = totalFederal;
+  next();
+}
+
+export function totalState (req: express.Request, res: express.Response, next) {
+  let totalState = 0;
+  totalState += req['stateTaxOwed'] + req['totalCaliforniaSDI'] + req['totalCaliforniaTaxableMentalHealth'] - req['totalStateExemptionCredits'] - req['nonrefundableRentersCredit'] - req["miscStateCredit"] + req['additionalStateAmount'];
+  if(totalState <= 0) {
+    totalState = 0;
+  }
+  req['totalState'] = totalState;
+  next();
+}
+
+export function totalTaxes (req: express.Request, res: express.Response, next) {
+  let totalTaxes = 0;
+  totalTaxes += req['totalFederal'] + req['totalState'];
+  req['totalTaxes'] = totalTaxes;
+  next();
+}
+
+export function incomeAfterTaxes (req: express.Request, res: express.Response, next) {
+  let incomeAfterTaxes = 0;
+  incomeAfterTaxes += req['salary'] - req['totalTaxes'];
+  req['incomeAfterTaxes'] = incomeAfterTaxes;
+  next();
+}
+
   export function sendBack (req: express.Request, res: express.Response, next) {
-  res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'], totalCaliforniaSDI: req['totalCaliforniaSDI'],
+  res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalFederalCredits:  req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'],totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'],
+  totalCaliforniaSDI: req['totalCaliforniaSDI'],
   nonrefundableRentersCredit: req['nonrefundableRentersCredit'], additionalStateAmount: req['additionalStateAmount'],
-  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"] })
+  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes'] })
   }
