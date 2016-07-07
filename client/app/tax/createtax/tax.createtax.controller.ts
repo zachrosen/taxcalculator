@@ -15,7 +15,7 @@ namespace app {
     federalDeductionsTable: [],
     numberOfExemptions: 0,
     creditTable: [],
-    aditionalFederalAmount: 0,
+    additionalFederalAmount: 0,
     state: null,
     stateDeductionsTable: [],
     additionalStateAmount: 0}

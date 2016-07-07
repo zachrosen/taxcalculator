@@ -14,7 +14,7 @@ studentLoanInterest: number;
 federalDeductionsTable: Array<{}>;
 numberOfExemptions: number;
 creditTable: Array<{}>;
-aditionalFederalAmount: number;
+additionalFederalAmount: number;
 state: string;
 stateDeductionsTable: Array<{}>;
 additionalStateAmount: number;
