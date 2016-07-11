@@ -7,22 +7,22 @@ body {
   font-weight: 400;
   text-rendering: optimizeLegibility;
 }
-.table-federal {
+/*.table-federal {
   float: left;
-  margin: 60px;
-  width: 600px;
-  height: 550px;
+  margin: 5%;
+  width: 40%;
+  height: 55%;
 }
 .table-state {
   float: right;
-  margin: 60px;
-  width: 600px;
-  height: 550px;
+  margin: 5%;
+  width: 40%;
+  height: 55%;
 }
 .table-total {
-  float: center;
-  margin: 60px;
-}
+  margin: 10%;
+}*/
+
 
 div.table-title {
    display: block;
@@ -42,9 +42,6 @@ div.table-title {
    text-transform:uppercase;
    text-align: center;
 }
-
-
-/*** Table Styles **/
 
 .table-fill {
   background: white;
