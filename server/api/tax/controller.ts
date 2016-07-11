@@ -30,7 +30,7 @@ let AGI = req['AGIAfterExemptions'];
 let federalTaxOwed = 0;
 
   connection.query('SELECT `'+filingType+'`, `tax_rate` FROM `federal_tax`', function (error, results, fields) {
-    if (AGI > 0 && AGI < results[0][filingType]) {
+    if (AGI >= 0 && AGI < results[0][filingType]) {
           req['federalTaxOwed'] = AGI * results[0].tax_rate;
           next();
     }
@@ -44,6 +44,8 @@ let federalTaxOwed = 0;
           } else {
               federalTaxOwed += (AGI - results[i-1][filingType]) * results[i].tax_rate;
               req['federalTaxOwed'] = federalTaxOwed;
+              console.log('we made it');
+              console.log(req['federalTaxOwed']);
               next();
               break;
           }
@@ -82,7 +84,7 @@ if (filingType == "Single" || filingType == "Married Filing Separately") {
 req['totalStateDeductions'] = results[0].deduction_amount;
 next();
 }
-else if (filingType == "Married Filing Jointly" || filingType == "Head Of HouseHold" || filingType == "Qualifying Widow/Widower") {
+else if (filingType == "Married Filing Jointly" || filingType == "Head Of Household" || filingType == "Qualifying Widow/Widower") {
 req['totalStateDeductions'] = results[1].deduction_amount;
 next();
 }
@@ -97,13 +99,13 @@ if(stateDeductions.length > 0) {
    totalStateDeductions += stateDeductions[i]['amount'];
  }
  connection.query('SELECT `agi_threshold` FROM `california_reduction_in_itemized_deductions`', function (error, results, fields) {
- if((filingType == "Single" || "Married Filing Separately") && req.body.salary > results[0].agi_threshold) {
+ if((filingType == "Single" || filingType == "Married Filing Separately") && AGI > results[0].agi_threshold) {
    req['extraAmount'] = AGI - results[0].agi_threshold;
  }
- else if((filingType == "Head Of Household") && req.body.salary > results[1].agi_threshold) {
+ else if((filingType == "Head Of Household") && AGI > results[1].agi_threshold) {
    req['extraAmount'] =AGI - results[1].agi_threshold;
  }
- else if((filingType == "Married Filing Jointly" || "Qualified Widow/Widower") && req.body.salary > results[2].agi_threshold) {
+ else if((filingType == "Married Filing Jointly" || filingType == "Qualified Widow/Widower") && AGI > results[2].agi_threshold) {
    req['extraAmount'] = AGI - results[2].agi_threshold;
  }
 
@@ -125,9 +127,16 @@ else {
 
 export function adjustedIncomeState(req: express.Request, res: express.Response, next) {
 let stateAdjustedIncome = 0;
-stateAdjustedIncome = req.body.salary - req['totalStateDeductions'];
-req['stateAdjustedIncome'] = stateAdjustedIncome;
-next();
+stateAdjustedIncome += req.body.salary - req['totalStateDeductions'];
+if (stateAdjustedIncome <= 0) {
+  console.log('Tis negative STATE');
+  let newStateAdjustedIncome = 0;
+  req['stateAdjustedIncome'] = newStateAdjustedIncome;
+  next();
+} else {
+  req['stateAdjustedIncome'] = stateAdjustedIncome;
+  next();
+  }
 }
 
 export function nonrefundableRentersCredit(req: express.Request, res: express.Response, next) {
@@ -164,7 +173,7 @@ export function stateTaxAmount (req: express.Request, res: express.Response, nex
   let stateTaxOwed = 0;
 
   connection.query('SELECT `'+filingType+'`, `tax_rate` FROM `'+state+'_tax`', function (error, results, fields) {
-    if (req['stateAdjustedIncome'] > 0 && req['stateAdjustedIncome'] < results[0][filingType]){
+    if (req['stateAdjustedIncome'] >= 0 && req['stateAdjustedIncome'] < results[0][filingType]){
       req['stateTaxOwed'] = req['stateAdjustedIncome'] * results[0].tax_rate;
       next();
     }
@@ -562,13 +571,29 @@ export function AGIBefore (req: express.Request, res: express.Response, next) {
 }
 
 export function AGIAfter (req: express.Request, res: express.Response, next) {
+    let AGIAfterExemptions = 0;
+    AGIAfterExemptions += req['AGIBeforeExemptions'] - req['exemptionsVal'];
+    if (AGIAfterExemptions <= 0) {
+      console.log('Tis negative');
+      let newAGIAfterExemptions = 0;
+      req['AGIAfterExemptions'] = newAGIAfterExemptions;
+      next();
+    } else {
+    console.log('ur dumb');
     req['AGIAfterExemptions'] = req['AGIBeforeExemptions'] - req['exemptionsVal'];
     next();
+  }
   }
 
 export function totalFederal (req: express.Request, res: express.Response, next) {
   let totalFederal = 0;
-  totalFederal += req['federalTaxOwed'] + req['totalTaxableFICA'] - req['totalFederalCredits'] + req['additionalFederalAmount'];
+  totalFederal += req['federalTaxOwed'] + req['totalTaxableFICA'] - req['totalFederalCredits'];
+  if (totalFederal < 0) {
+    totalFederal *= 0;
+    totalFederal += totalFederal + req['additionalFederalAmount'];
+  } else {
+    totalFederal += totalFederal + req['additionalFederalAmount'];
+  }
   if(totalFederal <= 0) {
     totalFederal = 0;
   }
@@ -578,7 +603,13 @@ export function totalFederal (req: express.Request, res: express.Response, next)
 
 export function totalState (req: express.Request, res: express.Response, next) {
   let totalState = 0;
-  totalState += req['stateTaxOwed'] + req['totalCaliforniaSDI'] + req['totalCaliforniaTaxableMentalHealth'] - req['totalStateExemptionCredits'] - req['nonrefundableRentersCredit'] - req["miscStateCredit"] + req['additionalStateAmount'];
+  totalState += req['stateTaxOwed'] + req['totalCaliforniaSDI'] + req['totalCaliforniaTaxableMentalHealth'] - req['totalStateExemptionCredits'] - req['nonrefundableRentersCredit'] - req["miscStateCredit"];
+  if (totalState < 0) {
+    totalState *= 0;
+    totalState += totalState + req['additionalStateAmount'];
+  } else {
+    totalState += totalState + req['additionalStateAmount'];
+  }
   if(totalState <= 0) {
     totalState = 0;
   }
