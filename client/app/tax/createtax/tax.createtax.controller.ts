@@ -20,6 +20,11 @@ namespace app {
     stateDeductionsTable: [],
     additionalStateAmount: null}
 
+    public federalDeductionsTable= [];
+    public creditTable= [];
+    public stateDeductionsTable= [];
+    public fedDeductions;
+    public stateDeductions;
 
     public move() {
   var elem = document.getElementById("myBar");
@@ -63,9 +68,14 @@ namespace app {
       this.tax.stateDeductionsTable.splice(this.tax.stateDeductionsTable.indexOf(s), 1);
     }
     public createTax() {
+      if (this.fedDeductions === "standardFederal") {
+        this.tax.federalDeductionsTable = [];
+      }
+      if (this.fedDeductions === "standardState") {
+        this.tax.stateDeductionsTable = [];
+      }
       this.TaxService.createTax(this.tax).then((res) => {
       this.TaxService.data = res;
-      console.log(res);
       this.$state.go('result');
     }, (err) => {
       alert(err);
