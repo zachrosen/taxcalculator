@@ -1,4 +1,186 @@
-<link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Table Style</title>
+  <link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="http://bootswatch.com/paper/bootstrap.min.css">
+</head>
+
+<body>
+<div class="table-federal">
+<div class="table-title">
+<h3>Federal Taxes</h3>
+</div>
+<table class="table-fill">
+<thead>
+<tr>
+<th class="text-left">Category</th>
+<th class="text-left">Amount</th>
+</tr>
+</thead>
+<tbody class="table-hover">
+<tr>
+<td class="text-left">Income</td>
+<td class="text-left">{{(vm.data.salary).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total Adjustments</td>
+<td class="text-left">{{(vm.data.totalFederalAdjustments).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total Deductions</td>
+<td class="text-left">{{(vm.data.totalFederalDeductions).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total Exemptions</td>
+<td class="text-left">{{(vm.data.exemptionsVal).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Federal Adjusted Gross Income</td>
+<td class="text-left">{{(vm.data.AGI).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Federal Tax Amount</td>
+<td class="text-left">{{(vm.data.federalTaxOwed).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Taxable FICA</td>
+<td class="text-left">{{(vm.data.totalTaxableFICA).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Social Security</td>
+<td class="text-left">{{(vm.data.totalSocialSecurity).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Medicare</td>
+<td class="text-left">{{(vm.data.totalMedicare).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Additional Medicare</td>
+<td class="text-left">{{(vm.data.totalAdditionalMedicare).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total Credits</td>
+<td class="text-left">{{(vm.data.totalFederalCredits).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Additional Federal Amount</td>
+<td class="text-left">{{(vm.data.additionalFederalAmount).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total Federal Tax Owed</td>
+<td class="text-left">{{(vm.data.totalFederal).toFixed(2) | currency}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="table-state">
+<div class="table-title">
+<h3>State Taxes</h3>
+</div>
+<table class="table-fill">
+<thead>
+<tr>
+<th class="text-left">Category</th>
+<th class="text-left">Amount</th>
+</tr>
+</thead>
+<tbody class="table-hover">
+<tr>
+<td class="text-left">Income</td>
+<td class="text-left">{{(vm.data.salary).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">State Deductions</td>
+<td class="text-left">{{(vm.data.totalStateDeductions).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">State Adjusted Gross Income</td>
+<td class="text-left">{{(vm.data.stateAdjustedIncome).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">State Tax Amount</td>
+<td class="text-left">{{(vm.data.stateTaxOwed).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Taxable SDI</td>
+<td class="text-left">{{(vm.data.totalCaliforniaSDI).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Taxable Mental Health</td>
+<td class="text-left">{{(vm.data.totalCaliforniaTaxableMentalHealth).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">State Exemption Credits</td>
+<td class="text-left">{{(vm.data.totalStateExemptionCredits).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Nonrefundable Renter's Credit</td>
+<td class="text-left">{{(vm.data.nonrefundableRentersCredit).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Miscellaneous State Credit</td>
+<td class="text-left">{{(vm.data.miscStateCredit).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Additional State Amount</td>
+<td class="text-left">{{(vm.data.additionalStateAmount).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total State Tax Owed</td>
+<td class="text-left">{{(vm.data.totalState).toFixed(2) | currency}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+<br>
+
+<div class="table-total">
+<div class="table-title">
+<h3>Total</h3>
+</div>
+<table class="table-fill">
+<thead>
+<tr>
+<th class="text-left">Category</th>
+<th class="text-left">Amount</th>
+</tr>
+</thead>
+<tbody class="table-hover">
+<tr>
+<td class="text-left">Income</td>
+<td class="text-left">{{(vm.data.salary).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total Federal Taxes Owed</td>
+<td class="text-left">{{(vm.data.totalFederal).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total State Taxes Owed</td>
+<td class="text-left">{{(vm.data.totalState).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Total Tax Owed</td>
+<td class="text-left">{{(vm.data.totalTaxes).toFixed(2) | currency}}</td>
+</tr>
+<tr>
+<td class="text-left">Income After Taxes</td>
+<td class="text-left">{{(vm.data.incomeAfterTaxes).toFixed(2) | currency}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+  </body>
+
+
+
+
+
+
+
+<!-- <link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="http://bootswatch.com/paper/bootstrap.min.css">
 
@@ -19,43 +201,43 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>${{(vm.data.salary).toFixed(2)}}</td>
+        <td>{{(vm.data.salary).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total Adjustments</th>
-        <td>${{(vm.data.totalFederalAdjustments).toFixed(2)}}</td>
+        <td>{{(vm.data.totalFederalAdjustments).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total Deductions</th>
-        <td>${{(vm.data.totalFederalDeductions).toFixed(2)}}</td>
+        <td>{{(vm.data.totalFederalDeductions).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total Exemptions</th>
-        <td>${{(vm.data.exemptionsVal).toFixed(2)}}</td>
+        <td>{{(vm.data.exemptionsVal).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Adjusted Gross Income</th>
-        <td>${{(vm.data.AGI).toFixed(2)}}</td>
+        <td>{{(vm.data.AGI).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Federal Tax Amount</th>
-        <td>${{(vm.data.federalTaxOwed).toFixed(2)}}</td>
+        <td>{{(vm.data.federalTaxOwed).toFixed(2) | currency}}</td>
       </tr>
     <tr>
         <th>Taxable FICA</th>
-        <td>${{(vm.data.totalTaxableFICA).toFixed(2)}}</td>
+        <td>{{(vm.data.totalTaxableFICA).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Social Security</th>
-        <td>${{(vm.data.totalSocialSecurity).toFixed(2)}}</td>
+        <td>{{(vm.data.totalSocialSecurity).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Medicare</th>
-        <td>${{(vm.data.totalMedicare).toFixed(2)}}</td>
+        <td>{{(vm.data.totalMedicare).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Additional Medicare</th>
-        <td>${{(vm.data.totalAdditionalMedicare).toFixed(2)}}</td>
+        <td>{{(vm.data.totalAdditionalMedicare).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Taxable FUTA</th>
@@ -63,15 +245,15 @@
     </tr>
     <tr>
         <th>Total Credits</th>
-        <td>${{(vm.data.totalFederalCredits).toFixed(2)}}</td>
+        <td>{{(vm.data.totalFederalCredits).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Additional Federal Amount</th>
-        <td>${{(vm.data.additionalFederalAmount).toFixed(2)}}</td>
+        <td>{{(vm.data.additionalFederalAmount).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total Federal Tax Owed</th>
-        <td>${{(vm.data.totalFederal).toFixed(2)}}</td>
+        <td>{{(vm.data.totalFederal).toFixed(2) | currency}}</td>
     </tr>
 </table>
 </div>
@@ -85,19 +267,19 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>${{(vm.data.salary).toFixed(2)}}</td>
+        <td>{{(vm.data.salary).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total Deductions</th>
-        <td>${{(vm.data.totalStateDeductions).toFixed(2)}}</td>
+        <td>{{(vm.data.totalStateDeductions).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Adjusted Income</th>
-        <td>${{(vm.data.stateAdjustedIncome).toFixed(2)}}</td>
+        <td>{{(vm.data.stateAdjustedIncome).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>State Tax Amount</th>
-        <td>${{(vm.data.stateTaxOwed).toFixed(2)}}</td>
+        <td>{{(vm.data.stateTaxOwed).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Taxable SUI</th>
@@ -105,7 +287,7 @@
     </tr>
     <tr>
         <th>Taxable SDI</th>
-        <td>${{(vm.data.totalCaliforniaSDI).toFixed(2)}}</td>
+        <td>{{(vm.data.totalCaliforniaSDI).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Taxable ETT</th>
@@ -113,7 +295,7 @@
     </tr>
     <tr>
         <th>Taxable Mental Health</th>
-        <td>${{(vm.data.totalCaliforniaTaxableMentalHealth).toFixed(2)}}</td>
+        <td>{{(vm.data.totalCaliforniaTaxableMentalHealth).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>FTB Cost Recovery Fee</th>
@@ -121,23 +303,23 @@
     </tr>
     <tr>
         <th>Exemption Credit</th>
-        <td>${{(vm.data.totalStateExemptionCredits).toFixed(2)}}</td>
+        <td>{{(vm.data.totalStateExemptionCredits).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Nonrefundable Renter's Credit</th>
-        <td>${{vm.data.nonrefundableRentersCredit.toFixed(2)}}</td>
+        <td>{{vm.data.nonrefundableRentersCredit.toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Miscellaneous Credit</th>
-        <td>${{(vm.data.miscStateCredit).toFixed(2)}}</td>
+        <td>{{(vm.data.miscStateCredit).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Additional State Amount</th>
-        <td>${{(vm.data.additionalStateAmount).toFixed(2)}}</td>
+        <td>{{(vm.data.additionalStateAmount).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total State Tax Owed</th>
-        <td>${{(vm.data.totalState).toFixed(2)}}</td>
+        <td>{{(vm.data.totalState).toFixed(2) | currency}}</td>
     </tr>
 </table>
 </div>
@@ -151,25 +333,25 @@
     </tr>
     <tr>
         <th>Income</th>
-        <td>${{(vm.data.salary).toFixed(2)}}</td>
+        <td>{{(vm.data.salary).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total Federal Taxes</th>
-        <td>${{(vm.data.totalFederal).toFixed(2)}}</td>
+        <td>{{(vm.data.totalFederal).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total State Taxes</th>
-        <td>${{(vm.data.totalState).toFixed(2)}}</td>
+        <td>{{(vm.data.totalState).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Total Taxes Owed</th>
-        <td>${{(vm.data.totalTaxes).toFixed(2)}}</td>
+        <td>{{(vm.data.totalTaxes).toFixed(2) | currency}}</td>
     </tr>
     <tr>
         <th>Income After Taxes</th>
-        <td>${{(vm.data.incomeAfterTaxes).toFixed(2)}}</td>
+        <td>{{(vm.data.incomeAfterTaxes).toFixed(2) | currency}}</td>
     </tr>
 </table>
 </div>
 <br>
-<br>
+<br> -->

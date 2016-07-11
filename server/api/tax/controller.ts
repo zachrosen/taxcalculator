@@ -135,7 +135,7 @@ export function nonrefundableRentersCredit(req: express.Request, res: express.Re
     let state = req.body.state.toLowerCase();
     let isRenter = req.body.isRenter;
 
-    connection.query('SELECT `state_agi`, `' + filingType + '` FROM `' + state + '_nonrefundable_renters_credit`', function(error, results, fields) {
+    connection.query('SELECT `state_agi`, `'+filingType+'` FROM `'+state+'_nonrefundable_renters_credit`', function(error, results, fields) {
         if (isRenter === true) {
             if (results[1][filingType] == 0) {
                 if (req['stateAdjustedIncome'] >= results[0].state_agi) {
