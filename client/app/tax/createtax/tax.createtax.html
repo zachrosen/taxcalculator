@@ -66,10 +66,10 @@
 <hr>
 <div class="hcenter">
 <h3>Federal Deductions</h3>
-    <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="fedDeductions"> Standard
-    <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="fedDeductions"> Itemized
+    <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="vm.fedDeductions"> Standard
+    <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="vm.fedDeductions"> Itemized
     <br>
-      <div ng-show="fedDeductions == 'itemizedFederal'">
+      <div ng-show="vm.fedDeductions == 'itemizedFederal'">
         <table align="center">
           <thead>
             <td>Description</td>
@@ -123,10 +123,10 @@
   <br>
   <hr>
   <h3>State Deductions</h3>
-  <input type="radio" id="standardState" value="standardState" name="stateDeductions" ng-model="stateDeductions"> Standard
-  <input type="radio" id="itemizedState" value="itemizedState" name="stateDeductions" ng-model="stateDeductions"> Itemized
+  <input type="radio" id="standardState" value="standardState" name="stateDeductions" ng-model="vm.stateDeductions"> Standard
+  <input type="radio" id="itemizedState" value="itemizedState" name="stateDeductions" ng-model="vm.stateDeductions"> Itemized
   <br>
-    <div ng-show="stateDeductions == 'itemizedState'">
+    <div ng-show="vm.stateDeductions == 'itemizedState'">
       <table align="center">
         <thead>
           <td>Add Description</td>

@@ -82,7 +82,7 @@ if (filingType == "Single" || filingType == "Married Filing Separately") {
 req['totalStateDeductions'] = results[0].deduction_amount;
 next();
 }
-else if (filingType == "Married Filing Jointly" || filingType == "Head Of HouseHold" || filingType == "Qualifying Widow/Widower") {
+else if (filingType == "Married Filing Jointly" || filingType == "Head Of Household" || filingType == "Qualifying Widow/Widower") {
 req['totalStateDeductions'] = results[1].deduction_amount;
 next();
 }
@@ -97,13 +97,13 @@ if(stateDeductions.length > 0) {
    totalStateDeductions += stateDeductions[i]['amount'];
  }
  connection.query('SELECT `agi_threshold` FROM `california_reduction_in_itemized_deductions`', function (error, results, fields) {
- if((filingType == "Single" || "Married Filing Separately") && req.body.salary > results[0].agi_threshold) {
+ if((filingType == "Single" || filingType == "Married Filing Separately") && AGI > results[0].agi_threshold) {
    req['extraAmount'] = AGI - results[0].agi_threshold;
  }
- else if((filingType == "Head Of Household") && req.body.salary > results[1].agi_threshold) {
+ else if((filingType == "Head Of Household") && AGI > results[1].agi_threshold) {
    req['extraAmount'] =AGI - results[1].agi_threshold;
  }
- else if((filingType == "Married Filing Jointly" || "Qualified Widow/Widower") && req.body.salary > results[2].agi_threshold) {
+ else if((filingType == "Married Filing Jointly" || filingType == "Qualified Widow/Widower") && AGI > results[2].agi_threshold) {
    req['extraAmount'] = AGI - results[2].agi_threshold;
  }
 
@@ -227,16 +227,13 @@ if ((blind == true && dependent == null) || (age >= 65 && dependent == null)) {
   if (spouseAge >= 65) {
     boxNumber += 1;
   }
-  console.log(results.length);
    for (let i = 0; i < 321; i++) {
-     console.log(boxNumber);
-     console.log('this one is before if statement^');
      if (results[i].filing_type == filingType && results[i].number_of_checked_boxes == boxNumber) {
-       console.log(boxNumber);
+
        totalFederalDeductions += results[i].standard_deduction;
-       console.log(totalFederalDeductions);
+
        req['totalFederalDeductions'] = totalFederalDeductions;
-       console.log(req['totalFederalDeductions']);
+
        break;
      }
   }
@@ -604,5 +601,5 @@ export function incomeAfterTaxes (req: express.Request, res: express.Response, n
   res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalFederalCredits:  req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'],totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'],
   totalCaliforniaSDI: req['totalCaliforniaSDI'],
   nonrefundableRentersCredit: req['nonrefundableRentersCredit'], additionalStateAmount: req['additionalStateAmount'],
-  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes'] })
+  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes']})
   }
