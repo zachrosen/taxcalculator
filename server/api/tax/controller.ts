@@ -44,8 +44,6 @@ let federalTaxOwed = 0;
           } else {
               federalTaxOwed += (AGI - results[i-1][filingType]) * results[i].tax_rate;
               req['federalTaxOwed'] = federalTaxOwed;
-              console.log('we made it');
-              console.log(req['federalTaxOwed']);
               next();
               break;
           }
@@ -129,7 +127,6 @@ export function adjustedIncomeState(req: express.Request, res: express.Response,
 let stateAdjustedIncome = 0;
 stateAdjustedIncome += req.body.salary - req['totalStateDeductions'];
 if (stateAdjustedIncome <= 0) {
-  console.log('Tis negative STATE');
   let newStateAdjustedIncome = 0;
   req['stateAdjustedIncome'] = newStateAdjustedIncome;
   next();
@@ -571,12 +568,10 @@ export function AGIAfter (req: express.Request, res: express.Response, next) {
     let AGIAfterExemptions = 0;
     AGIAfterExemptions += req['AGIBeforeExemptions'] - req['exemptionsVal'];
     if (AGIAfterExemptions <= 0) {
-      console.log('Tis negative');
       let newAGIAfterExemptions = 0;
       req['AGIAfterExemptions'] = newAGIAfterExemptions;
       next();
     } else {
-    console.log('ur dumb');
     req['AGIAfterExemptions'] = req['AGIBeforeExemptions'] - req['exemptionsVal'];
     next();
   }
