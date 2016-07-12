@@ -25,21 +25,27 @@ namespace app {
     public stateDeductionsTable= [];
     public fedDeductions;
     public stateDeductions;
-    
-    public move() {
-  var elem = document.getElementById("myBar");
-  var width = 0;
-  var id = setInterval(frame, 10);
-  function frame() {
-    if (width >= 100) {
-      clearInterval(id);
-    } else {
-      width = width++;
-      elem.style.width = width + '%';
-      document.getElementById("demo").innerHTML = width * 1  + '%';
-    }
-  }
-}
+
+    public placement = {
+      options: [
+        'top',
+        'top-left',
+        'top-right',
+        'bottom',
+        'bottom-left',
+        'bottom-right',
+        'left',
+        'left-top',
+        'left-bottom',
+        'right',
+        'right-top',
+        'right-bottom'
+      ],
+      selected: 'top'
+    };
+
+    public htmlPopover = this.$sce.trustAsHtml("Hello <a href='http://www.facebook.com'>XYZ</a>")
+
     public addFederalDeduction() {
       this.tax.federalDeductionsTable.push({
         type: '',
@@ -83,7 +89,8 @@ namespace app {
   };
     constructor(
       private TaxService: app.TaxService,
-      private $state: ng.ui.IStateService
+      private $state: ng.ui.IStateService,
+      private $sce
     ) {
   this.tax.creditTable = [];
   this.tax.federalDeductionsTable = [];

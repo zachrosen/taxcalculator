@@ -3,7 +3,9 @@
   "dependencies": {},
   "globalDependencies": {
     "angular": "registry:dt/angular#1.5.0+20160627105203",
+    "angular-animate": "registry:dt/angular-animate#1.5.0+20160709061515",
     "angular-resource": "registry:dt/angular-resource#1.5.0+20160613142217",
+    "angular-ui-bootstrap": "registry:dt/angular-ui-bootstrap#0.13.3+20160705221453",
     "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160617060422",

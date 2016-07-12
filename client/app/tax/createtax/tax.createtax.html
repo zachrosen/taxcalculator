@@ -18,6 +18,7 @@
       <option class="hcenter">Head Of Household</option>
       <option class="hcenter">Qualifying Widow/Widower</option>
     </select>
+  <button class="icon-info round" style=" float: right; margin-top: 17px; margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
   </div>
   <br>
   <hr>
@@ -37,6 +38,7 @@
   <hr>
   <div class="hcenter">
   <label><b>Check the applicable boxes:</b></label>
+  <button class="icon-info round" style=" float: right;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
   <br>
   <br>
   <span>
@@ -56,6 +58,7 @@
 <hr>
 <div class="hcenter">
 <h3 class="hcenter">Enter Your Adjustments</h3>
+<button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
 <label id="icon" for="salary"><i class="icon-pencil "></i></label>
 <input type="number" name="salary" id="name" placeholder="401K/IRA" ng-model=vm.tax.retirement required/>
 <br>
@@ -69,6 +72,7 @@
 <hr>
 <div class="hcenter">
 <h3>Federal Deductions</h3>
+<button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
     <input type="radio" id="standardFederal" value="standardFederal" name="fedDeductions" ng-model="vm.fedDeductions"> Standard
     <input type="radio" id="itemizedFederal" value="itemizedFederal" name="fedDeductions" ng-model="vm.fedDeductions"> Itemized
     <br>
@@ -91,12 +95,14 @@
     <hr>
     <div class="hcenter">
     <h3>Personal Exemptions</h3>
+    <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
     <label id="icon" for="salary"><i class="icon-pencil "></i></label>
     <input type="number" name="salary" id="name" placeholder="No. Of Exemptions" ng-model=vm.tax.numberOfExemptions required/>
     <br>
     <br>
     <hr>
     <label><h3>Credits</h3></label>
+    <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
     <table align="center">
       <thead>
         <td>Description</td>
@@ -112,6 +118,7 @@
     <br>
     <hr>
   <h3>Additional Federal Amount</h3>
+  <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
     <label id="icon" for="salary"><i class="icon-pencil "></i></label>
     <input type="number" name="salary" id="name" placeholder="Additional Fed Amount" ng-model=vm.tax.additionalFederalAmount required/>
   <br>
@@ -127,6 +134,7 @@
   <br>
   <hr>
   <h3>State Deductions</h3>
+  <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
   <input type="radio" id="standardState" value="standardState" name="stateDeductions" ng-model="vm.stateDeductions"> Standard
   <input type="radio" id="itemizedState" value="itemizedState" name="stateDeductions" ng-model="vm.stateDeductions"> Itemized
   <br>
@@ -147,6 +155,7 @@
   <br>
   <hr>
   <h3>Additional State Amount</h3>
+  <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover" popover-title="For more information please see the link below." type="button"></button>
   <label id="icon" for="salary"><i class="icon-pencil "></i></label>
   <input type="number" name="salary" id="name" placeholder="Additional State Amount" ng-model=vm.tax.additionalStateAmount required/>
         <br>
