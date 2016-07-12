@@ -25,7 +25,7 @@ namespace app {
     public stateDeductionsTable= [];
     public fedDeductions;
     public stateDeductions;
-
+    
     public move() {
   var elem = document.getElementById("myBar");
   var width = 0;

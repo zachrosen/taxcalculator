@@ -1,11 +1,25 @@
 <link rel="stylesheet" href="/client/app/tax/createtax/tax.createtax.css" media="screen" title="no title" charset="utf-8">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-<div class="navbar"><h1> Paycheck Calculator</h1></div>
+
+<div class="navbar"><h1><b>Paycheck Calculator</b></h1></div>
 <br>
 <div class="testbox">
-  <h2>Federal Taxes</h2>
+  <h2><b>Federal Taxes</b></h2>
   <form ng-submit="vm.createTax()">
+    <hr>
+    <div class="hcenter">
+    <label><b>Filing Type:</b></label>
+    <br>
+    <select class="hcenter" ng-model="vm.tax.filingType">
+      <option class="hcenter" value="Single">Single</option>
+      <option class="hcenter" value="Married Filing Jointly">Married Filing Jointly</option>
+      <option class="hcenter">Married Filing Separately</option>
+      <option class="hcenter">Head Of Household</option>
+      <option class="hcenter">Qualifying Widow/Widower</option>
+    </select>
+  </div>
+  <br>
   <hr>
   <div class="hcenter">
   <label id="icon" for="salary"><i class="icon-pencil "></i></label>
@@ -14,8 +28,10 @@
   <label id="icon" for="name"><i class="icon-calendar"></i></label>
   <input type="number" name="name" id="name" placeholder="Age" ng-model=vm.tax.age required/>
   <br>
-  <label id="icon" for="name"><i class="icon-user"></i></label>
-  <input type="number" name="name" id="name" placeholder="Spouse Age" ng-model=vm.tax.spouseAge required/>
+  <div ng-show="vm.tax.filingType !== 'Single'">
+    <label id="icon" for="name"><i class="icon-user"></i></label>
+    <input type="number" name="name" id="name" placeholder="Spouse Age" ng-model="vm.tax.spouseAge"/>
+  </div>
 </div>
   <br>
   <hr>
@@ -30,22 +46,13 @@
     <input type="checkbox" ng-model="vm.tax.isDependent">
     <label>Qualified Renter</label>
     <input type="checkbox" ng-model="vm.tax.isRenter">
+    <span ng-show="vm.tax.filingType !== 'Single'">
     <label>Blind Spouse</label>
     <input type="checkbox" ng-model="vm.tax.spouseBlind">
   </span>
+  </span>
    </div>
   <br>
-  <div class="hcenter">
-  <label><b>Filing Type:</b></label>
-  <br>
-  <select class="hcenter" ng-model="vm.tax.filingType">
-    <option class="hcenter">Single</option>
-    <option class="hcenter">Married Filing Jointly</option>
-    <option class="hcenter">Married Filing Separately</option>
-    <option class="hcenter">Head Of Household</option>
-    <option class="hcenter">Qualifying Widow/Widower</option>
-  </select>
-</div>
 <hr>
 <div class="hcenter">
 <h3 class="hcenter">Enter Your Adjustments</h3>
@@ -108,8 +115,9 @@
     <label id="icon" for="salary"><i class="icon-pencil "></i></label>
     <input type="number" name="salary" id="name" placeholder="Additional Fed Amount" ng-model=vm.tax.additionalFederalAmount required/>
   <br>
+  <br>
   <hr>
-  <h2>State Taxes</h2>
+  <h2><b>State Taxes</b></h2>
   <hr>
   <label>Choose Your State:</label>
   <br>

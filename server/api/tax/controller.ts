@@ -103,7 +103,7 @@ if(stateDeductions.length > 0) {
  else if((filingType == "Head Of Household") && AGI > results[1].agi_threshold) {
    req['extraAmount'] =AGI - results[1].agi_threshold;
  }
- else if((filingType == "Married Filing Jointly" || filingType == "Qualified Widow/Widower") && AGI > results[2].agi_threshold) {
+ else if((filingType == "Married Filing Jointly" || filingType == "Qualifying Widow/Widower") && AGI > results[2].agi_threshold) {
    req['extraAmount'] = AGI - results[2].agi_threshold;
  }
 
@@ -211,7 +211,7 @@ let totalFederalDeductions = 0;
 if(federalDeductions.length === 0) {
 connection.query('SELECT * FROM `federal_standard_deductions`, `federal_standard_deductions_65_blind`, `federal_standard_deduction_for_dependants`', function (error, results, fields) {
 if (blind == null && dependent == null && age < 65) {
-  for (let i = 0; i < 321; i++) {
+  for (let i = 0; i < 330; i++) {
     if (results[i].filing_status == filingType) {
       totalFederalDeductions += results[i].standard_deduction_amount;
       req['totalFederalDeductions'] = totalFederalDeductions;
@@ -463,7 +463,7 @@ export function totalExemptions(req: express.Request, res: express.Response, nex
         }
       }
       exemptionsChangedValue *= exemptionsNum;
-      exemptionsVal = exemptionsChangedValue.toFixed(2);
+      exemptionsVal = exemptionsChangedValue;
     }
     req['exemptionsVal'] = exemptionsVal;
     next();
@@ -582,9 +582,9 @@ export function totalFederal (req: express.Request, res: express.Response, next)
   totalFederal += req['federalTaxOwed'] + req['totalTaxableFICA'] - req['totalFederalCredits'];
   if (totalFederal < 0) {
     totalFederal *= 0;
-    totalFederal += totalFederal + req['additionalFederalAmount'];
+    totalFederal += req['additionalFederalAmount'];
   } else {
-    totalFederal += totalFederal + req['additionalFederalAmount'];
+    totalFederal += req['additionalFederalAmount'];
   }
   if(totalFederal <= 0) {
     totalFederal = 0;
@@ -598,9 +598,9 @@ export function totalState (req: express.Request, res: express.Response, next) {
   totalState += req['stateTaxOwed'] + req['totalCaliforniaSDI'] + req['totalCaliforniaTaxableMentalHealth'] - req['totalStateExemptionCredits'] - req['nonrefundableRentersCredit'] - req["miscStateCredit"];
   if (totalState < 0) {
     totalState *= 0;
-    totalState += totalState + req['additionalStateAmount'];
+    totalState += req['additionalStateAmount'];
   } else {
-    totalState += totalState + req['additionalStateAmount'];
+    totalState += req['additionalStateAmount'];
   }
   if(totalState <= 0) {
     totalState = 0;
