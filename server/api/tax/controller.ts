@@ -463,7 +463,7 @@ export function totalExemptions(req: express.Request, res: express.Response, nex
         }
       }
       exemptionsChangedValue *= exemptionsNum;
-      exemptionsVal = exemptionsChangedValue.toFixed(2);
+      exemptionsVal = exemptionsChangedValue;
     }
     req['exemptionsVal'] = exemptionsVal;
     next();
@@ -582,9 +582,9 @@ export function totalFederal (req: express.Request, res: express.Response, next)
   totalFederal += req['federalTaxOwed'] + req['totalTaxableFICA'] - req['totalFederalCredits'];
   if (totalFederal < 0) {
     totalFederal *= 0;
-    totalFederal += totalFederal + req['additionalFederalAmount'];
+    totalFederal += req['additionalFederalAmount'];
   } else {
-    totalFederal += totalFederal + req['additionalFederalAmount'];
+    totalFederal += req['additionalFederalAmount'];
   }
   if(totalFederal <= 0) {
     totalFederal = 0;
@@ -598,9 +598,9 @@ export function totalState (req: express.Request, res: express.Response, next) {
   totalState += req['stateTaxOwed'] + req['totalCaliforniaSDI'] + req['totalCaliforniaTaxableMentalHealth'] - req['totalStateExemptionCredits'] - req['nonrefundableRentersCredit'] - req["miscStateCredit"];
   if (totalState < 0) {
     totalState *= 0;
-    totalState += totalState + req['additionalStateAmount'];
+    totalState += req['additionalStateAmount'];
   } else {
-    totalState += totalState + req['additionalStateAmount'];
+    totalState += req['additionalStateAmount'];
   }
   if(totalState <= 0) {
     totalState = 0;
