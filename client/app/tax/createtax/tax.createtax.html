@@ -24,14 +24,14 @@
   <hr>
   <div class="hcenter">
   <label id="icon" for="salary"><i class="icon-pencil "></i></label>
-  <input type="number" name="salary" id="name" placeholder="Salary" ng-model=vm.tax.salary required/>
+  <input class="hcenter" type="number" name="salary" id="name" placeholder="Salary" ng-model=vm.tax.salary required/>
   <br>
   <label id="icon" for="name"><i class="icon-calendar"></i></label>
-  <input type="number" name="name" id="name" placeholder="Age" ng-model=vm.tax.age required/>
+  <input class="hcenter" type="number" name="name" id="name" placeholder="Age" ng-model=vm.tax.age required/>
   <br>
   <div ng-show="vm.tax.filingType !== 'Single'">
     <label id="icon" for="name"><i class="icon-user"></i></label>
-    <input type="number" name="name" id="name" placeholder="Spouse Age" ng-model="vm.tax.spouseAge"/>
+    <input class="hcenter" type="number" name="name" id="name" placeholder="Spouse Age" ng-model="vm.tax.spouseAge"/>
   </div>
 </div>
   <br>
@@ -60,13 +60,13 @@
 <h3 class="hcenter">Enter Your Adjustments</h3>
 <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover2" popover-title="For more information about Federal Adjustments, please click the link below." type="button"></button>
 <label id="icon" for="salary"><i class="icon-pencil "></i></label>
-<input type="number" name="salary" id="name" placeholder="401K/IRA" ng-model=vm.tax.retirement required/>
+<input class="hcenter" type="number" name="salary" id="name" placeholder="401K/IRA" ng-model=vm.tax.retirement required/>
 <br>
 <label id="icon" for="name"><i class="icon-shield"></i></label>
-<input type="number" name="name" id="name" placeholder="Alimony" ng-model=vm.tax.alimony required/>
+<input class="hcenter" type="number" name="name" id="name" placeholder="Alimony" ng-model=vm.tax.alimony required/>
 <br>
 <label id="icon" for="name"><i class="icon-user"></i></label>
-<input type="number" name="name" id="name" placeholder="Student Loan Interest" ng-model=vm.tax.studentLoanInterest required/>
+<input class="hcenter" type="number" name="name" id="name" placeholder="Student Loan Interest" ng-model=vm.tax.studentLoanInterest required/>
 </div>
 <br>
 <hr>
@@ -97,7 +97,7 @@
     <h3>Personal Exemptions</h3>
     <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover4" popover-title="For more information about Federal Personal Exemptions, please click the link below." type="button"></button>
     <label id="icon" for="salary"><i class="icon-pencil "></i></label>
-    <input type="number" name="salary" id="name" placeholder="No. Of Exemptions" ng-model=vm.tax.numberOfExemptions required/>
+    <input class="hcenter" type="number" name="salary" id="name" placeholder="No. Of Exemptions" ng-model=vm.tax.numberOfExemptions required/>
     <br>
     <br>
     <hr>
@@ -120,7 +120,7 @@
   <h3>Additional Federal Amount</h3>
   <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover6" popover-title="For more information about Additional Federal Amount, please click the link below." type="button"></button>
     <label id="icon" for="salary"><i class="icon-pencil "></i></label>
-    <input type="number" name="salary" id="name" placeholder="Additional Fed Amount" ng-model=vm.tax.additionalFederalAmount required/>
+    <input class="hcenter" type="number" name="salary" id="name" placeholder="Additional Fed Amount" ng-model=vm.tax.additionalFederalAmount required/>
   <br>
   <br>
   <hr>
@@ -157,7 +157,7 @@
   <h3>Additional State Amount</h3>
   <button class="icon-info round" style=" float: right; margin-top: -34px;  margin-left: -40px; color: white; height: 28px; width: 28px;" uib-popover-html="vm.htmlPopover8" popover-title="For more information about Additional State Amount, please click the link below." type="button"></button>
   <label id="icon" for="salary"><i class="icon-pencil "></i></label>
-  <input type="number" name="salary" id="name" placeholder="Additional State Amount" ng-model=vm.tax.additionalStateAmount required/>
+  <input class="hcenter" type="number" name="salary" id="name" placeholder="Additional State Amount" ng-model=vm.tax.additionalStateAmount required/>
         <br>
         <br>
         <button type="submit" class="button">Submit</button>
