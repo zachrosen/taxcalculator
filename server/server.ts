@@ -13,10 +13,10 @@ let app = express();
 //require('./api/tax/model');
 var connection = mysql.createConnection({
   //properties
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'taxDB'
+  host: 'sql3.freesqldatabase.com',
+  user: 'sql3127728',
+  password: '4nqnXFwiSH',
+  database: 'sql3127728'
 });
 
 connection.connect(function(error) {

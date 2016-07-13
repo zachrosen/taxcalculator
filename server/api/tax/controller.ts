@@ -111,12 +111,12 @@ else {req['extraAmount'] = 0;}
 
 if ((totalStateDeductions*0.8 < req['extraAmount']*0.06) && req['extraAmount'] > 0) {
    req['totalStateDeductions'] = totalStateDeductions - totalStateDeductions*0.8;
-   req['statePhaseoutAmount'] = totalStateDeductions*0.8;
+   req["statePhaseoutAmount"] = totalStateDeductions*0.8;
    next();
  }
 else {
-  req['totalStateDeductions'] = totalStateDeductions - req['extraAmount']*0.06;
-  req['statePhaseoutAmount'] = req['extraAmount']*0.06;
+  req['totalStateDeductions'] = totalStateDeductions - req['extraAmount']*0.06
+  req["statePhaseoutAmount"] = req['extraAmount']*0.06
   next();
  }
  }
@@ -660,5 +660,5 @@ export function incomeAfterTaxes (req: express.Request, res: express.Response, n
   res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalFederalCredits:  req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'],totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'],
   totalCaliforniaSDI: req['totalCaliforniaSDI'],
   nonrefundableRentersCredit: req['nonrefundableRentersCredit'], additionalStateAmount: req['additionalStateAmount'],
-  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes'], displayFederalDeductions: req.body.federalDeductionsTable, displayCredits: req.body.creditTable, displayStateDeductions: req.body.stateDeductionsTable, statePhaseoutAmount: req['statePhaseoutAmount']})
+  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes']})
   }
