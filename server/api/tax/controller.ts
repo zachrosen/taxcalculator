@@ -397,6 +397,7 @@ export function taxableFICA (req: express.Request, res: express.Response, next) 
   let totalMedicare = 0;
   let totalAdditionalMedicare = 0;
   let totalTaxableFICA = 0;
+  let filingType = req.body.filingType;
   connection.query('SELECT `tax_type`, `max_earnings`, `fica_tax_rate` FROM `federal_fica_tax`', function (error, results, fields) {
   // for loop
     if (AGI <= results[0].max_earnings) {
@@ -415,16 +416,46 @@ export function taxableFICA (req: express.Request, res: express.Response, next) 
       totalMedicare += results[1].max_earnings * results[1].fica_tax_rate;
       req['totalMedicare'] = totalMedicare;
     }
-    if (AGI <= results[2].max_earnings) {
-      req['totalAdditionalMedicare'] = 0;
-    }
-    if (AGI > results[2].max_earnings) {
-      totalAdditionalMedicare += (AGI - results[2].max_earnings) * results[2].fica_tax_rate;
-      req['totalAdditionalMedicare'] = totalAdditionalMedicare;
-    }
+    connection.query('SELECT `filing_status`, `threshold_amount` FROM `federal_fica_additional_medicare_tax`', function (error, resultsFiling, fields) {
+      if (filingType == 'Married Filing Jointly' && AGI <= resultsFiling[0].threshold_amount) {
+        req['totalAdditionalMedicare'] = 0;
+      }
+      if (filingType == 'Married Filing Jointly' && AGI > resultsFiling[0].threshold_amount) {
+        totalAdditionalMedicare += (AGI - resultsFiling[0].threshold_amount) * results[2].fica_tax_rate;
+        req['totalAdditionalMedicare'] = totalAdditionalMedicare;
+      }
+      if (filingType == 'Married Filing Separately' && AGI <= resultsFiling[1].threshold_amount) {
+        req['totalAdditionalMedicare'] = 0;
+      }
+      if (filingType == 'Married Filing Separately' && AGI > resultsFiling[1].threshold_amount) {
+        totalAdditionalMedicare += (AGI - resultsFiling[1].threshold_amount) * results[2].fica_tax_rate;
+        req['totalAdditionalMedicare'] = totalAdditionalMedicare;
+      }
+      if (filingType == 'Single' && AGI <= resultsFiling[2].threshold_amount) {
+        req['totalAdditionalMedicare'] = 0;
+      }
+      if (filingType == 'Single' && AGI > resultsFiling[2].threshold_amount) {
+        totalAdditionalMedicare += (AGI - resultsFiling[2].threshold_amount) * results[2].fica_tax_rate;
+        req['totalAdditionalMedicare'] = totalAdditionalMedicare;
+      }
+      if (filingType == 'Head Of Household' && AGI <= resultsFiling[3].threshold_amount) {
+        req['totalAdditionalMedicare'] = 0;
+      }
+      if (filingType == 'Head Of Household' && AGI > resultsFiling[3].threshold_amount) {
+        totalAdditionalMedicare += (AGI - resultsFiling[3].threshold_amount) * results[2].fica_tax_rate;
+        req['totalAdditionalMedicare'] = totalAdditionalMedicare;
+      }
+      if (filingType == 'Qualifying Widow/Widower' && AGI <= resultsFiling[4].threshold_amount) {
+        req['totalAdditionalMedicare'] = 0;
+      }
+      if (filingType == 'Qualifying Widow/Widower' && AGI > resultsFiling[4].threshold_amount) {
+        totalAdditionalMedicare += (AGI - resultsFiling[4].threshold_amount) * results[2].fica_tax_rate;
+        req['totalAdditionalMedicare'] = totalAdditionalMedicare;
+      }
     totalTaxableFICA += req['totalSocialSecurity'] + req['totalMedicare'] + req['totalAdditionalMedicare'];
     req['totalTaxableFICA'] = totalTaxableFICA;
     next();
+    });
   });
 }
 
