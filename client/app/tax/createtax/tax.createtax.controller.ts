@@ -44,7 +44,22 @@ namespace app {
       selected: 'top'
     };
 
-    public htmlPopover = this.$sce.trustAsHtml("Hello <a href='http://www.facebook.com'>XYZ</a>")
+    public htmlPopover1 = this.$sce.trustAsHtml("Please <a href='https://en.wikipedia.org/wiki/Filing_status '>Click Here</a>")
+
+    public htmlPopover2 = this.$sce.trustAsHtml("Please <a href='https://apps.irs.gov/app/vita/content/globalmedia/teacher/17_adjustments_lesplan.pdf'>Click Here</a>")
+
+    public htmlPopover3 = this.$sce.trustAsHtml("Please <a href='https://www.irs.gov/credits-deductions/individuals'>Click Here</a>")
+
+    public htmlPopover4 = this.$sce.trustAsHtml("Please <a href='https://www.irs.com/articles/personal-and-dependent-exemptions'>Click Here</a>")
+
+    public htmlPopover5 = this.$sce.trustAsHtml("Please <a href='https://www.irs.gov/credits-deductions/individuals'>Click Here</a>")
+
+    public htmlPopover6 = this.$sce.trustAsHtml("This is the additional amount that is paid as a buffer in case taxes are estimated or calculated incorrectly.")
+
+    public htmlPopover7 = this.$sce.trustAsHtml("Please <a href='https://www.ftb.ca.gov/forms/2015_California_Tax_Rates_and_Exemptions.shtml#sd'>Click Here</a>")
+
+    public htmlPopover8 = this.$sce.trustAsHtml("This is the additional amount that is paid as a buffer in case taxes are estimated or calculated incorrectly.")
+
 
     public addFederalDeduction() {
       this.tax.federalDeductionsTable.push({
