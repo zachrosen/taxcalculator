@@ -44,21 +44,23 @@ namespace app {
       selected: 'top'
     };
 
-    public htmlPopover1 = this.$sce.trustAsHtml("Please <a href='https://en.wikipedia.org/wiki/Filing_status '>Click Here</a>")
+    public htmlPopover1 = this.$sce.trustAsHtml("Filing Status: <a href='https://en.wikipedia.org/wiki/Filing_status' target='_blank'>Definition</a>")
 
-    public htmlPopover2 = this.$sce.trustAsHtml("Please <a href='https://apps.irs.gov/app/vita/content/globalmedia/teacher/17_adjustments_lesplan.pdf'>Click Here</a>")
+    public htmlPopover1point5 = this.$sce.trustAsHtml("Dependant: <a href='https://www.irs.gov/publications/p17/ch03.html#en_US_2015_publink1000170857' target='_blank'>Definition</a><br>Qualified Renter: <a href='https://www.ftb.ca.gov/individuals/faq/ivr/203.shtml' target='_blank'>Definition</a>")
 
-    public htmlPopover3 = this.$sce.trustAsHtml("Please <a href='https://www.irs.gov/credits-deductions/individuals'>Click Here</a>")
+    public htmlPopover2 = this.$sce.trustAsHtml("Federal Adjustments: <a href='https://www.irs.gov/publications/p17/pt04.html' target='_blank'>Definition</a>")
 
-    public htmlPopover4 = this.$sce.trustAsHtml("Please <a href='https://www.irs.com/articles/personal-and-dependent-exemptions'>Click Here</a>")
+    public htmlPopover3 = this.$sce.trustAsHtml("Federal Deductions: <a href='https://www.irs.gov/uac/deductions' target='_blank'>Definition</a>")
 
-    public htmlPopover5 = this.$sce.trustAsHtml("Please <a href='https://www.irs.gov/credits-deductions/individuals'>Click Here</a>")
+    public htmlPopover4 = this.$sce.trustAsHtml("Federal Personal Exemptions: <a href='https://www.irs.com/articles/personal-and-dependent-exemptions' target='_blank'>Definition</a>")
 
-    public htmlPopover6 = this.$sce.trustAsHtml("This is the additional amount that is paid as a buffer in case taxes are estimated or calculated incorrectly.")
+    public htmlPopover5 = this.$sce.trustAsHtml("Federal Credits: <a href='https://www.irs.gov/credits-deductions/individuals' target='_blank'>Definition</a>")
 
-    public htmlPopover7 = this.$sce.trustAsHtml("Please <a href='https://www.ftb.ca.gov/forms/2015_California_Tax_Rates_and_Exemptions.shtml#sd'>Click Here</a>")
+    public htmlPopover6 = this.$sce.trustAsHtml("This is the additional amount that is paid, to the federal government, as a buffer in case taxes are estimated or calculated incorrectly.")
 
-    public htmlPopover8 = this.$sce.trustAsHtml("This is the additional amount that is paid as a buffer in case taxes are estimated or calculated incorrectly.")
+    public htmlPopover7 = this.$sce.trustAsHtml("California State Deductions: <a href='https://www.ftb.ca.gov/forms/2015_California_Tax_Rates_and_Exemptions.shtml#sd' target='_blank'>Definition</a>")
+
+    public htmlPopover8 = this.$sce.trustAsHtml("This is the additional amount that is paid, to the state, as a buffer in case taxes are estimated or calculated incorrectly.")
 
 
     public addFederalDeduction() {
