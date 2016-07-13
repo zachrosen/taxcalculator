@@ -16,6 +16,8 @@ numberOfExemptions: number;
 creditTable: Array<{}>;
 additionalFederalAmount: number;
 state: string;
+type: string;
+amount: number;
 stateDeductionsTable: Array<{}>;
 additionalStateAmount: number;
 

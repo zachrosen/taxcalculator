@@ -1,6 +1,12 @@
   <link rel="stylesheet" href="/client/app/tax/result/tax.result.css" media="screen" title="no title" charset="utf-8">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="http://bootswatch.com/paper/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="table-title">
+	<h1>Tax Statement</h1>
+	</div>
 <div class="table-federal">
 <div class="table-title">
 <h3>Federal Taxes</h3>
@@ -8,62 +14,70 @@
 <table class="table-fill">
 <thead>
 <tr>
-<th class="text-left">Category</th>
-<th class="text-left">Amount</th>
+<th class="text-left">&ensp;Category</th>
+<th class="text-center">Amount</th>
 </tr>
 </thead>
 <tbody class="table-hover">
 <tr>
-<td class="text-left">Income</td>
-<td class="text-left">{{(vm.data.salary).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Income</td>
+<td class="text-center">{{(vm.data.salary) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Total Adjustments</td>
-<td class="text-left">{{(vm.data.totalFederalAdjustments).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Total Adjustments</td>
+<td class="text-center">{{(vm.data.totalFederalAdjustments) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Total Deductions</td>
-<td class="text-left">{{(vm.data.totalFederalDeductions).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;<button type="button" ng-click="showFederalDeductions = !showFederalDeductions" ng-show="!showFederalDeductions">+</button><button type="button" ng-click="showFederalDeductions = !showFederalDeductions" ng-show="showFederalDeductions">-</button>Total Deductions</td>
+<td class="text-center">{{(vm.data.totalFederalDeductions) | currency}}</td>
+</tr>
+<tr ng-repeat="d in vm.data.displayFederalDeductions" ng-show="showFederalDeductions">
+	<td class="text-left">&ensp; &ensp; &ensp; &ensp;-{{d.type}}</td>
+	<td class="text-center">{{(d.amount) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Total Exemptions</td>
-<td class="text-left">{{(vm.data.exemptionsVal).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Total Exemptions</td>
+<td class="text-center">{{(vm.data.exemptionsVal) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Federal Adjusted Gross Income</td>
-<td class="text-left">{{(vm.data.AGI).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Federal Adjusted Gross Income</td>
+<td class="text-center">{{(vm.data.AGI) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Federal Tax Amount</td>
-<td class="text-left">{{(vm.data.federalTaxOwed).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Federal Tax Amount</td>
+<td class="text-center">{{(vm.data.federalTaxOwed) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Taxable FICA</td>
-<td class="text-left">{{(vm.data.totalTaxableFICA).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;<button type="button" ng-click="showFICA = !showFICA" ng-show="!showFICA">+</button><button type="button" ng-click="showFICA = !showFICA" ng-show="showFICA">-</button> Taxable FICA</td>
+<td class="text-center">{{(vm.data.totalTaxableFICA) | currency}}</td>
+</tr>
+<tr ng-show="showFICA">
+<td class="text-left">&ensp; &ensp; &ensp; &ensp;-Social Security</td>
+<td class="text-center">{{(vm.data.totalSocialSecurity) | currency}}</td>
+</tr>
+<tr ng-show="showFICA">
+<td class="text-left">&ensp; &ensp; &ensp; &ensp;-Medicare</td>
+<td class="text-center">{{(vm.data.totalMedicare) | currency}}</td>
+</tr>
+<tr ng-show="showFICA">
+<td class="text-left">&ensp; &ensp; &ensp; &ensp;-Additional Medicare</td>
+<td class="text-center">{{(vm.data.totalAdditionalMedicare) | currency}}</td>
+</tr>
+<td class="text-left">&ensp;<button type="button" ng-click="showFederalCredits = !showFederalCredits" ng-show="!showFederalCredits">+</button><button type="button" ng-click="showFederalCredits = !showFederalCredits" ng-show="showFederalCredits">-</button>Total Credits</td>
+<td class="text-center">{{(vm.data.totalFederalCredits) | currency}}</td>
+</tr>
+<tr ng-repeat="d in vm.data.displayCredits" ng-show="showFederalCredits">
+	<td class="text-left">&ensp; &ensp; &ensp; &ensp;-{{d.type}}</td>
+	<td class="text-center">{{(d.amount) | currency}}</td>
+</tr>
+
+<tr>
+<td class="text-left">&ensp;Additional Federal Amount</td>
+<td class="text-center">{{(vm.data.additionalFederalAmount) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Social Security</td>
-<td class="text-left">{{(vm.data.totalSocialSecurity).toFixed(2) | currency}}</td>
-</tr>
-<tr>
-<td class="text-left">Medicare</td>
-<td class="text-left">{{(vm.data.totalMedicare).toFixed(2) | currency}}</td>
-</tr>
-<tr>
-<td class="text-left">Additional Medicare</td>
-<td class="text-left">{{(vm.data.totalAdditionalMedicare).toFixed(2) | currency}}</td>
-</tr>
-<tr>
-<td class="text-left">Total Credits</td>
-<td class="text-left">{{(vm.data.totalFederalCredits).toFixed(2) | currency}}</td>
-</tr>
-<tr>
-<td class="text-left">Additional Federal Amount</td>
-<td class="text-left">{{(vm.data.additionalFederalAmount).toFixed(2) | currency}}</td>
-</tr>
-<tr>
-<td class="text-left">Total Federal Tax Owed</td>
-<td class="text-left">{{(vm.data.totalFederal).toFixed(2) | currency}}</td>
+<td class="text-left"><strong>&ensp;Total Federal Tax Owed</strong></td>
+<td class="text-center">{{(vm.data.totalFederal) | currency}}</td>
 </tr>
 </tbody>
 </table>
@@ -76,54 +90,62 @@
 <table class="table-fill">
 <thead>
 <tr>
-<th class="text-left">Category</th>
-<th class="text-left">Amount</th>
+<th class="text-left">&ensp;Category</th>
+<th class="text-center">Amount</th>
 </tr>
 </thead>
 <tbody class="table-hover">
 <tr>
-<td class="text-left">Income</td>
-<td class="text-left">{{(vm.data.salary).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Income</td>
+<td class="text-center">{{(vm.data.salary) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">State Deductions</td>
-<td class="text-left">{{(vm.data.totalStateDeductions).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;<button type="button" ng-click="showStateDeductions = !showStateDeductions" ng-show="!showStateDeductions">+</button><button type="button" ng-click="showStateDeductions = !showStateDeductions" ng-show="showStateDeductions">-</button>State Deductions</td>
+<td class="text-center">{{(vm.data.totalStateDeductions) | currency}}</td>
+</tr>
+<tr ng-repeat="d in vm.data.displayStateDeductions" ng-show="showStateDeductions">
+	<td class="text-left">&ensp; &ensp; &ensp; &ensp;-{{d.type}}</td>
+	<td class="text-center">{{(d.amount) | currency}}</td>
+</tr>
+<tr ng-show="showStateDeductions">
+	<td class="text-left">&ensp;State Deduction Phaseout Amount</td>
+	<td class="text-center">(-){{(vm.data.statePhaseoutAmount) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">State Adjusted Gross Income</td>
-<td class="text-left">{{(vm.data.stateAdjustedIncome).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;State Adjusted Gross Income</td>
+<td class="text-center">{{(vm.data.stateAdjustedIncome) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">State Tax Amount</td>
-<td class="text-left">{{(vm.data.stateTaxOwed).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;State Tax Amount</td>
+<td class="text-center">{{(vm.data.stateTaxOwed) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Taxable SDI</td>
-<td class="text-left">{{(vm.data.totalCaliforniaSDI).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Taxable SDI</td>
+<td class="text-center">{{(vm.data.totalCaliforniaSDI) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Taxable Mental Health</td>
-<td class="text-left">{{(vm.data.totalCaliforniaTaxableMentalHealth).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Taxable Mental Health</td>
+<td class="text-center">{{(vm.data.totalCaliforniaTaxableMentalHealth) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">State Exemption Credits</td>
-<td class="text-left">{{(vm.data.totalStateExemptionCredits).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;State Exemption Credits</td>
+<td class="text-center">{{(vm.data.totalStateExemptionCredits) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Nonrefundable Renter's Credit</td>
-<td class="text-left">{{(vm.data.nonrefundableRentersCredit).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Nonrefundable Renter's Credit</td>
+<td class="text-center">{{(vm.data.nonrefundableRentersCredit) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Miscellaneous State Credit</td>
-<td class="text-left">{{(vm.data.miscStateCredit).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Miscellaneous State Credit</td>
+<td class="text-center">{{(vm.data.miscStateCredit) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Additional State Amount</td>
-<td class="text-left">{{(vm.data.additionalStateAmount).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Additional State Amount</td>
+<td class="text-center">{{(vm.data.additionalStateAmount) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Total State Tax Owed</td>
-<td class="text-left">{{(vm.data.totalState).toFixed(2) | currency}}</td>
+<td class="text-left"><strong>&ensp;Total State Tax Owed</strong></td>
+<td class="text-center">{{(vm.data.totalState) | currency}}</td>
 </tr>
 </tbody>
 </table>
@@ -137,33 +159,35 @@
 <table class="table-fill">
 <thead>
 <tr>
-<th class="text-left">Category</th>
-<th class="text-left">Amount</th>
+<th class="text-left">&ensp;Category</th>
+<th class="text-center">Amount</th>
 </tr>
 </thead>
 <tbody class="table-hover">
 <tr>
-<td class="text-left">Income</td>
-<td class="text-left">{{(vm.data.salary).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Income</td>
+<td class="text-center">{{(vm.data.salary) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Total Federal Taxes Owed</td>
-<td class="text-left">{{(vm.data.totalFederal).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Total Federal Taxes Owed</td>
+<td class="text-center">{{(vm.data.totalFederal) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Total State Taxes Owed</td>
-<td class="text-left">{{(vm.data.totalState).toFixed(2) | currency}}</td>
+<td class="text-left">&ensp;Total State Taxes Owed</td>
+<td class="text-center">{{(vm.data.totalState) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Total Tax Owed</td>
-<td class="text-left">{{(vm.data.totalTaxes).toFixed(2) | currency}}</td>
+<td class="text-left"><strong>&ensp;Total Tax Owed</strong></td>
+<td class="text-center">{{(vm.data.totalTaxes) | currency}}</td>
 </tr>
 <tr>
-<td class="text-left">Income After Taxes</td>
-<td class="text-left">{{(vm.data.incomeAfterTaxes).toFixed(2) | currency}}</td>
+<td class="text-left"><strong>&ensp;Income After Taxes</strong></td>
+<td class="text-center">{{(vm.data.incomeAfterTaxes) | currency}}</td>
 </tr>
 </tbody>
 </table>
+<br>
+<br>
 </div>
 <br>
 <br>

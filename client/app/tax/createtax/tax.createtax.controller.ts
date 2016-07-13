@@ -17,6 +17,8 @@ namespace app {
     creditTable: [],
     additionalFederalAmount: null,
     state: null,
+    type: null,
+    amount: null,
     stateDeductionsTable: [],
     additionalStateAmount: null}
 
@@ -61,7 +63,6 @@ namespace app {
     public htmlPopover7 = this.$sce.trustAsHtml("California State Deductions: <a href='https://www.ftb.ca.gov/forms/2015_California_Tax_Rates_and_Exemptions.shtml#sd' target='_blank'>Definition</a>")
 
     public htmlPopover8 = this.$sce.trustAsHtml("This is the additional amount that is paid, to the state, as a buffer in case taxes are estimated or calculated incorrectly.")
-
 
     public addFederalDeduction() {
       this.tax.federalDeductionsTable.push({
