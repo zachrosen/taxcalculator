@@ -7,22 +7,6 @@ body {
   font-weight: 400;
   text-rendering: optimizeLegibility;
 }
-/*.table-federal {
-  float: left;
-  margin: 5%;
-  width: 40%;
-  height: 55%;
-}
-.table-state {
-  float: right;
-  margin: 5%;
-  width: 40%;
-  height: 55%;
-}
-.table-total {
-  margin: 10%;
-}*/
-
 
 div.table-title {
    display: block;
@@ -32,13 +16,24 @@ div.table-title {
   width: 100%;
 }
 
-.table-title h3 {
+
+.table-title h3{
    color: #3a57af;
    font-size: 30px;
    font-weight: 600;
+   font-style: normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
+   text-align: center;
+}
+.table-title h1{
+   color: #3a57af;
+   font-size: 60px;
+   font-weight: 1000;
    font-style:normal;
    font-family: "Roboto", helvetica, arial, sans-serif;
-   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
    text-transform:uppercase;
    text-align: center;
 }
@@ -88,10 +83,8 @@ tr {
 }
 
 tr:hover td {
-  background:#3a57af;
-  color: white;
-  border-top: 1px solid #22262e;
-  border-bottom: 1px solid #22262e;
+  background:#e6e6ff;
+  color: black;
 }
 
 tr:first-child {
@@ -107,7 +100,7 @@ tr:nth-child(odd) td {
 }
 
 tr:nth-child(odd):hover td {
-  background:#3a57af;
+  background:#e6e6ff;
 }
 
 tr:last-child td:first-child {
@@ -133,7 +126,7 @@ td:last-child {
 }
 
 th.text-left {
-  text-align: center;
+  text-align: left;
 }
 
 th.text-center {
@@ -141,11 +134,11 @@ th.text-center {
 }
 
 th.text-right {
-  text-align: center;
+  text-align: right;
 }
 
 td.text-left {
-  text-align: center;
+  text-align: left;
 }
 
 td.text-center {
@@ -153,5 +146,5 @@ td.text-center {
 }
 
 td.text-right {
-  text-align: center;;
+  text-align: right;;
 }

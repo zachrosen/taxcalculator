@@ -109,12 +109,14 @@ if(stateDeductions.length > 0) {
 
 else {req['extraAmount'] = 0;}
 
-if (totalStateDeductions*0.8 < req['extraAmount']*0.06 || req['extraAmount'] === 0) {
+if ((totalStateDeductions*0.8 < req['extraAmount']*0.06) && req['extraAmount'] > 0) {
    req['totalStateDeductions'] = totalStateDeductions - totalStateDeductions*0.8;
+   req['statePhaseoutAmount'] = totalStateDeductions*0.8;
    next();
  }
 else {
-  req['totalStateDeductions'] = totalStateDeductions - req['extraAmount']*0.06
+  req['totalStateDeductions'] = totalStateDeductions - req['extraAmount']*0.06;
+  req['statePhaseoutAmount'] = req['extraAmount']*0.06;
   next();
  }
  }
@@ -463,7 +465,7 @@ export function totalExemptions(req: express.Request, res: express.Response, nex
         }
       }
       exemptionsChangedValue *= exemptionsNum;
-      exemptionsVal = exemptionsChangedValue.toFixed(2);
+      exemptionsVal = exemptionsChangedValue;
     }
     req['exemptionsVal'] = exemptionsVal;
     next();
@@ -582,9 +584,9 @@ export function totalFederal (req: express.Request, res: express.Response, next)
   totalFederal += req['federalTaxOwed'] + req['totalTaxableFICA'] - req['totalFederalCredits'];
   if (totalFederal < 0) {
     totalFederal *= 0;
-    totalFederal += totalFederal + req['additionalFederalAmount'];
+    totalFederal += req['additionalFederalAmount'];
   } else {
-    totalFederal += totalFederal + req['additionalFederalAmount'];
+    totalFederal += req['additionalFederalAmount'];
   }
   if(totalFederal <= 0) {
     totalFederal = 0;
@@ -598,9 +600,9 @@ export function totalState (req: express.Request, res: express.Response, next) {
   totalState += req['stateTaxOwed'] + req['totalCaliforniaSDI'] + req['totalCaliforniaTaxableMentalHealth'] - req['totalStateExemptionCredits'] - req['nonrefundableRentersCredit'] - req["miscStateCredit"];
   if (totalState < 0) {
     totalState *= 0;
-    totalState += totalState + req['additionalStateAmount'];
+    totalState += req['additionalStateAmount'];
   } else {
-    totalState += totalState + req['additionalStateAmount'];
+    totalState += req['additionalStateAmount'];
   }
   if(totalState <= 0) {
     totalState = 0;
@@ -627,5 +629,5 @@ export function incomeAfterTaxes (req: express.Request, res: express.Response, n
   res.json({salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalFederalCredits:  req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'],totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'],
   totalCaliforniaSDI: req['totalCaliforniaSDI'],
   nonrefundableRentersCredit: req['nonrefundableRentersCredit'], additionalStateAmount: req['additionalStateAmount'],
-  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes']})
+  totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes'], displayFederalDeductions: req.body.federalDeductionsTable, displayCredits: req.body.creditTable, displayStateDeductions: req.body.stateDeductionsTable, statePhaseoutAmount: req['statePhaseoutAmount']})
   }

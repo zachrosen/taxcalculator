@@ -5,8 +5,6 @@ namespace app {
 
 
 
-
-
     constructor(private TaxService: app.TaxService,
     private $state: ng.ui.IStateService) {
 
