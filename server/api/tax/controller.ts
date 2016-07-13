@@ -111,10 +111,12 @@ else {req['extraAmount'] = 0;}
 
 if (totalStateDeductions*0.8 < req['extraAmount']*0.06 || req['extraAmount'] === 0) {
    req['totalStateDeductions'] = totalStateDeductions - totalStateDeductions*0.8;
+   req["statePhaseoutAmount"] = totalStateDeductions*0.8;
    next();
  }
 else {
   req['totalStateDeductions'] = totalStateDeductions - req['extraAmount']*0.06
+  req["statePhaseoutAmount"] = req['extraAmount']*0.06
   next();
  }
  }
