@@ -2,10 +2,11 @@ import * as express from "express";
 import * as mysql from "mysql";
 
 var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'taxDB'
+  //properties
+  host: process.env.HOST_KEY,
+  user: process.env.USER_KEY,
+  password: process.env.PASSWORD_KEY,
+  database: process.env.DATABASE_KEY
 });
 
 
