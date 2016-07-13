@@ -215,7 +215,6 @@ export function FederalDeductions(req: express.Request, res: express.Response, n
     if (federalDeductions.length === 0) {
         connection.query('SELECT * FROM `federal_standard_deductions`, `federal_standard_deductions_65_blind`, `federal_standard_deduction_for_dependants`', function(error, results, fields) {
             if (error) return next(error);
-            console.log(results);
             if (blind == null && dependent == null && age < 65) {
                 for (let i = 0; i < 330; i++) {
                     if (results[i].filing_status == filingType) {

@@ -1,10 +1,10 @@
 "use strict";
 var mysql = require("mysql");
 var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'taxDB'
+    host: process.env.HOST_KEY,
+    user: process.env.USER_KEY,
+    password: process.env.PASSWORD_KEY,
+    database: process.env.DATABASE_KEY
 });
 function preTaxIncome(req, res, next) {
     req['salary'] = req.body.salary;
@@ -207,6 +207,8 @@ function FederalDeductions(req, res, next) {
     var totalFederalDeductions = 0;
     if (federalDeductions.length === 0) {
         connection.query('SELECT * FROM `federal_standard_deductions`, `federal_standard_deductions_65_blind`, `federal_standard_deduction_for_dependants`', function (error, results, fields) {
+            if (error)
+                return next(error);
             if (blind == null && dependent == null && age < 65) {
                 for (var i = 0; i < 330; i++) {
                     if (results[i].filing_status == filingType) {
@@ -620,9 +622,11 @@ function incomeAfterTaxes(req, res, next) {
 }
 exports.incomeAfterTaxes = incomeAfterTaxes;
 function sendBack(req, res, next) {
-    res.json({ salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalFederalCredits: req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'],
+    res.json({
+        salary: req['salary'], totalFederalAdjustments: req['totalFederalAdjustments'], exemptionsVal: req['exemptionsVal'], federalTaxOwed: req['federalTaxOwed'], totalExemptions: req['totalExemptions'], AGI: req['AGIAfterExemptions'], ftbCostRecoveryFeesOwed: req['ftbCostRecoveryFeesOwed'], stateTaxOwed: req['stateTaxOwed'], totalFederalDeductions: req['totalFederalDeductions'], totalFederalCredits: req['totalFederalCredits'], additionalFederalAmount: req['additionalFederalAmount'], totalStateDeductions: req['totalStateDeductions'], stateAdjustedIncome: req['stateAdjustedIncome'],
         totalCaliforniaSDI: req['totalCaliforniaSDI'],
         nonrefundableRentersCredit: req['nonrefundableRentersCredit'], additionalStateAmount: req['additionalStateAmount'],
-        totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes'] });
+        totalCaliforniaTaxableMentalHealth: req['totalCaliforniaTaxableMentalHealth'], blind: req.body.isBlind, dependent: req.body.isDependent, age: req.body.age, totalStateExemptionCredits: req['totalStateExemptionCredits'], totalSocialSecurity: req['totalSocialSecurity'], totalMedicare: req['totalMedicare'], totalAdditionalMedicare: req['totalAdditionalMedicare'], totalTaxableFICA: req['totalTaxableFICA'], miscStateCredit: req["miscStateCredit"], totalFederal: req['totalFederal'], totalState: req['totalState'], totalTaxes: req['totalTaxes'], incomeAfterTaxes: req['incomeAfterTaxes']
+    });
 }
 exports.sendBack = sendBack;
