@@ -13,15 +13,15 @@ let app = express();
 //require('./api/tax/model');
 var connection = mysql.createConnection({
   //properties
-  host: 'sql3.freesqldatabase.com',
-  user: 'sql3127728',
-  password: '4nqnXFwiSH',
-  database: 'sql3127728'
+  host: process.env.HOST_KEY,
+  user: process.env.USER_KEY,
+  password: process.env.PASSWORD_KEY,
+  database: process.env.DATABASE_KEY
 });
 
 connection.connect(function(error) {
   if(!!error) {
-    console.log("Error");
+    console.log(error);
   } else {
     console.log("Connected")
   }
