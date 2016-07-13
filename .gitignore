@@ -1,4 +1,7 @@
-HOST_KEY=sql3.freesqldatabase.com
-USER_KEY=sql3127728
-PASSWORD_KEY=4nqnXFwiSH
-DATABASE_KEY=sql3127728
+*.js
+!*.spec.js
+.env
+/bower_components
+/node_modules
+/typings
+npm-debug.log
